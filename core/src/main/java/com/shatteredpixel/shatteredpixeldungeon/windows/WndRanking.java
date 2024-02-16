@@ -260,8 +260,9 @@ public class WndRanking extends WndTabbed {
 
 			int buttontop = HEIGHT - 16;
 
+			// 手动设置排行榜中的种子相关信息可见
 			if (Dungeon.hero != null && Dungeon.seed != -1 && !Dungeon.daily &&
-					(DeviceCompat.isDebug() || Badges.isUnlocked(Badges.Badge.VICTORY))){
+					(true || Badges.isUnlocked(Badges.Badge.VICTORY))){
 				final Image icon = Icons.get(Icons.SEED);
 				RedButton btnSeed = new RedButton(Messages.get(this, "copy_seed")){
 					@Override

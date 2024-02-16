@@ -206,7 +206,8 @@ public class HeroSelectScene extends PixelScene {
 		updateOptionsColor();
 		btnOptions.visible = false;
 
-		if (DeviceCompat.isDebug() || Badges.isUnlocked(Badges.Badge.VICTORY)){
+		// 手动设置开始游戏时的种子、DR、挑战等设置可见
+		if (true || Badges.isUnlocked(Badges.Badge.VICTORY)){
 			add(btnOptions);
 		} else {
 			Dungeon.challenges = 0;
@@ -568,7 +569,8 @@ public class HeroSelectScene extends PixelScene {
 
 			buttons = new ArrayList<>();
 			spacers = new ArrayList<>();
-			if (DeviceCompat.isDebug() || Badges.isUnlocked(Badges.Badge.VICTORY)){
+			// 手动设置开始游戏时的种子、DR、挑战等设置可见
+			if (true || Badges.isUnlocked(Badges.Badge.VICTORY)){
 				StyledButton seedButton = new StyledButton(Chrome.Type.BLANK, Messages.get(HeroSelectScene.class, "custom_seed"), 6){
 					@Override
 					protected void onClick() {

@@ -39,6 +39,10 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
+
+    packagingOptions {
+        pickFirst 'META-INF/DEPENDENCIES'
+    }
 }
 
 configurations { natives }

@@ -236,7 +236,8 @@ public class SPDSettings extends GameSettings {
 	}
 	
 	public static boolean intro() {
-		return getBoolean( KEY_INTRO, true );
+		// 修改以跳过各种新手教程
+		return false;
 	}
 	
 	public static void lastClass( int value ) {
