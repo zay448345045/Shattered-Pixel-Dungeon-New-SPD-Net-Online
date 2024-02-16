@@ -6,4 +6,13 @@ sourceCompatibility = targetCompatibility = appJavaCompatibility
 dependencies {
     api project(':SPD-classes')
     implementation project(':services')
+
+    // Websocket
+    implementation 'io.socket:socket.io-client:2.1.0'
+
+    // Fastjson
+    implementation 'com.alibaba:fastjson:2.0.46'
+
+    // Http
+    implementation 'org.apache.httpcomponents:httpclient:4.5.14'
 }
