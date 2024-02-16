@@ -1,4 +1,9 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+}
+
 
 android {
     namespace 'com.shatteredpixel.shatteredpixeldungeon.android'
@@ -23,27 +28,9 @@ android {
 
     buildTypes {
         debug {
-            applicationIdSuffix ".indev"
             versionNameSuffix '-INDEV'
-            dependencies {
-                debugImplementation project(':services:updates:debugUpdates')
-                debugImplementation project(':services:news:debugNews')
-            }
         }
         release {
-
-            //These lines enable R8, which is a code shrinker/optimizer/obfuscator.
-            //This makes release APKs smaller and more efficient, but also makes debugging trickier
-            //as the information produced in stack traces must be de-obfuscated.
-            //See here: https://developer.android.com/studio/build/shrink-code#decode-stack-trace
-            shrinkResources true
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-
-            dependencies {
-                releaseImplementation project(':services:updates:githubUpdates')
-                releaseImplementation project(':services:news:shatteredNews')
-            }
         }
     }
 
@@ -73,6 +60,14 @@ dependencies {
     natives "com.badlogicgames.gdx:gdx-freetype-platform:1.11.0:natives-x86"
     natives "com.badlogicgames.gdx:gdx-freetype-platform:1.11.0:natives-x86_64"
     implementation "com.badlogicgames.gdx-controllers:gdx-controllers-android:$gdxControllersVersion"
+
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:32.7.2')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics'
+
+    implementation project(':services:updates:githubUpdates')
+    implementation project(':services:news:shatteredNews')
 }
 
 // called every time gradle gets executed, takes the native dependencies of
