@@ -22,6 +22,7 @@ allprojects {
 
         appVersionCode = 768
         appVersionName = '2.3.2'
+        appNetVersionName = '0.0.1'
 
         appJavaCompatibility = JavaVersion.VERSION_1_8
 
@@ -33,7 +34,7 @@ allprojects {
         gdxControllersVersion = '2.2.4-SNAPSHOT'
         robovmVersion = '2.3.20'
     }
-    version = appVersionName
+    version = appVersionName + '-' + appNetVersionName
 
     repositories {
         google()

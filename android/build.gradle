@@ -17,7 +17,7 @@ android {
         applicationId appPackageName
 
         versionCode appVersionCode
-        versionName appVersionName
+        versionName appVersionName + '-' + appNetVersionName
 
         //noinspection MinSdkTooLow
         minSdkVersion appAndroidMinSDK

@@ -76,7 +76,10 @@ public class AndroidLauncher extends AndroidApplication {
 
 			try {
 				Game.version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+				Game.netVersion = Game.version.split("-")[1];
+				Game.version = Game.version.split("-")[0];
 			} catch (PackageManager.NameNotFoundException e) {
+				Game.netVersion = "???";
 				Game.version = "???";
 			}
 			try {
