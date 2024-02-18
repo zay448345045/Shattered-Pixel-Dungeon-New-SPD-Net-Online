@@ -3,10 +3,11 @@ package com.shatteredpixel.shatteredpixeldungeon.spdnet;
 import com.alibaba.fastjson2.JSONObject;
 
 public class SPDNetConfig {
-	static JSONObject config;
+	public static JSONObject config;
 	// 配置获取地址
 	private static final String CONFIG_GITEE_URL = "";
 	private static final String CONFIG_GITHUB_URL = "";
+	public static String key;
 
 	/**
 	 * 从服务器更新配置文件
