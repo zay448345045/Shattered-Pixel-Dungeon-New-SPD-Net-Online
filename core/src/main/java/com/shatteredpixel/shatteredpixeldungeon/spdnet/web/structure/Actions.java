@@ -1,8 +1,11 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure;
 
+import lombok.Getter;
+
 /**
  * 消息发送类型
  */
+@Getter
 public enum Actions {
 	ACHIEVEMENT("achievement"),
 	BACKPACK("backpack"),
@@ -21,7 +24,4 @@ public enum Actions {
 		this.name = name;
 	}
 
-	public String getName() {
-		return name;
-	}
 }
