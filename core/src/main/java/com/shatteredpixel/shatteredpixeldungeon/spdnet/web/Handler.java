@@ -54,6 +54,6 @@ public class Handler {
 	public static void handleServerMessage(String message) {
 	}
 
-	public static void handleWin(String name, int score) {
+	public static void handleWin(String name, int challenges) {
 	}
 }

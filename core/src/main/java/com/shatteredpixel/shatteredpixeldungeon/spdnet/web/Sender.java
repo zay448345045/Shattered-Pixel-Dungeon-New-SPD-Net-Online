@@ -3,7 +3,9 @@ package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 import static com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net.getSocket;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.shatteredpixel.shatteredpixeldungeon.Rankings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.RankingsScene;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Actions;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Status;
 
@@ -12,7 +14,7 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Status;
  */
 public class Sender {
 	public static void sendAchievement(String achievement, boolean unique) {
-		getSocket().emit(Actions.ACHIEVEMENT.getName(),achievement, unique);
+		getSocket().emit(Actions.ACHIEVEMENT.getName(), achievement, unique);
 	}
 
 	public static void sendBackpack(Belongings belongings) {
@@ -52,7 +54,7 @@ public class Sender {
 		getSocket().emit(Actions.PLAYER_MOVE.getName(), depth, pos);
 	}
 
-	public static void sendWin(int score) {
-		getSocket().emit(Actions.WIN.getName(), score);
+	public static void sendWin(Rankings.Record record) {
+		getSocket().emit(Actions.WIN.getName(), record);
 	}
 }

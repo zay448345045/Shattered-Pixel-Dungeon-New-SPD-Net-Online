@@ -91,8 +91,8 @@ public class Receiver {
 		};
 		Emitter.Listener onWin = args -> {
 			String name = (String) args[0];
-			int score = (int) args[1];
-			Handler.handleWin(name, score);
+			int challenges = (int) args[1];
+			Handler.handleWin(name, challenges);
 		};
 		getSocket().on(Events.ACHIEVEMENT.getName(), onAchievement);
 		getSocket().on(Events.BACKPACK.getName(), onBackpack);
