@@ -1,14 +1,18 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure;
 
+import lombok.Getter;
+
 /**
  * 消息接收类型
  */
+@Getter
 public enum Events {
 	ACHIEVEMENT("achievement"),
 	BACKPACK("backpack"),
 	CHAT_MESSAGE("chatMessage"),
 	DEATH("death"),
 	ENTER_DUNGEON("enterDungeon"),
+	ERROR("error"),
 	EXIT("exit"),
 	FLOATING_TEXT("floatingText"),
 	GIVE_ITEM("giveItem"),
@@ -27,7 +31,4 @@ public enum Events {
 		this.name = name;
 	}
 
-	public String getName() {
-		return name;
-	}
 }

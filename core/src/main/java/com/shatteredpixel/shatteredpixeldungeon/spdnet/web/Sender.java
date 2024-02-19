@@ -38,6 +38,10 @@ public class Sender {
 		sendEnterDungeon(status);
 	}
 
+	public static void sendError(String message) {
+		getSocket().emit(Actions.ERROR.getName(), message);
+	}
+
 	public static void sendGiveItem(JSONObject item) {
 		getSocket().emit(Actions.GIVE_ITEM.getName(), item);
 	}

@@ -26,6 +26,8 @@ public class Handler {
 
 	public static void handleEnterDungeon(String name, Status status) {
 	}
+	public static void handleError(String message) {
+	}
 
 	public static void handleExit(String name) {
 	}

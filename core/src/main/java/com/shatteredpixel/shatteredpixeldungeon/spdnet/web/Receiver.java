@@ -46,6 +46,10 @@ public class Receiver {
 			Status status = (Status) args[1];
 			Handler.handleEnterDungeon(name, status);
 		};
+		Emitter.Listener onError = args -> {
+			String message = (String) args[0];
+			Handler.handleError(message);
+		};
 		Emitter.Listener onExit = args -> {
 			String name = (String) args[0];
 			Handler.handleExit(name);
@@ -99,6 +103,7 @@ public class Receiver {
 		getSocket().on(Events.CHAT_MESSAGE.getName(), onChatMessage);
 		getSocket().on(Events.DEATH.getName(), onDeath);
 		getSocket().on(Events.ENTER_DUNGEON.getName(), onEnterDungeon);
+		getSocket().on(Events.ERROR.getName(), onError);
 		getSocket().on(Events.EXIT.getName(), onExit);
 		getSocket().on(Events.GIVE_ITEM.getName(), onGiveItem);
 		getSocket().on(Events.FLOATING_TEXT.getName(), onFloatingText);

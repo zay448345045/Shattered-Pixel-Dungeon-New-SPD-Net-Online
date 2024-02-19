@@ -9,6 +9,7 @@ public enum Actions {
 	CHAT_MESSAGE("chatMessage"),
 	DEATH("death"),
 	ENTER_DUNGEON("enterDungeon"),
+	ERROR("error"),
 	FLOATING_TEXT("floatingText"),
 	GIVE_ITEM("giveItem"),
 	LEAVE_DUNGEON("leaveDungeon"),
