@@ -4,12 +4,17 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class SPDNetConfig {
 	public static JsonNode config;
 	// 配置获取地址
 	private static final String CONFIG_GITEE_URL = "https://gitee.com/catandA/SPDNet-Data/raw/main/config.json";
 	private static final String CONFIG_GITHUB_URL = "https://raw.githubusercontent.com/Not-Name-Dev-Team/SPDNet-Data/main/config.json";
-	public static String key;
+	@Getter
+	@Setter
+	private static String key;
 
 	/**
 	 * 从服务器更新配置文件

@@ -32,7 +32,7 @@ public class Net {
 			try {
 				IO.Options opts = new IO.Options();
 				opts.reconnection = true;
-				opts.auth = Collections.singletonMap("token", SPDNetConfig.key);
+				opts.auth = Collections.singletonMap("token", SPDNetConfig.getKey());
 				opts.query = "SPDVersion=" + Game.version + "&NetVersion=" + Game.netVersion;
 				socket = IO.socket(serverUrl, opts);
 				setupEvents();
