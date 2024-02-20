@@ -109,7 +109,8 @@ public class DesktopLauncher {
 				System.exit(1);
 			}
 		});
-		
+
+		// 设置Net版本号
 		Game.version = DesktopLauncher.class.getPackage().getSpecificationVersion();
 		if (Game.version == null) {
 			Game.version = System.getProperty("Specification-Version");

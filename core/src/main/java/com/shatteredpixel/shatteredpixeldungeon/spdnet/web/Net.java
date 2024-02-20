@@ -2,6 +2,7 @@ package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.SPDNetConfig;
 import com.watabou.noosa.Game;
+import com.watabou.utils.DeviceCompat;
 
 import java.net.URISyntaxException;
 import java.util.Collections;
@@ -105,8 +106,12 @@ public class Net {
 	 * 刷新服务器地址
 	 */
 	public static void refreshServerUrl() {
-		SPDNetConfig.refreshConfig();
-		serverUrl = SPDNetConfig.config.get("serverUrl").asText();
+		if (DeviceCompat.isDebug()){
+			serverUrl = "http://127.0.0.1:21687";
+		}else {
+			SPDNetConfig.refreshConfig();
+			serverUrl = SPDNetConfig.config.get("serverUrl").asText();
+		}
 	}
 
 	public static boolean isConnected() {

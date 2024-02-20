@@ -204,6 +204,7 @@ public class TitleScene extends PixelScene {
 			btnAbout.setRect(btnSettings.right()+2, btnSettings.top(), btnSettings.width(), BTN_HEIGHT);
 		}
 
+		// 在主界面显示Net版本号
 		BitmapText version = new BitmapText("SPD: v" + Game.version + " Net: v" + Game.netVersion, pixelFont);
 		version.measure();
 		version.hardlight( 0x888888 );
