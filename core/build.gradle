@@ -10,7 +10,7 @@ dependencies {
     // Websocket
     implementation 'io.socket:socket.io-client:2.1.0'
 
-    //jackson
+    //jackson 2.14.3 不使用更新版本是因为不兼容 :(
     implementation 'com.fasterxml.jackson.core:jackson-core:2.14.3'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.3'
 
