@@ -1,7 +1,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure;
 
-import com.alibaba.fastjson2.JSONObject;
-
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,5 +13,5 @@ public class Status {
 	private final int challenges;
 	private final long seed;
 	private final int depth;
-	private final JSONObject hero;
+	private final JsonNode hero;
 }

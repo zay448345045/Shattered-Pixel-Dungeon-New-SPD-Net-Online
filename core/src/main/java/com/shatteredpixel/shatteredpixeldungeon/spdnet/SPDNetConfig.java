@@ -1,12 +1,14 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet;
 
-import com.alibaba.fastjson2.JSONObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class SPDNetConfig {
-	public static JSONObject config;
+	public static JsonNode config;
 	// 配置获取地址
-	private static final String CONFIG_GITEE_URL = "";
-	private static final String CONFIG_GITHUB_URL = "";
+	private static final String CONFIG_GITEE_URL = "https://gitee.com/catandA/SPDNet-Data/raw/main/config.json";
+	private static final String CONFIG_GITHUB_URL = "https://raw.githubusercontent.com/Not-Name-Dev-Team/SPDNet-Data/main/config.json";
 	public static String key;
 
 	/**
@@ -26,6 +28,11 @@ public class SPDNetConfig {
 			}
 		}
 		if (json == null) return;
-		config = JSONObject.parseObject(json);
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			config = mapper.readTree(json);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

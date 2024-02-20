@@ -10,8 +10,9 @@ dependencies {
     // Websocket
     implementation 'io.socket:socket.io-client:2.1.0'
 
-    // Fastjson
-    implementation 'com.alibaba:fastjson:2.0.46'
+    //jackson
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.14.3'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.3'
 
     // Http
     implementation 'org.apache.httpcomponents:httpclient:4.5.14'

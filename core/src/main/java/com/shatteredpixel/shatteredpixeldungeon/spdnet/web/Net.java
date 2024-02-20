@@ -106,7 +106,7 @@ public class Net {
 	 */
 	public static void refreshServerUrl() {
 		SPDNetConfig.refreshConfig();
-		serverUrl = SPDNetConfig.config.getString("serverUrl");
+		serverUrl = SPDNetConfig.config.get("serverUrl").asText();
 	}
 
 	public static boolean isConnected() {

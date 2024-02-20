@@ -2,11 +2,27 @@ package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
 import static com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net.getSocket;
 
-import com.alibaba.fastjson2.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Events;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Player;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Status;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAchievement;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SBackpack;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SChatMessage;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SDeath;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SEnterDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SError;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SExit;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SFloatingText;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SGiveItem;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SInit;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SJoin;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SLeaveDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPlayerList;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPlayerMove;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SServerMessage;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SWin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,82 +37,52 @@ public class Receiver {
 
 	public static void startAll() {
 		Emitter.Listener onAchievement = args -> {
-			String name = (String) args[0];
-			String message = (String) args[1];
-			boolean unique = (boolean) args[2];
-			Handler.handleAchievement(name, message, unique);
+			Handler.handleAchievement((SAchievement) args[0]);
 		};
 		Emitter.Listener onBackpack = args -> {
-			String name = (String) args[0];
-			Belongings belongings = (Belongings) args[1];
-			Handler.handleBackpack(name, belongings);
+			Handler.handleBackpack((SBackpack) args[0]);
 		};
 		Emitter.Listener onChatMessage = args -> {
-			String name = (String) args[0];
-			String message = (String) args[1];
-			Handler.handleChatMessage(name, message);
+			Handler.handleChatMessage((SChatMessage) args[0]);
 		};
 		Emitter.Listener onDeath = args -> {
-			String name = (String) args[0];
-			String cause = (String) args[1];
-			Handler.handleDeath(name, cause);
+			Handler.handleDeath((SDeath) args[0]);
 		};
 		Emitter.Listener onEnterDungeon = args -> {
-			String name = (String) args[0];
-			Status status = (Status) args[1];
-			Handler.handleEnterDungeon(name, status);
+			Handler.handleEnterDungeon((SEnterDungeon) args[0]);
 		};
 		Emitter.Listener onError = args -> {
-			String message = (String) args[0];
-			Handler.handleError(message);
+			Handler.handleError((SError) args[0]);
 		};
 		Emitter.Listener onExit = args -> {
-			String name = (String) args[0];
-			Handler.handleExit(name);
+			Handler.handleExit((SExit) args[0]);
 		};
 		Emitter.Listener onGiveItem = args -> {
-			String name = (String) args[0];
-			JSONObject item = (JSONObject) args[1];
-			Handler.handleGiveItem(name, item);
+			Handler.handleGiveItem((SGiveItem) args[0]);
 		};
 		Emitter.Listener onFloatingText = args -> {
-			String name = (String) args[0];
-			int type = (int) args[1];
-			String text = (String) args[2];
-			Handler.handleFloatingText(name, type, text);
+			Handler.handleFloatingText((SFloatingText) args[0]);
 		};
 		Emitter.Listener onInit = args -> {
-			String motd = (String) args[0];
-			Map<String, String> seeds = (Map<String, String>) args[1];
-			Handler.handleInit(motd, seeds);
+			Handler.handleInit((SInit) args[0]);
 		};
 		Emitter.Listener onJoin = args -> {
-			String name = (String) args[0];
-			String power = (String) args[1];
-			Handler.handleJoin(name, power);
+			Handler.handleJoin((SJoin) args[0]);
 		};
 		Emitter.Listener onLeaveDungeon = args -> {
-			String name = (String) args[0];
-			Handler.handleLeaveDungeon(name);
+			Handler.handleLeaveDungeon((SLeaveDungeon) args[0]);
 		};
 		Emitter.Listener onPlayerList = args -> {
-			List<Player> players = (List<Player>) args[0];
-			Handler.handlePlayerList(players);
+			Handler.handlePlayerList((SPlayerList) args[0]);
 		};
 		Emitter.Listener onPlayerMove = args -> {
-			String name = (String) args[0];
-			int depth = (int) args[1];
-			int pos = (int) args[2];
-			Handler.handlePlayerMove(name, depth, pos);
+			Handler.handlePlayerMove((SPlayerMove) args[0]);
 		};
 		Emitter.Listener onServerMessage = args -> {
-			String message = (String) args[0];
-			Handler.handleServerMessage(message);
+			Handler.handleServerMessage((SServerMessage) args[0]);
 		};
 		Emitter.Listener onWin = args -> {
-			String name = (String) args[0];
-			int challenges = (int) args[1];
-			Handler.handleWin(name, challenges);
+			Handler.handleWin((SWin) args[0]);
 		};
 		getSocket().on(Events.ACHIEVEMENT.getName(), onAchievement);
 		getSocket().on(Events.BACKPACK.getName(), onBackpack);

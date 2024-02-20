@@ -1,11 +1,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure;
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
-public abstract class Data extends JSONObject {
+public abstract class Data{
 }
