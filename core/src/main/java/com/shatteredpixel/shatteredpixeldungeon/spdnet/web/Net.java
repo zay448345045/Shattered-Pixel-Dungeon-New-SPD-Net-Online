@@ -10,6 +10,7 @@ import java.util.Collections;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
+import lombok.Getter;
 
 /**
  * 此类用于处理网络连接
@@ -17,6 +18,7 @@ import io.socket.emitter.Emitter;
 public class Net {
 	static private Socket socket;
 	// 服务器地址
+	@Getter
 	private static String serverUrl = "";
 
 	/**
