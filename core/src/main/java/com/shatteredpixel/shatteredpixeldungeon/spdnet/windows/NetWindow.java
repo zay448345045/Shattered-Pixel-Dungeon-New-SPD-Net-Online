@@ -37,18 +37,18 @@ public class NetWindow extends Window {
 		message(NetIcons.get(NetIcons.ALERT), Messages.get(NetWindow.class, "error"), message);
 	}
 
+	public static void error(String title, String message) {
+		message(NetIcons.get(NetIcons.ALERT), title, message);
+	}
+
 	//对于一些正在开发的功能显示它
 	public static void dev(String message) {
 		message(NetIcons.get(NetIcons.GLOBE), Messages.get(NetWindow.class, "dev"), message);
 	}
-
 	//提示文本
+
 	public static void info(String message) {
 		message(Icons.get(Icons.INFO), Messages.get(NetWindow.class, "info"), message);
-	}
-
-	public static void error(String title, String message) {
-		message(NetIcons.get(NetIcons.ALERT), title, message);
 	}
 
 	public static void runWindow(Window w) {

@@ -14,7 +14,7 @@ public class SPDNetConfig {
 	private static final String CONFIG_GITHUB_URL = "https://raw.githubusercontent.com/Not-Name-Dev-Team/SPDNet-Data/main/config.json";
 	@Getter
 	@Setter
-	private static String key;
+	private static String key = "default";
 
 	/**
 	 * 从服务器更新配置文件

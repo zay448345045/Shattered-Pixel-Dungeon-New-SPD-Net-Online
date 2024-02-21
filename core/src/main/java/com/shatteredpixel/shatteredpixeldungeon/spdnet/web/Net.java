@@ -109,8 +109,10 @@ public class Net {
 	 */
 	public static void refreshServerUrl() {
 		if (DeviceCompat.isDebug()){
+		if (DeviceCompat.isDebug()) {
 			serverUrl = "http://127.0.0.1:21687";
 		}else {
+		} else {
 			SPDNetConfig.refreshConfig();
 			serverUrl = SPDNetConfig.config.get("serverUrl").asText();
 		}

@@ -2,11 +2,9 @@ package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
 import static com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net.getSocket;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Events;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Player;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Status;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAchievement;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SBackpack;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SChatMessage;
@@ -24,65 +22,126 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPla
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SServerMessage;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SWin;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import io.socket.emitter.Emitter;
 
 /**
  * 此类用于接收并解析服务器发送的消息
  */
 public class Receiver {
+	static ObjectMapper mapper = new ObjectMapper();
 
 	public static void startAll() {
 		Emitter.Listener onAchievement = args -> {
-			Handler.handleAchievement((SAchievement) args[0]);
+			try {
+				Handler.handleAchievement(mapper.readValue(args[0].toString(), SAchievement.class));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		};
 		Emitter.Listener onBackpack = args -> {
-			Handler.handleBackpack((SBackpack) args[0]);
+			try {
+				Handler.handleBackpack(mapper.readValue(args[0].toString(), SBackpack.class));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		};
 		Emitter.Listener onChatMessage = args -> {
-			Handler.handleChatMessage((SChatMessage) args[0]);
+			try {
+				Handler.handleChatMessage(mapper.readValue(args[0].toString(), SChatMessage.class));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		};
 		Emitter.Listener onDeath = args -> {
-			Handler.handleDeath((SDeath) args[0]);
+			try {
+				Handler.handleDeath(mapper.readValue(args[0].toString(), SDeath.class));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		};
 		Emitter.Listener onEnterDungeon = args -> {
-			Handler.handleEnterDungeon((SEnterDungeon) args[0]);
+			try {
+				Handler.handleEnterDungeon(mapper.readValue(args[0].toString(), SEnterDungeon.class));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		};
 		Emitter.Listener onError = args -> {
-			Handler.handleError((SError) args[0]);
+			try {
+				Handler.handleError(mapper.readValue(args[0].toString(), SError.class));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		};
 		Emitter.Listener onExit = args -> {
-			Handler.handleExit((SExit) args[0]);
+			try {
+				Handler.handleExit(mapper.readValue(args[0].toString(), SExit.class));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		};
 		Emitter.Listener onGiveItem = args -> {
-			Handler.handleGiveItem((SGiveItem) args[0]);
+			try {
+				Handler.handleGiveItem(mapper.readValue(args[0].toString(), SGiveItem.class));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		};
 		Emitter.Listener onFloatingText = args -> {
-			Handler.handleFloatingText((SFloatingText) args[0]);
+			try {
+				Handler.handleFloatingText(mapper.readValue(args[0].toString(), SFloatingText.class));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		};
 		Emitter.Listener onInit = args -> {
-			Handler.handleInit((SInit) args[0]);
+			try {
+				Handler.handleInit(mapper.readValue(args[0].toString(), SInit.class));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		};
 		Emitter.Listener onJoin = args -> {
-			Handler.handleJoin((SJoin) args[0]);
+			try {
+				Handler.handleJoin(mapper.readValue(args[0].toString(), SJoin.class));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		};
 		Emitter.Listener onLeaveDungeon = args -> {
-			Handler.handleLeaveDungeon((SLeaveDungeon) args[0]);
+			try {
+				Handler.handleLeaveDungeon(mapper.readValue(args[0].toString(), SLeaveDungeon.class));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		};
 		Emitter.Listener onPlayerList = args -> {
-			Handler.handlePlayerList((SPlayerList) args[0]);
+			try {
+				Handler.handlePlayerList(mapper.readValue(args[0].toString(), SPlayerList.class));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		};
 		Emitter.Listener onPlayerMove = args -> {
-			Handler.handlePlayerMove((SPlayerMove) args[0]);
+			try {
+				Handler.handlePlayerMove(mapper.readValue(args[0].toString(), SPlayerMove.class));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		};
 		Emitter.Listener onServerMessage = args -> {
-			Handler.handleServerMessage((SServerMessage) args[0]);
+			try {
+				Handler.handleServerMessage(mapper.readValue(args[0].toString(), SServerMessage.class));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		};
 		Emitter.Listener onWin = args -> {
-			Handler.handleWin((SWin) args[0]);
+			try {
+				Handler.handleWin(mapper.readValue(args[0].toString(), SWin.class));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		};
 		getSocket().on(Events.ACHIEVEMENT.getName(), onAchievement);
 		getSocket().on(Events.BACKPACK.getName(), onBackpack);

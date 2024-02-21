@@ -16,6 +16,7 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPla
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPlayerMove;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SServerMessage;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SWin;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.NetWindow;
 
 /**
  * 此类用于处理服务器发送的消息
@@ -37,6 +38,7 @@ public class Handler {
 	}
 
 	public static void handleError(SError error) {
+		NetWindow.error("服务器说:" + error.getError());
 	}
 
 	public static void handleExit(SExit exit) {
