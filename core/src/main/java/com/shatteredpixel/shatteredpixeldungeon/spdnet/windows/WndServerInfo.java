@@ -31,6 +31,9 @@ public class WndServerInfo extends NetWindow {
 	public WndServerInfo() {
 		super();
 
+		// 初始化socket客户端以正确显示服务器地址
+		Net.getSocket();
+
 		int height, y = 0;
 
 		int maxWidth = PixelScene.landscape() ? WIDTH_L : WIDTH_P;
@@ -46,7 +49,7 @@ public class WndServerInfo extends NetWindow {
 		if (isDesktop() && isDebug()) {
 			host = PixelScene.renderTextBlock("服务器地址(调试)" + "\n" + Net.getServerUrl(), 7);
 		} else {
-			host = PixelScene.renderTextBlock("服务器地址\n" + Net.getServerUrl(), 9);
+			host = PixelScene.renderTextBlock(Messages.get(this, "server_address")+"\n" + Net.getServerUrl(), 9);
 		}
 		host.maxWidth(maxWidth);
 		host.setPos(0, bottom + GAP);

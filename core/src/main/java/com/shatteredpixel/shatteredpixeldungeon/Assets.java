@@ -118,6 +118,8 @@ public class Assets {
 		public static final String SCENES   = "messages/scenes/scenes";
 		public static final String UI       = "messages/ui/ui";
 		public static final String WINDOWS  = "messages/windows/windows";
+		// SPDNet的语言包
+		public static final String SPDNET  = "messages/spdnet/spdnet";
 	}
 
 	public static class Music {

@@ -60,7 +60,7 @@ public class NetWindow extends Window {
 	}
 
 	public static void showKeyInput() {
-		Game.runOnRenderThread(() -> ShatteredPixelDungeon.scene().add(new WndTextInput("输入你的Key", null, SPDNetConfig.getKey(), 30, false, "确定", "取消") {
+		Game.runOnRenderThread(() -> ShatteredPixelDungeon.scene().add(new WndTextInput(Messages.get(NetWindow.class, "key_input"), null, SPDNetConfig.getKey(), 30, false, "确定", "取消") {
 			@Override
 			public void onSelect(boolean positive, String text) {
 				if (positive) {
