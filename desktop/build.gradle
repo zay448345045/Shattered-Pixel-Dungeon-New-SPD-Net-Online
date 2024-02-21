@@ -20,7 +20,8 @@ task debug(type: JavaExec) {
     main = appMainClass
     systemProperty 'Specification-Title', appName
     systemProperty 'Implementation-Title', appPackageName
-    systemProperty 'Specification-Version', appVersionName + '-' + appNetVersionName + "-INDEV"
+    // Net的版本号
+    systemProperty 'Specification-Version', appVersionName + '}' + appNetVersionName + "-INDEV"
     systemProperty 'Implementation-Version', appVersionCode
 
     if (osName.contains('mac')) {
@@ -39,7 +40,8 @@ task release(type: Jar) {
         attributes 'Main-Class': appMainClass
         attributes 'Specification-Title': appName
         attributes 'Implementation-Title': appPackageName
-        attributes 'Specification-Version': appVersionName + '-' + appNetVersionName
+        // Net的版本号
+        attributes 'Specification-Version': appVersionName + '}' + appNetVersionName
         attributes 'Implementation-Version': appVersionCode
     }
 }

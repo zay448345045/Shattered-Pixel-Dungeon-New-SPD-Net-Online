@@ -77,8 +77,8 @@ public class AndroidLauncher extends AndroidApplication {
 			// 设置Net版本号
 			try {
 				Game.version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-				Game.netVersion = Game.version.split("-")[1];
-				Game.version = Game.version.split("-")[0];
+				Game.netVersion = Game.version.split("}")[1];
+				Game.version = Game.version.split("}")[0];
 			} catch (PackageManager.NameNotFoundException e) {
 				Game.netVersion = "???";
 				Game.version = "???";

@@ -115,8 +115,8 @@ public class DesktopLauncher {
 		if (Game.version == null) {
 			Game.version = System.getProperty("Specification-Version");
 		}
-		Game.netVersion = Game.version.split("-")[1];
-		Game.version = Game.version.split("-")[0];
+		Game.netVersion = Game.version.split("}")[1];
+		Game.version = Game.version.split("}")[0];
 
 		try {
 			Game.versionCode = Integer.parseInt(DesktopLauncher.class.getPackage().getImplementationVersion());

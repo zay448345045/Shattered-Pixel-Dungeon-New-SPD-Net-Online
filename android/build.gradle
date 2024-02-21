@@ -20,7 +20,8 @@ android {
         applicationId appPackageName
 
         versionCode appVersionCode
-        versionName appVersionName + '-' + appNetVersionName
+        // Net的版本号
+        versionName appVersionName + '}' + appNetVersionName
 
         //noinspection MinSdkTooLow
         minSdkVersion appAndroidMinSDK
