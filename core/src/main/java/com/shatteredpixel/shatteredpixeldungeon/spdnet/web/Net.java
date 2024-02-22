@@ -1,8 +1,10 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
+import static com.watabou.utils.DeviceCompat.isDebug;
+import static com.watabou.utils.DeviceCompat.isDesktop;
+
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.SPDNetConfig;
 import com.watabou.noosa.Game;
-import com.watabou.utils.DeviceCompat;
 
 import java.net.URISyntaxException;
 
@@ -18,7 +20,7 @@ public class Net {
 	static private Socket socket;
 	// 服务器地址
 	@Getter
-	private static String serverUrl = "";
+	private static String serverUrl = "http://127.0.0.1:21687/spdnet";
 
 	/**
 	 * 获取一个socketIO对象
@@ -106,9 +108,7 @@ public class Net {
 	 * 刷新服务器地址
 	 */
 	public static void refreshServerUrl() {
-		if (DeviceCompat.isDebug()) {
-			serverUrl = "http://127.0.0.1:21687/spdnet";
-		} else {
+		if (!isDesktop() || !isDebug()) {
 			SPDNetConfig.refreshConfig();
 			serverUrl = SPDNetConfig.config.get("serverUrl").asText();
 		}
