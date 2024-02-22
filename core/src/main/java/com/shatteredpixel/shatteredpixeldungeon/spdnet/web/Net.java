@@ -5,7 +5,6 @@ import com.watabou.noosa.Game;
 import com.watabou.utils.DeviceCompat;
 
 import java.net.URISyntaxException;
-import java.util.Collections;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -34,8 +33,7 @@ public class Net {
 			try {
 				IO.Options opts = new IO.Options();
 				opts.reconnection = true;
-				opts.auth = Collections.singletonMap("token", SPDNetConfig.getKey());
-				opts.query = "SPDVersion=" + Game.version + "&NetVersion=" + Game.netVersion;
+				opts.query = "token=" + SPDNetConfig.getKey() + "&SPDVersion=" + Game.version + "&NetVersion=" + Game.netVersion;
 				socket = IO.socket(serverUrl, opts);
 				setupEvents();
 			} catch (URISyntaxException e) {
@@ -108,10 +106,8 @@ public class Net {
 	 * 刷新服务器地址
 	 */
 	public static void refreshServerUrl() {
-		if (DeviceCompat.isDebug()){
 		if (DeviceCompat.isDebug()) {
-			serverUrl = "http://127.0.0.1:21687";
-		}else {
+			serverUrl = "http://127.0.0.1:21687/spdnet";
 		} else {
 			SPDNetConfig.refreshConfig();
 			serverUrl = SPDNetConfig.config.get("serverUrl").asText();
