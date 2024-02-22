@@ -28,7 +28,7 @@ import io.socket.emitter.Emitter;
  * 此类用于接收并解析服务器发送的消息
  */
 public class Receiver {
-	static ObjectMapper mapper = new ObjectMapper();
+	public static final ObjectMapper mapper = new ObjectMapper();
 
 	public static void startAll() {
 		Emitter.Listener onAchievement = args -> {
