@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Events;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAchievement;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAnkhUsed;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SBackpack;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SChatMessage;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SDeath;
@@ -34,6 +35,13 @@ public class Receiver {
 		Emitter.Listener onAchievement = args -> {
 			try {
 				Handler.handleAchievement(mapper.readValue(args[0].toString(), SAchievement.class));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+		};
+		Emitter.Listener onAnkhUsed = args -> {
+			try {
+				Handler.handleAnkhUsed(mapper.readValue(args[0].toString(), SAnkhUsed.class));
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
 			}
@@ -144,6 +152,7 @@ public class Receiver {
 			}
 		};
 		getSocket().on(Events.ACHIEVEMENT.getName(), onAchievement);
+		getSocket().on(Events.ANKH_USED.getName(), onAnkhUsed);
 		getSocket().on(Events.BACKPACK.getName(), onBackpack);
 		getSocket().on(Events.CHAT_MESSAGE.getName(), onChatMessage);
 		getSocket().on(Events.DEATH.getName(), onDeath);
@@ -163,6 +172,7 @@ public class Receiver {
 
 	public static void cancelAll() {
 		getSocket().off(Events.ACHIEVEMENT.getName());
+		getSocket().off(Events.ANKH_USED.getName());
 		getSocket().off(Events.BACKPACK.getName());
 		getSocket().off(Events.CHAT_MESSAGE.getName());
 		getSocket().off(Events.DEATH.getName());

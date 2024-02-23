@@ -1,6 +1,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAchievement;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAnkhUsed;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SBackpack;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SChatMessage;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SDeath;
@@ -23,6 +24,9 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.NetWindow;
  */
 public class Handler {
 	public static void handleAchievement(SAchievement achievement) {
+	}
+
+	public static void handleAnkhUsed(SAnkhUsed ankhUsed) {
 	}
 
 	public static void handleBackpack(SBackpack backpack) {
