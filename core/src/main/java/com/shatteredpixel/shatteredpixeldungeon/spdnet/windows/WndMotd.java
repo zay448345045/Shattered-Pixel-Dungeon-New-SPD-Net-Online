@@ -1,10 +1,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.windows;
 
-import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
-import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.HeroSelectScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.StartScene;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.BlueButton;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.LabeledText;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.NetIcons;
