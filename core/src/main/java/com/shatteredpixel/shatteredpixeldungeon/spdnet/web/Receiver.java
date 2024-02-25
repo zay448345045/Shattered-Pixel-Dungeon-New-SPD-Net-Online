@@ -1,5 +1,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
+import static com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net.disConnect;
 import static com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net.getSocket;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,6 +24,7 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPla
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SServerMessage;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SWin;
 
+import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
 /**
@@ -32,6 +34,13 @@ public class Receiver {
 	public static final ObjectMapper mapper = new ObjectMapper();
 
 	public static void startAll() {
+		Emitter.Listener onConnected = args -> {
+		};
+		Emitter.Listener onDisconnected = args -> {
+			cancelAll();
+		};
+		Emitter.Listener onConnectionError = args -> {
+		};
 		Emitter.Listener onAchievement = args -> {
 			try {
 				Handler.handleAchievement(mapper.readValue(args[0].toString(), SAchievement.class));
@@ -152,6 +161,9 @@ public class Receiver {
 				e.printStackTrace();
 			}
 		};
+		getSocket().on(Socket.EVENT_CONNECT, onConnected);
+		getSocket().on(Socket.EVENT_DISCONNECT, onDisconnected);
+		getSocket().on(Socket.EVENT_CONNECT_ERROR, onConnectionError);
 		getSocket().on(Events.ACHIEVEMENT.getName(), onAchievement);
 		getSocket().on(Events.ANKH_USED.getName(), onAnkhUsed);
 		getSocket().on(Events.CHAT_MESSAGE.getName(), onChatMessage);
@@ -172,21 +184,6 @@ public class Receiver {
 	}
 
 	public static void cancelAll() {
-		getSocket().off(Events.ACHIEVEMENT.getName());
-		getSocket().off(Events.ANKH_USED.getName());
-		getSocket().off(Events.CHAT_MESSAGE.getName());
-		getSocket().off(Events.DEATH.getName());
-		getSocket().off(Events.ENTER_DUNGEON.getName());
-		getSocket().off(Events.EXIT.getName());
-		getSocket().off(Events.FLOATING_TEXT.getName());
-		getSocket().off(Events.GIVE_ITEM.getName());
-		getSocket().off(Events.HERO.getName());
-		getSocket().off(Events.INIT.getName());
-		getSocket().off(Events.JOIN.getName());
-		getSocket().off(Events.LEAVE_DUNGEON.getName());
-		getSocket().off(Events.PLAYER_LIST.getName());
-		getSocket().off(Events.PLAYER_MOVE.getName());
-		getSocket().off(Events.SERVER_MESSAGE.getName());
-		getSocket().off(Events.WIN.getName());
+		getSocket().off();
 	}
 }

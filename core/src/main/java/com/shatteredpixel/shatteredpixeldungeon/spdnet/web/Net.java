@@ -42,7 +42,6 @@ public class Net {
 				opts.reconnection = true;
 				opts.query = "token=" + SPDNetConfig.getKey() + "&SPDVersion=" + Game.version + "&NetVersion=" + Game.netVersion;
 				socket = IO.socket(serverUrl, opts);
-				setupEvents();
 			} catch (URISyntaxException e) {
 				throw new RuntimeException(e);
 			}
@@ -91,22 +90,6 @@ public class Net {
 		}
 		socket.off();
 		socket = null;
-	}
-
-	/**
-	 * 设置连接相关的事件
-	 */
-	public static void setupEvents() {
-		Emitter.Listener onConnected = args -> {
-		};
-		Emitter.Listener onDisconnected = args -> {
-
-		};
-		Emitter.Listener onConnectionError = args -> {
-		};
-		socket.on(Socket.EVENT_CONNECT, onConnected);
-		socket.on(Socket.EVENT_DISCONNECT, onDisconnected);
-		socket.on(Socket.EVENT_CONNECT_ERROR, onConnectionError);
 	}
 
 	/**
