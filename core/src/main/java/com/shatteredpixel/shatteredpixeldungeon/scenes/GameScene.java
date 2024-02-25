@@ -58,6 +58,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Honeypot;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.journal.Guidebook;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
@@ -618,7 +619,7 @@ public class GameScene extends PixelScene {
 		}
 
 		// 发送进入地牢信息
-		Status status1 = new Status(Dungeon.challenges, Dungeon.seed, Dungeon.depth);
+		Status status1 = new Status(Dungeon.challenges, Dungeon.seed, Dungeon.depth, Dungeon.hero.heroClass.ordinal(), Dungeon.hero.belongings.armor);
 		Sender.sendEnterDungeon(new CEnterDungeon(status1));
 	}
 	
