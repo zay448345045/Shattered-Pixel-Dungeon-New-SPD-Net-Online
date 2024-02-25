@@ -7,6 +7,7 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.SPDNetConfig;
 import com.watabou.noosa.Game;
 
 import java.net.URISyntaxException;
+import java.util.concurrent.ConcurrentHashMap;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -21,6 +22,10 @@ public class Net {
 	// 服务器地址
 	@Getter
 	private static String serverUrl = "http://127.0.0.1:21687/spdnet";
+	// 服务器的种子列表
+	public static ConcurrentHashMap<String, Long> seeds = new ConcurrentHashMap<>();
+	// 玩家名
+	public static String name = "";
 
 	/**
 	 * 获取一个socketIO对象
@@ -57,7 +62,6 @@ public class Net {
 
 	/**
 	 * 获取一个已经连接的socketIO对象，如果当前没有连接，那么就尝试连接
-	 *
 	 * @return 连接的socketIO对象
 	 */
 	public static Socket getConnectedSocket() {
@@ -96,6 +100,7 @@ public class Net {
 		Emitter.Listener onConnected = args -> {
 		};
 		Emitter.Listener onDisconnected = args -> {
+
 		};
 		Emitter.Listener onConnectionError = args -> {
 		};
@@ -116,5 +121,13 @@ public class Net {
 
 	public static boolean isConnected() {
 		return getSocket().connected();
+	}
+
+	/**
+	 * 重置从服务器获取的状态信息
+	 */
+	public static void reset() {
+		seeds.clear();
+		name = "";
 	}
 }

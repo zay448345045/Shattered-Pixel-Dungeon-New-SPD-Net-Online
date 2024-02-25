@@ -8,6 +8,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.StartScene;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.BlueButton;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.LabeledText;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.NetIcons;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.windows.IconTitle;
 
@@ -18,33 +19,33 @@ public class WndMotd extends NetWindow {
 
 	private static final int MARGIN = 2;
 
-	public WndMotd(String motd, long seed) {
+	public WndMotd(String motd) {
 		super();
 
 		int width = PixelScene.landscape() ? WIDTH_L : WIDTH_P;
 
 		float pos = 0;
 		//TODO 多语言
-		IconTitle tfTitle = new IconTitle(NetIcons.get(NetIcons.NEWS), "SPDNet--欢迎你");
+		IconTitle tfTitle = new IconTitle(NetIcons.get(NetIcons.NEWS), "欢迎登录");
 		tfTitle.setRect(0, pos, width, 0);
 		add(tfTitle);
 
 		pos = tfTitle.bottom() + 2 * MARGIN;
 
-		layoutBody(pos, motd, seed);
+		layoutBody(pos, motd);
 	}
 
-	private void layoutBody(float pos, String motd, long seed) {
+	private void layoutBody(float pos, String motd) {
 		int width = PixelScene.landscape() ? WIDTH_L : WIDTH_P;
 
-		RenderedTextBlock tfMesage = PixelScene.renderTextBlock(6);
+		RenderedTextBlock tfMesage = PixelScene.renderTextBlock(8);
 		tfMesage.text(motd, width);
 		tfMesage.setPos(0, pos);
 		add(tfMesage);
 
 		pos = tfMesage.bottom() + 2 * MARGIN;
 
-		LabeledText seedText = new LabeledText("Seed", String.valueOf(seed), 6, 6) {
+		LabeledText seedText = new LabeledText("已登录", Net.name, 8, 8) {
 			@Override
 			protected void layout() {
 				super.layout();
@@ -54,7 +55,7 @@ public class WndMotd extends NetWindow {
 		seedText.setPos(0, pos);
 		add(seedText);
 
-		BlueButton playBtn = new BlueButton("Play") {
+		BlueButton playBtn = new BlueButton("好好好") {
 			@Override
 			protected void onClick() {
 				super.onClick();
@@ -85,6 +86,4 @@ public class WndMotd extends NetWindow {
 
 	protected void onSelect(int index) {
 	}
-
-
 }

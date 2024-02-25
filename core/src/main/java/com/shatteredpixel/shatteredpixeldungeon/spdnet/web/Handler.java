@@ -6,10 +6,10 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SCha
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SDeath;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SEnterDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SError;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SHero;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SExit;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SFloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SGiveItem;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SHero;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SInit;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SJoin;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SLeaveDungeon;
@@ -18,6 +18,8 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPla
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SServerMessage;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SWin;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.NetWindow;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 此类用于处理服务器发送的消息
@@ -55,6 +57,9 @@ public class Handler {
 	}
 
 	public static void handleInit(SInit init) {
+		Net.seeds = new ConcurrentHashMap<>(init.getSeeds());
+		Net.name = init.getName();
+		NetWindow.showMotd(init.getMotd());
 	}
 
 	public static void handleJoin(SJoin join) {

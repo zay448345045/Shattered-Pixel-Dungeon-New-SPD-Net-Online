@@ -14,6 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SInit extends Data {
+	private String name;
 	private String motd;
-	private Map<String, String> seeds;
+	private Map<String, Long> seeds;
 }
