@@ -2,11 +2,11 @@ package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAchievement;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAnkhUsed;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SBackpack;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SChatMessage;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SDeath;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SEnterDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SError;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SHero;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SExit;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SFloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SGiveItem;
@@ -29,7 +29,7 @@ public class Handler {
 	public static void handleAnkhUsed(SAnkhUsed ankhUsed) {
 	}
 
-	public static void handleBackpack(SBackpack backpack) {
+	public static void handleHero(SHero hero) {
 	}
 
 	public static void handleChatMessage(SChatMessage chatMessage) {

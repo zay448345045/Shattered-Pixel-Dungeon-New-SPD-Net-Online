@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Events;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAchievement;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAnkhUsed;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SBackpack;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SChatMessage;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SDeath;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SEnterDungeon;
@@ -15,6 +14,7 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SErr
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SExit;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SFloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SGiveItem;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SHero;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SInit;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SJoin;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SLeaveDungeon;
@@ -42,13 +42,6 @@ public class Receiver {
 		Emitter.Listener onAnkhUsed = args -> {
 			try {
 				Handler.handleAnkhUsed(mapper.readValue(args[0].toString(), SAnkhUsed.class));
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-			}
-		};
-		Emitter.Listener onBackpack = args -> {
-			try {
-				Handler.handleBackpack(mapper.readValue(args[0].toString(), SBackpack.class));
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
 			}
@@ -88,6 +81,13 @@ public class Receiver {
 				e.printStackTrace();
 			}
 		};
+		Emitter.Listener onFloatingText = args -> {
+			try {
+				Handler.handleFloatingText(mapper.readValue(args[0].toString(), SFloatingText.class));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+		};
 		Emitter.Listener onGiveItem = args -> {
 			try {
 				Handler.handleGiveItem(mapper.readValue(args[0].toString(), SGiveItem.class));
@@ -95,9 +95,10 @@ public class Receiver {
 				e.printStackTrace();
 			}
 		};
-		Emitter.Listener onFloatingText = args -> {
+
+		Emitter.Listener onHero = args -> {
 			try {
-				Handler.handleFloatingText(mapper.readValue(args[0].toString(), SFloatingText.class));
+				Handler.handleHero(mapper.readValue(args[0].toString(), SHero.class));
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
 			}
@@ -153,14 +154,14 @@ public class Receiver {
 		};
 		getSocket().on(Events.ACHIEVEMENT.getName(), onAchievement);
 		getSocket().on(Events.ANKH_USED.getName(), onAnkhUsed);
-		getSocket().on(Events.BACKPACK.getName(), onBackpack);
 		getSocket().on(Events.CHAT_MESSAGE.getName(), onChatMessage);
 		getSocket().on(Events.DEATH.getName(), onDeath);
 		getSocket().on(Events.ENTER_DUNGEON.getName(), onEnterDungeon);
 		getSocket().on(Events.ERROR.getName(), onError);
 		getSocket().on(Events.EXIT.getName(), onExit);
-		getSocket().on(Events.GIVE_ITEM.getName(), onGiveItem);
 		getSocket().on(Events.FLOATING_TEXT.getName(), onFloatingText);
+		getSocket().on(Events.GIVE_ITEM.getName(), onGiveItem);
+		getSocket().on(Events.HERO.getName(), onHero);
 		getSocket().on(Events.INIT.getName(), onInit);
 		getSocket().on(Events.JOIN.getName(), onJoin);
 		getSocket().on(Events.LEAVE_DUNGEON.getName(), onLeaveDungeon);
@@ -173,13 +174,13 @@ public class Receiver {
 	public static void cancelAll() {
 		getSocket().off(Events.ACHIEVEMENT.getName());
 		getSocket().off(Events.ANKH_USED.getName());
-		getSocket().off(Events.BACKPACK.getName());
 		getSocket().off(Events.CHAT_MESSAGE.getName());
 		getSocket().off(Events.DEATH.getName());
 		getSocket().off(Events.ENTER_DUNGEON.getName());
 		getSocket().off(Events.EXIT.getName());
-		getSocket().off(Events.GIVE_ITEM.getName());
 		getSocket().off(Events.FLOATING_TEXT.getName());
+		getSocket().off(Events.GIVE_ITEM.getName());
+		getSocket().off(Events.HERO.getName());
 		getSocket().off(Events.INIT.getName());
 		getSocket().off(Events.JOIN.getName());
 		getSocket().off(Events.LEAVE_DUNGEON.getName());

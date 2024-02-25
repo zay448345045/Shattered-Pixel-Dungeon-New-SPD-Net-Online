@@ -618,9 +618,7 @@ public class GameScene extends PixelScene {
 		}
 
 		// 发送进入地牢信息
-		Bundle heroBundle = new Bundle();
-		Dungeon.hero.storeInBundle(heroBundle);
-		Status status1 = new Status(Dungeon.challenges, Dungeon.seed, Dungeon.depth, heroBundle.toString());
+		Status status1 = new Status(Dungeon.challenges, Dungeon.seed, Dungeon.depth);
 		Sender.sendEnterDungeon(new CEnterDungeon(status1));
 	}
 	
