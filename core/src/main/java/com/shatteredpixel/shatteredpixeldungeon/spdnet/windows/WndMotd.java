@@ -59,16 +59,7 @@ public class WndMotd extends NetWindow {
 			@Override
 			protected void onClick() {
 				super.onClick();
-				if (GamesInProgress.checkAll().size() == 0) {
-					GamesInProgress.selectedClass = null;
-					GamesInProgress.curSlot = 1;
-					if (!(ShatteredPixelDungeon.scene() instanceof HeroSelectScene))
-						ShatteredPixelDungeon.switchScene(HeroSelectScene.class);
-					else ShatteredPixelDungeon.switchNoFade(HeroSelectScene.class);
-
-				} else {
-					ShatteredPixelDungeon.switchNoFade(StartScene.class);
-				}
+				WndMotd.this.destroy();
 			}
 		};
 
