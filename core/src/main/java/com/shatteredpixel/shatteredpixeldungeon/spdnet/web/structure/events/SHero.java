@@ -1,6 +1,5 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events;
 
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Data;
 
 import lombok.AllArgsConstructor;
@@ -12,7 +11,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SBackpack extends Data {
+public class SHero extends Data {
 	private String name;
-	private Belongings belongings;
+	// json
+	private String hero;
 }

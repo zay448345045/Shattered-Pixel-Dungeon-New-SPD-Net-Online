@@ -11,5 +11,4 @@ public class Status {
 	private int challenges;
 	private long seed;
 	private int depth;
-	private String hero;
 }
