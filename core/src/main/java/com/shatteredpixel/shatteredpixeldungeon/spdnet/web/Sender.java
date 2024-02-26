@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Actions;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CAchievement;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CAnkhUsed;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CArmorUpdate;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CChatMessage;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CDeath;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CEnterDungeon;
@@ -16,6 +17,7 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CGi
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CHero;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CLeaveDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CPlayerMove;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CRequestPlayerList;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CViewHero;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CWin;
 
@@ -29,6 +31,10 @@ public class Sender {
 
 	public static void sendAnkhUsed(CAnkhUsed ankhUsed) {
 		getSocket().emit(Actions.ANKH_USED.getName(), mapper.convertValue(ankhUsed, ObjectNode.class));
+	}
+
+	public static void sendArmorUpdate(CArmorUpdate armorUpdate) {
+		getSocket().emit(Actions.ARMOR_UPDATE.getName(), mapper.convertValue(armorUpdate, ObjectNode.class));
 	}
 
 	public static void sendChatMessage(CChatMessage message) {
@@ -65,6 +71,10 @@ public class Sender {
 
 	public static void sendPlayerMove(CPlayerMove playerMove) {
 		getSocket().emit(Actions.PLAYER_MOVE.getName(), mapper.convertValue(playerMove, ObjectNode.class));
+	}
+
+	public static void sendRequestPlayerList(CRequestPlayerList requestPlayerList) {
+		getSocket().emit(Actions.REQUEST_PLAYER_LIST.getName(), mapper.convertValue(requestPlayerList, ObjectNode.class));
 	}
 
 	public static void sendViewHero(CViewHero viewHero) {
