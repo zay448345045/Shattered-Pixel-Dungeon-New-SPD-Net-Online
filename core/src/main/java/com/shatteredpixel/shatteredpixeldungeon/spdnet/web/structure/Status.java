@@ -1,5 +1,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure;
 
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
 
@@ -21,7 +22,7 @@ public class Status {
 	 * 护甲等阶, 大多数情况下就是Armor的tier
 	 * 但是有两种特殊情况:
 	 * 没穿护甲的时候是0
-	 * 穿职业护甲的时候是10(和板甲区分开)
+	 * 穿职业护甲的时候是6(和板甲区分开)
 	 */
 	private int armorTier;
 	private int pos;
@@ -34,10 +35,13 @@ public class Status {
 		if (armor == null) {
 			armorTier = 0;
 		} else if (armor instanceof ClassArmor) {
-			armorTier = 10;
+			armorTier = 6;
 		} else {
 			armorTier = armor.tier;
 		}
 		this.pos = pos;
+	}
+	public HeroClass getHeroClassEnum() {
+		return HeroClass.values()[heroClass];
 	}
 }
