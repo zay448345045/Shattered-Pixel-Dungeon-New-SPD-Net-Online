@@ -69,6 +69,10 @@ public class Sender {
 		getSocket().emit(Actions.LEAVE_DUNGEON.getName(), mapper.convertValue(leaveDungeon, ObjectNode.class));
 	}
 
+	public static void sendPlayerChangeFloor(CPlayerMove playerMove) {
+		getSocket().emit(Actions.PLAYER_CHANGE_FLOOR.getName(), mapper.convertValue(playerMove, ObjectNode.class));
+	}
+
 	public static void sendPlayerMove(CPlayerMove playerMove) {
 		getSocket().emit(Actions.PLAYER_MOVE.getName(), mapper.convertValue(playerMove, ObjectNode.class));
 	}

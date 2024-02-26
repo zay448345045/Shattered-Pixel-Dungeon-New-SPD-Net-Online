@@ -1,4 +1,4 @@
-package com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events;
+package com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions;
 
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Data;
 
@@ -11,7 +11,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SPlayerMove extends Data {
-	private String name;
-	private int pos;
+public class CPlayerChangeFloor extends Data {
+	private int depth;
 }

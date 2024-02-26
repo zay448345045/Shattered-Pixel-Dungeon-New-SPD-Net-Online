@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SPlayerMove extends Data {
+public class SPlayerChangeFloor extends Data {
 	private String name;
-	private int pos;
+	private int depth;
 }

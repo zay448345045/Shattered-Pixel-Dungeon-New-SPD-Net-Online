@@ -116,6 +116,13 @@ public class Receiver {
 				e.printStackTrace();
 			}
 		};
+		Emitter.Listener onPlayerChangeFloor = args -> {
+			try {
+				Handler.handlePlayerChangeFloor(mapper.readValue(args[0].toString(), SPlayerChangeFloor.class));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+		};
 		Emitter.Listener onPlayerList = args -> {
 			try {
 				Handler.handlePlayerList(mapper.readValue(args[0].toString(), SPlayerList.class));
@@ -160,6 +167,7 @@ public class Receiver {
 		getSocket().on(Events.INIT.getName(), onInit);
 		getSocket().on(Events.JOIN.getName(), onJoin);
 		getSocket().on(Events.LEAVE_DUNGEON.getName(), onLeaveDungeon);
+		getSocket().on(Events.PLAYER_CHANGE_FLOOR.getName(), onPlayerChangeFloor);
 		getSocket().on(Events.PLAYER_LIST.getName(), onPlayerList);
 		getSocket().on(Events.PLAYER_MOVE.getName(), onPlayerMove);
 		getSocket().on(Events.SERVER_MESSAGE.getName(), onServerMessage);
