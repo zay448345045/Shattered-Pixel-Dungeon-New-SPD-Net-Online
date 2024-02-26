@@ -4,6 +4,7 @@ import static com.watabou.utils.DeviceCompat.isDebug;
 import static com.watabou.utils.DeviceCompat.isDesktop;
 
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.SPDNetConfig;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Player;
 import com.watabou.noosa.Game;
 
 import java.net.URISyntaxException;
@@ -11,7 +12,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 import lombok.Getter;
 
 /**
@@ -26,6 +26,8 @@ public class Net {
 	public static ConcurrentHashMap<String, Long> seeds = new ConcurrentHashMap<>();
 	// 玩家名
 	public static String name = "";
+	// <PlayerKey{玩家名, 玩家权限}, 玩家状态>, 如果当前玩家没在游戏内, Status的层数为-1
+	public static ConcurrentHashMap<String, Player> playerList = new ConcurrentHashMap<>();
 
 	/**
 	 * 获取一个socketIO对象
@@ -61,6 +63,7 @@ public class Net {
 
 	/**
 	 * 获取一个已经连接的socketIO对象，如果当前没有连接，那么就尝试连接
+	 *
 	 * @return 连接的socketIO对象
 	 */
 	public static Socket getConnectedSocket() {

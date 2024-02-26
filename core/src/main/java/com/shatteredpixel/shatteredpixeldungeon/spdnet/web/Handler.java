@@ -1,22 +1,8 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAchievement;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAnkhUsed;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SChatMessage;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SDeath;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SEnterDungeon;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SError;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SExit;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SFloatingText;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SGiveItem;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SHero;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SInit;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SJoin;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SLeaveDungeon;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPlayerList;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPlayerMove;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SServerMessage;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SWin;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Player;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Status;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.*;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.NetWindow;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,9 +15,11 @@ public class Handler {
 	}
 
 	public static void handleAnkhUsed(SAnkhUsed ankhUsed) {
+		// TODO 聊天显示其他玩家差点好似
 	}
 
 	public static void handleHero(SHero hero) {
+		// TODO 显示其他玩家的详细信息
 	}
 
 	public static void handleChatMessage(SChatMessage chatMessage) {
@@ -41,6 +29,11 @@ public class Handler {
 	}
 
 	public static void handleEnterDungeon(SEnterDungeon enterDungeon) {
+		Player player = Net.playerList.get(enterDungeon.getName());
+		player.setStatus(enterDungeon.getStatus());
+		Net.playerList.put(enterDungeon.getName(), player);
+		// TODO 进入地牢消息
+		// TODO 更新玩家列表
 	}
 
 	public static void handleError(SError error) {
@@ -63,6 +56,8 @@ public class Handler {
 	}
 
 	public static void handleJoin(SJoin join) {
+		Net.playerList.put(join.getName(), new Player(join.getName(), join.getPower(), new Status(-1, -1, -1, -1, -1, -1)));
+		// TODO 上线提醒
 	}
 
 	public static void handleLeaveDungeon(SLeaveDungeon leaveDungeon) {

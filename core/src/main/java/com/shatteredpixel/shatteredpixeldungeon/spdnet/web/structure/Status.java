@@ -24,8 +24,9 @@ public class Status {
 	 * 穿职业护甲的时候是10(和板甲区分开)
 	 */
 	private int armorTier;
+	private int pos;
 
-	public Status(int challenges, long seed, int depth, int heroClass, Armor armor) {
+	public Status(int challenges, long seed, int depth, int heroClass, Armor armor, int pos) {
 		this.challenges = challenges;
 		this.seed = seed;
 		this.depth = depth;
@@ -37,5 +38,6 @@ public class Status {
 		} else {
 			armorTier = armor.tier;
 		}
+		this.pos = pos;
 	}
 }

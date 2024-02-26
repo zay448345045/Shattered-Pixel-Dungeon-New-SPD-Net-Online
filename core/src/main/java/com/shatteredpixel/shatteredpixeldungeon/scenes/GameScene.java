@@ -619,7 +619,7 @@ public class GameScene extends PixelScene {
 		}
 
 		// 发送进入地牢信息
-		Status status1 = new Status(Dungeon.challenges, Dungeon.seed, Dungeon.depth, Dungeon.hero.heroClass.ordinal(), Dungeon.hero.belongings.armor);
+		Status status1 = new Status(Dungeon.challenges, Dungeon.seed, Dungeon.depth, Dungeon.hero.heroClass.ordinal(), Dungeon.hero.belongings.armor, Dungeon.hero.pos);
 		Sender.sendEnterDungeon(new CEnterDungeon(status1));
 	}
 	

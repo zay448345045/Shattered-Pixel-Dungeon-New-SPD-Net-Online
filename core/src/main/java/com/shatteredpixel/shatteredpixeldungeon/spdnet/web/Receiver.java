@@ -6,23 +6,7 @@ import static com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net.getSocket;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Events;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAchievement;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAnkhUsed;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SChatMessage;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SDeath;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SEnterDungeon;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SError;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SExit;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SFloatingText;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SGiveItem;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SHero;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SInit;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SJoin;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SLeaveDungeon;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPlayerList;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPlayerMove;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SServerMessage;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SWin;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.*;
 
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -104,7 +88,6 @@ public class Receiver {
 				e.printStackTrace();
 			}
 		};
-
 		Emitter.Listener onHero = args -> {
 			try {
 				Handler.handleHero(mapper.readValue(args[0].toString(), SHero.class));
