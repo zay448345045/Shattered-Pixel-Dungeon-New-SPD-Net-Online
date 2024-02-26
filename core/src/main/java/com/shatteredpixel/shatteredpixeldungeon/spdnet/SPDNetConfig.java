@@ -3,6 +3,7 @@ package com.shatteredpixel.shatteredpixeldungeon.spdnet;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.utils.HttpUtils;
 
 import lombok.Getter;
 import lombok.Setter;

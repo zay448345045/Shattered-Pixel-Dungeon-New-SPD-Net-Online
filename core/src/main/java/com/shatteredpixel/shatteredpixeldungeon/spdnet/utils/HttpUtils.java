@@ -1,4 +1,4 @@
-package com.shatteredpixel.shatteredpixeldungeon.spdnet;
+package com.shatteredpixel.shatteredpixeldungeon.spdnet.utils;
 
 import org.apache.http.Consts;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
