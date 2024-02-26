@@ -45,6 +45,25 @@ task release(type: Jar) {
         attributes 'Implementation-Version': appVersionCode
     }
 }
+
+// 添加此build任务, 用于打包debug版本运行多端测试联机
+task debugJar(type: Jar) {
+    archiveFileName = "${project.name}-debug.jar"
+    //FIXME this is now needed as of gradle 7.0, due to our weird sourceSets setup. Should see if there's a better way to do this
+    setDuplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    from sourceSets.main.output
+    dependsOn configurations.runtimeClasspath
+    from { configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) } }
+
+    manifest {
+        attributes 'Main-Class': appMainClass
+        attributes 'Specification-Title': appName
+        attributes 'Implementation-Title': appPackageName
+        // Net的版本号
+        attributes 'Specification-Version': appVersionName + '}' + appNetVersionName + "-INDEV"
+        attributes 'Implementation-Version': appVersionCode
+    }
+}
 installDist.dependsOn release
 startScripts.dependsOn release
 jpackageImage.dependsOn release
