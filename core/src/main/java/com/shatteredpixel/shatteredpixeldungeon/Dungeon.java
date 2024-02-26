@@ -71,6 +71,8 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.secret.SecretRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.SpecialRoom;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetInProgress;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net;
 import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Toolbar;
 import com.shatteredpixel.shatteredpixeldungeon.utils.DungeonSeed;
@@ -218,19 +220,23 @@ public class Dungeon {
 		challenges = SPDSettings.challenges();
 		mobsToChampion = -1;
 
-		if (daily) {
-			//Ensures that daily seeds are not in the range of user-enterable seeds
-			seed = SPDSettings.lastDaily() + DungeonSeed.TOTAL_SEEDS;
-			DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
-			format.setTimeZone(TimeZone.getTimeZone("UTC"));
-			customSeedText = format.format(new Date(SPDSettings.lastDaily()));
-		} else if (!SPDSettings.customSeed().isEmpty()){
-			customSeedText = SPDSettings.customSeed();
-			seed = DungeonSeed.convertFromText(customSeedText);
-		} else {
-			customSeedText = "";
-			seed = DungeonSeed.randomSeed();
-		}
+		// 种子设置
+		// TODO 等GUI实现之后来这里更改种子逻辑 目前默认使用服务器给与的第一个种子
+//		if (daily) {
+//			//Ensures that daily seeds are not in the range of user-enterable seeds
+//			seed = SPDSettings.lastDaily() + DungeonSeed.TOTAL_SEEDS;
+//			DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
+//			format.setTimeZone(TimeZone.getTimeZone("UTC"));
+//			customSeedText = format.format(new Date(SPDSettings.lastDaily()));
+//		} else if (!SPDSettings.customSeed().isEmpty()){
+//			customSeedText = SPDSettings.customSeed();
+//			seed = DungeonSeed.convertFromText(customSeedText);
+//		} else {
+//			customSeedText = "";
+//			seed = DungeonSeed.randomSeed();
+//		}
+		customSeedText = "";
+		seed = NetInProgress.seed;
 
 		Actor.clear();
 		Actor.resetNextID();

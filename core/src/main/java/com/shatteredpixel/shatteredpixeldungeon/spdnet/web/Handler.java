@@ -53,6 +53,10 @@ public class Handler {
 		Net.seeds = new ConcurrentHashMap<>(init.getSeeds());
 		Net.name = init.getName();
 		NetWindow.showMotd(init.getMotd());
+
+
+		// TODO 等GUI实现之后来这里更改种子逻辑 目前默认使用服务器给与的第一个种子
+		NetInProgress.seed = Net.seeds.get(Net.seeds.keySet().toArray()[0]);
 	}
 
 	public static void handleJoin(SJoin join) {
