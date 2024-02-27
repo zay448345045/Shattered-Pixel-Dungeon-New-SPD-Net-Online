@@ -66,7 +66,7 @@ public class Sender {
 	}
 
 	public static void sendLeaveDungeon(CLeaveDungeon leaveDungeon) {
-		getSocket().emit(Actions.LEAVE_DUNGEON.getName(), mapper.convertValue(leaveDungeon, ObjectNode.class));
+		getSocket().emit(Actions.LEAVE_DUNGEON.getName(), "{}");
 	}
 
 	public static void sendPlayerChangeFloor(CPlayerMove playerMove) {
@@ -78,7 +78,7 @@ public class Sender {
 	}
 
 	public static void sendRequestPlayerList(CRequestPlayerList requestPlayerList) {
-		getSocket().emit(Actions.REQUEST_PLAYER_LIST.getName(), mapper.convertValue(requestPlayerList, ObjectNode.class));
+		getSocket().emit(Actions.REQUEST_PLAYER_LIST.getName(), "{}");
 	}
 
 	public static void sendViewHero(CViewHero viewHero) {

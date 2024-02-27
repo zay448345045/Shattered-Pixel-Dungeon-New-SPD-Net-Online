@@ -1,8 +1,31 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetInProgress;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.actors.NetHero;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Player;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Status;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.*;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CRequestPlayerList;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAchievement;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAnkhUsed;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SChatMessage;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SDeath;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SEnterDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SError;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SExit;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SFloatingText;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SGiveItem;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SHero;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SInit;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SJoin;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SLeaveDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPlayerChangeFloor;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPlayerList;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPlayerMove;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SServerMessage;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SWin;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.NetWindow;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,11 +52,19 @@ public class Handler {
 	}
 
 	public static void handleEnterDungeon(SEnterDungeon enterDungeon) {
-		Player player = Net.playerList.get(enterDungeon.getName());
-		player.setStatus(enterDungeon.getStatus());
-		Net.playerList.put(enterDungeon.getName(), player);
-		// TODO 进入地牢消息
-		// TODO 更新玩家列表
+		if (!enterDungeon.getName().equals(Net.name)) {
+			Player player = Net.playerList.get(enterDungeon.getName());
+			if (player == null) {
+				syncPlayerList();
+				return;
+			}
+			player.setStatus(enterDungeon.getStatus());
+			Net.playerList.put(enterDungeon.getName(), player);
+			// TODO 进入地牢消息
+			if (ShatteredPixelDungeon.scene() instanceof GameScene) {
+				NetHero.syncWithCurrentLevel(Dungeon.seed, Dungeon.depth);
+			}
+		}
 	}
 
 	public static void handleError(SError error) {
@@ -60,22 +91,54 @@ public class Handler {
 	}
 
 	public static void handleJoin(SJoin join) {
-		Net.playerList.put(join.getName(), new Player(join.getName(), join.getPower(), new Status(-1, -1, -1, -1, -1, -1)));
-		// TODO 上线提醒
+		if (!join.getName().equals(Net.name)) {
+			Net.playerList.put(join.getName(), new Player(join.getName(), join.getPower(), new Status(-1, -1, -1, -1, -1, -1)));
+			// TODO 上线提醒
+		}
 	}
 
 	public static void handleLeaveDungeon(SLeaveDungeon leaveDungeon) {
 	}
 
+	public static void handlePlayerChangeFloor(SPlayerChangeFloor playerChangeFloor) {
+	}
+
 	public static void handlePlayerList(SPlayerList playerList) {
+		Net.playerList.clear();
+		for (Player player : playerList.getPlayers()) {
+			Net.playerList.put(player.getName(), player);
+		}
 	}
 
 	public static void handlePlayerMove(SPlayerMove playerMove) {
+		if (!playerMove.getName().equals(Net.name)) {
+			Player player = Net.playerList.get(playerMove.getName());
+			Status status = player.getStatus();
+			status.setPos(playerMove.getPos());
+			player.setStatus(status);
+			Net.playerList.put(playerMove.getName(), player);
+			// 如果这位玩家在当前地牢楼层
+			if (Dungeon.seed == status.getSeed() && Dungeon.depth == status.getDepth()) {
+				NetHero player1 = NetHero.getPlayer(playerMove.getName());
+				if (player1 != null) {
+					player1.move(playerMove.getPos(), false);
+				}
+			}
+		}
 	}
 
 	public static void handleServerMessage(SServerMessage serverMessage) {
 	}
 
 	public static void handleWin(SWin win) {
+	}
+
+	/**
+	 * 同步玩家列表
+	 * 如果出现任何列表不同步的情况, 请调用此方法
+	 */
+	public static void syncPlayerList() {
+		Sender.sendRequestPlayerList(new CRequestPlayerList());
+		NetHero.syncWithCurrentLevel(Dungeon.seed, Dungeon.depth);
 	}
 }

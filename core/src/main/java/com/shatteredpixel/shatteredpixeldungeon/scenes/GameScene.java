@@ -73,8 +73,9 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.secret.SecretRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Receiver;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Sender;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.actors.NetHero;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.sprites.NetHeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Status;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CEnterDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
@@ -197,6 +198,9 @@ public class GameScene extends PixelScene {
 	private Group overFogEffects;
 	private Group healthIndicators;
 
+	// 其他玩家
+	private Group players;
+
 	private InventoryPane inventory;
 	private static boolean invVisible = true;
 
@@ -308,7 +312,16 @@ public class GameScene extends PixelScene {
 		hero.place( Dungeon.hero.pos );
 		hero.updateArmor();
 		mobs.add( hero );
-		
+
+		// 其他玩家
+		players = new Group();
+		add(players);
+
+		for (NetHero player: Dungeon.level.players) {
+			addPlayerSprite(player);
+			((NetHeroSprite)player.sprite).updateArmor();
+		}
+
 		for (Mob mob : Dungeon.level.mobs) {
 			addMobSprite( mob );
 		}
@@ -621,6 +634,8 @@ public class GameScene extends PixelScene {
 		// 发送进入地牢信息
 		Status status1 = new Status(Dungeon.challenges, Dungeon.seed, Dungeon.depth, Dungeon.hero.heroClass.ordinal(), Dungeon.hero.belongings.armor, Dungeon.hero.pos);
 		Sender.sendEnterDungeon(new CEnterDungeon(status1));
+		// 同步玩家列表
+		NetHero.syncWithCurrentLevel(Dungeon.seed, Dungeon.depth);
 	}
 	
 	public void destroy() {
@@ -912,6 +927,12 @@ public class GameScene extends PixelScene {
 		sortMobSprites();
 	}
 
+	private synchronized void addPlayerSprite(NetHero player) {
+		CharSprite sprite = new NetHeroSprite(player);
+		sprite.visible = true;
+		players.add(sprite);
+	}
+
 	//ensures that mob sprites are drawn from top to bottom, in case of overlap
 	public static void sortMobSprites(){
 		if (scene != null){
@@ -1012,6 +1033,19 @@ public class GameScene extends PixelScene {
 		if (scene != null) {
 			scene.addMobSprite(mob);
 			Actor.add(mob);
+		}
+	}
+
+	public static void add(NetHero player) {
+		if (scene != null) {
+			Dungeon.level.players.add(player);
+			scene.addPlayerSprite(player);
+		}
+	}
+	public static void clearPlayers() {
+		if (scene != null) {
+			Dungeon.level.players.clear();
+			scene.players.clear();
 		}
 	}
 
