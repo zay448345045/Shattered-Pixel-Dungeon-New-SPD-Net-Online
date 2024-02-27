@@ -31,7 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Journal;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.NetBtn;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.NetButton;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.NetWindow;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
@@ -58,7 +58,6 @@ import com.watabou.noosa.NinePatch;
 import com.watabou.noosa.PointerArea;
 import com.watabou.noosa.tweeners.Tweener;
 import com.watabou.noosa.ui.Component;
-import com.watabou.utils.DeviceCompat;
 import com.watabou.utils.GameMath;
 import com.watabou.utils.PointF;
 
@@ -86,7 +85,7 @@ public class HeroSelectScene extends PixelScene {
 //	private GameOptions optionsPane;
 	private IconButton btnExit;
 	// 网络状态按钮, 在原本的选项按钮位置
-	private NetBtn btnNetStatus;
+	private NetButton btnNetStatus;
 
 	@Override
 	public void create() {
@@ -186,7 +185,7 @@ public class HeroSelectScene extends PixelScene {
 		}
 
 		// 网络状态按钮创建
-		btnNetStatus = new NetBtn();
+		btnNetStatus = new NetButton();
 		add(btnNetStatus);
 		btnNetStatus.visible = btnNetStatus.active = false;
 
@@ -316,7 +315,7 @@ public class HeroSelectScene extends PixelScene {
 //			align(optionsPane);
 
 			// 网络状态按钮的位置
- 			btnNetStatus.setRect(startBtn.right(), startBtn.top(), 20, 21);
+			btnNetStatus.setRect(startBtn.right(), startBtn.top(), btnNetStatus.width(), btnNetStatus.height());
 		} else {
 			background.visible = false;
 
@@ -394,15 +393,6 @@ public class HeroSelectScene extends PixelScene {
 //			btnOptions.icon().resetColor();
 //		}
 //	}
-
-	// 更新网络状态按钮的颜色, 使用当前网络连接状态
-	private void updateNetStatusColor(){
-		if (Net.isConnected()){
-			btnNetStatus.icon().hardlight(0xDC143C);
-		} else {
-			btnNetStatus.icon().hardlight(0x228B22);
-		}
-	}
 
 	private void setSelectedHero(HeroClass cl){
 		GamesInProgress.selectedClass = cl;
