@@ -78,6 +78,12 @@ public class Handler {
 	}
 
 	public static void handleFloatingText(SFloatingText floatingText) {
+		if (!floatingText.getName().equals(Net.name)) {
+			NetHero player = NetHero.getPlayer(floatingText.getName());
+			if (player != null) {
+				player.sprite.showStatusWithIcon(floatingText.getColor(), floatingText.getText(), floatingText.getIcon());
+			}
+		}
 	}
 
 	public static void handleInit(SInit init) {
@@ -118,12 +124,11 @@ public class Handler {
 			player.setStatus(status);
 			Net.playerList.put(playerMove.getName(), player);
 			// 如果这位玩家在当前地牢楼层
-			if (Dungeon.seed == status.getSeed() && Dungeon.depth == status.getDepth()) {
-				NetHero player1 = NetHero.getPlayer(playerMove.getName());
-				if (player1 != null) {
-					player1.move(playerMove.getPos(), false);
-				}
+			NetHero player1 = NetHero.getPlayer(playerMove.getName());
+			if (player1 != null) {
+				player1.move(playerMove.getPos(), false);
 			}
+
 		}
 	}
 

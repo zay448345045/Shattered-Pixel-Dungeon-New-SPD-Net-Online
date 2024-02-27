@@ -12,6 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CFloatingText extends Data {
-	private int type;
+	private int color;
 	private String text;
+	private int icon;
 }
