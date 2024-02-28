@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Journal;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.NetButton;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.Mode;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.ModeButton;
@@ -360,7 +361,7 @@ public class HeroSelectScene extends PixelScene {
 		btnExit.visible = btnExit.active = !SPDSettings.intro();
 
 		// 模式选择按钮
-		btnMode = new ModeButton(Mode.IRONMAN);
+		btnMode = new ModeButton(NetInProgress.mode);
 		btnMode.setPos(3, 3);
 		add(btnMode);
 		btnMode.visible = btnMode.active = false;
@@ -527,7 +528,7 @@ public class HeroSelectScene extends PixelScene {
 		btnNetStatus.icon().alpha(alpha);
 		// 模式选择按钮的渐隐
 		btnMode.enable(alpha != 0);
-		btnMode.icon().alpha(alpha);
+		btnMode.alpha(alpha);
 
 		infoButton.enable(alpha != 0);
 		infoButton.icon().alpha(alpha);

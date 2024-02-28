@@ -2,13 +2,11 @@ package com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene;
 
 import com.shatteredpixel.shatteredpixeldungeon.Chrome;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.TitleScene;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.ui.StyledButton;
 import com.watabou.noosa.Game;
 
 public class ModeButton extends StyledButton {
-
 
 	public ModeButton(Mode mode) {
 		super(Chrome.Type.RED_BUTTON, mode.getName(), 9);
@@ -18,16 +16,20 @@ public class ModeButton extends StyledButton {
 	}
 
 	public void setMode(Mode mode) {
-		addToBack(Chrome.get(Chrome.Type.RED_BUTTON));
-
-		text = PixelScene.renderTextBlock(9);
-		text.text(mode.getName());
-		add(text);
+		text(mode.getName());
 		icon(mode.getIcon());
 	}
 
 	@Override
 	protected void onClick() {
-		// TODO
+		Game.runOnRenderThread(() -> {
+			ShatteredPixelDungeon.scene().add(new ModeWindow());
+		});
+	}
+
+	@Override
+	public void update() {
+		super.update();
+		setMode(NetInProgress.mode);
 	}
 }
