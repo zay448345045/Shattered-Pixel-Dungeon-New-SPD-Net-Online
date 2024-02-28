@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.journal.Journal;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.NetButton;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.ChallengeButton;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.Mode;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.ModeButton;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net;
@@ -92,6 +93,8 @@ public class HeroSelectScene extends PixelScene {
 	private NetButton btnNetStatus;
 	// 模式选择按钮
 	private ModeButton btnMode;
+	// 挑战选择按钮
+	private ChallengeButton btnChallenge;
 
 	@Override
 	public void create() {
@@ -366,6 +369,12 @@ public class HeroSelectScene extends PixelScene {
 		add(btnMode);
 		btnMode.visible = btnMode.active = false;
 
+		// 挑战选择按钮
+		btnChallenge = new ChallengeButton();
+		btnChallenge.setPos((Camera.main.width - btnChallenge.width()) / 2f, 26);
+		add(btnChallenge);
+		btnChallenge.visible = btnChallenge.active = false;
+
 		PointerArea fadeResetter = new PointerArea(0, 0, Camera.main.width, Camera.main.height){
 			@Override
 			public boolean onSignal(PointerEvent event) {
@@ -477,6 +486,8 @@ public class HeroSelectScene extends PixelScene {
 //		updateOptionsColor();
 		// 模式选择按钮的可见性
 		btnMode.visible = btnMode.active = true;
+		// 挑战选择按钮的可见性
+		btnChallenge.visible = btnChallenge.active = true;
 	}
 
 	private float uiAlpha;
@@ -529,6 +540,9 @@ public class HeroSelectScene extends PixelScene {
 		// 模式选择按钮的渐隐
 		btnMode.enable(alpha != 0);
 		btnMode.alpha(alpha);
+		// 挑战选择按钮的渐隐
+		btnChallenge.enable(alpha != 0);
+		btnChallenge.alpha(alpha);
 
 		infoButton.enable(alpha != 0);
 		infoButton.icon().alpha(alpha);
