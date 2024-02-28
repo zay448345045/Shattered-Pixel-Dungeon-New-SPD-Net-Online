@@ -32,6 +32,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Journal;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.NetButton;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.Mode;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.ModeButton;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.NetWindow;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
@@ -74,7 +76,8 @@ public class HeroSelectScene extends PixelScene {
 	private IconButton btnFade; //only on landscape
 
 	//fading UI elements
-	private RenderedTextBlock title;
+	// 删除title, 因为重构UI
+//	private RenderedTextBlock title;
 	private ArrayList<StyledButton> heroBtns = new ArrayList<>();
 	private RenderedTextBlock heroName; //only on landscape
 	private RenderedTextBlock heroDesc; //only on landscape
@@ -86,6 +89,8 @@ public class HeroSelectScene extends PixelScene {
 	private IconButton btnExit;
 	// 网络状态按钮, 在原本的选项按钮位置
 	private NetButton btnNetStatus;
+	// 模式选择按钮
+	private ModeButton btnMode;
 
 	@Override
 	public void create() {
@@ -128,10 +133,11 @@ public class HeroSelectScene extends PixelScene {
 		fadeRight.angle = 180;
 		add(fadeRight);
 
-		title = PixelScene.renderTextBlock(Messages.get(this, "title"), 12);
-		title.hardlight(Window.TITLE_COLOR);
-		PixelScene.align(title);
-		add(title);
+		// 删除title, 因为重构UI
+//		title = PixelScene.renderTextBlock(Messages.get(this, "title"), 12);
+//		title.hardlight(Window.TITLE_COLOR);
+//		PixelScene.align(title);
+//		add(title);
 
 		startBtn = new StyledButton(Chrome.Type.GREY_BUTTON_TR, ""){
 			@Override
@@ -242,8 +248,8 @@ public class HeroSelectScene extends PixelScene {
 			float fadeLeftScale = 47 * (leftArea - background.x)/leftArea;
 			fadeLeft.scale = new PointF(3 + Math.max(0, fadeLeftScale), background.height());
 
-			title.setPos( (leftArea - title.width())/2f, (Camera.main.height-uiHeight)/2f);
-			align(title);
+//			title.setPos( (leftArea - title.width())/2f, (Camera.main.height-uiHeight)/2f);
+//			align(title);
 
 			int btnWidth = HeroBtn.MIN_WIDTH + 15;
 			int btnHeight = HeroBtn.HEIGHT;
@@ -253,7 +259,9 @@ public class HeroSelectScene extends PixelScene {
 
 			int cols = (int)Math.ceil(heroBtns.size()/2f);
 			float curX = (leftArea - btnWidth * cols + (cols-1))/2f;
-			float curY = title.bottom() + uiSpacing;
+			// 删除title, 手动设置curY的值
+//			float curY = title.bottom() + uiSpacing;
+			float curY = 55.5f;
 
 			int count = 0;
 			for (StyledButton button : heroBtns){
@@ -286,7 +294,9 @@ public class HeroSelectScene extends PixelScene {
 
 			startBtn.text(Messages.titleCase(Messages.get(this, "start")));
 			startBtn.setSize(startBtn.reqWidth()+8, 21);
-			startBtn.setPos((leftArea - startBtn.width())/2f, title.top() + uiHeight - startBtn.height());
+			// 删除title, 因为重构UI
+//			startBtn.setPos((leftArea - startBtn.width())/2f, title.top() + uiHeight - startBtn.height());
+			startBtn.setPos((leftArea - startBtn.width())/2f, uiHeight - startBtn.height());
 			align(startBtn);
 
 			btnFade = new IconButton(Icons.COMPASS.get()){
@@ -333,7 +343,8 @@ public class HeroSelectScene extends PixelScene {
 				curX += btnWidth;
 			}
 
-			title.setPos((Camera.main.width - title.width()) / 2f, (Camera.main.height - HeroBtn.HEIGHT - title.height() - 4));
+			// 删除title, 因为重构UI
+//			title.setPos((Camera.main.width - title.width()) / 2f, (Camera.main.height - HeroBtn.HEIGHT - title.height() - 4));
 
 			// 删除选项按钮的相关配置, 因为重构UI
 //			btnOptions.setRect(heroBtns.get(0).left() + 16, Camera.main.height-HeroBtn.HEIGHT-16, 20, 21);
@@ -347,6 +358,12 @@ public class HeroSelectScene extends PixelScene {
 		btnExit.setPos( Camera.main.width - btnExit.width(), 0 );
 		add( btnExit );
 		btnExit.visible = btnExit.active = !SPDSettings.intro();
+
+		// 模式选择按钮
+		btnMode = new ModeButton(Mode.IRONMAN);
+		btnMode.setPos(3, 3);
+		add(btnMode);
+		btnMode.visible = btnMode.active = false;
 
 		PointerArea fadeResetter = new PointerArea(0, 0, Camera.main.width, Camera.main.height){
 			@Override
@@ -430,7 +447,8 @@ public class HeroSelectScene extends PixelScene {
 			btnNetStatus.visible = btnNetStatus.active = true;
 
 		} else {
-			title.visible = false;
+			// 删除title, 因为重构UI
+//			title.visible = false;
 
 			startBtn.visible = startBtn.active = true;
 			startBtn.text(Messages.titleCase(cl.title()));
@@ -456,6 +474,8 @@ public class HeroSelectScene extends PixelScene {
 
 		// 删除选项按钮的相关配置, 因为重构UI
 //		updateOptionsColor();
+		// 模式选择按钮的可见性
+		btnMode.visible = btnMode.active = true;
 	}
 
 	private float uiAlpha;
@@ -481,7 +501,8 @@ public class HeroSelectScene extends PixelScene {
 
 	private void updateFade(){
 		float alpha = GameMath.gate(0f, uiAlpha, 1f);
-		title.alpha(alpha);
+		// 删除title, 因为重构UI
+//		title.alpha(alpha);
 		for (StyledButton b : heroBtns){
 			b.enable(alpha != 0);
 			b.alpha(alpha);
@@ -504,6 +525,9 @@ public class HeroSelectScene extends PixelScene {
 		// 网络状态按钮的渐隐
 		btnNetStatus.enable(alpha != 0);
 		btnNetStatus.icon().alpha(alpha);
+		// 模式选择按钮的渐隐
+		btnMode.enable(alpha != 0);
+		btnMode.icon().alpha(alpha);
 
 		infoButton.enable(alpha != 0);
 		infoButton.icon().alpha(alpha);
