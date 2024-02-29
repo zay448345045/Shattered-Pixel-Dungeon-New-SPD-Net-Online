@@ -73,6 +73,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.secret.SecretRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Sender;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.actors.NetHero;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.sprites.NetHeroSprite;
@@ -632,7 +633,13 @@ public class GameScene extends PixelScene {
 		}
 
 		// 发送进入地牢信息
-		Status status1 = new Status(Dungeon.challenges, Dungeon.seed, Dungeon.depth, Dungeon.hero.heroClass.ordinal(), Dungeon.hero.belongings.armor, Dungeon.hero.pos);
+		Status status1 = new Status(Dungeon.challenges,
+				Dungeon.seed,
+				Dungeon.hero.heroClass.ordinal(),
+				NetInProgress.mode.ordinal(),
+				Dungeon.depth,
+				Dungeon.hero.tier(),
+				Dungeon.hero.pos);
 		Sender.sendEnterDungeon(new CEnterDungeon(status1));
 		// 同步玩家列表
 		NetHero.syncWithCurrentLevel(Dungeon.seed, Dungeon.depth);

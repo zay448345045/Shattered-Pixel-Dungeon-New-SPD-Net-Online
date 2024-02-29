@@ -102,6 +102,9 @@ public class NetHero extends Hero {
 	}
 
 	public static NetHero getPlayer(String name) {
+		if (Dungeon.level == null) {
+			return null;
+		}
 		for (NetHero player : Dungeon.level.players) {
 			if (player.name.equals(name)) {
 				return player;

@@ -98,7 +98,7 @@ public class Handler {
 
 	public static void handleJoin(SJoin join) {
 		if (!join.getName().equals(Net.name)) {
-			Net.playerList.put(join.getName(), new Player(join.getName(), join.getPower(), new Status(-1, -1, -1, -1, -1, -1)));
+			Net.playerList.put(join.getName(), new Player(join.getQq(), join.getName(), join.getPower(), new Status(-1, -1, -1, -1, -1, -1, -1)));
 			// TODO 上线提醒
 		}
 	}
