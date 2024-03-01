@@ -35,6 +35,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Sender;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CDeath;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CWin;
 import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Toolbar;
 import com.shatteredpixel.shatteredpixeldungeon.utils.DungeonSeed;
@@ -159,7 +162,15 @@ public enum Rankings {
 		}
 
 		Badges.validateGamesPlayed();
-		
+
+		// 发送死亡/胜利信息
+		Class<?> cause1= cause instanceof Class ? (Class<?>)cause : cause.getClass();
+		if (win) {
+			Sender.sendWin(new CWin(rec));
+		} else {
+			Sender.sendDeath(new CDeath(cause1.getName()));
+		}
+
 		save();
 	}
 

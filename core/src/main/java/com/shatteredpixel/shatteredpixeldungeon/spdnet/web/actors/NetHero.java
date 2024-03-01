@@ -2,6 +2,7 @@ package com.shatteredpixel.shatteredpixeldungeon.spdnet.web.actors;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
@@ -80,23 +81,31 @@ public class NetHero extends Hero {
 
 	/**
 	 * 把当前在线玩家与当前楼层同步
-	 * 进入地牢或者切换楼层时调用
+	 * 切换楼层或者其他玩家离开当前层时调用
+	 * GameScene不太方便直接删除玩家 >:( 玩家离开当前层暂时先用这个方法
 	 */
-	public static void syncWithCurrentLevel(long seed, int depth) {
-		GameScene.clearPlayers();
-		Set<Map.Entry<String, Player>> entries = Net.playerList.entrySet();
-		for (Map.Entry<String, Player> entry : entries) {
-			String name = entry.getKey();
-			Status status = entry.getValue().getStatus();
-			if (status == null) {
-				continue;
+	public static void syncWithCurrentLevel() {
+		if (ShatteredPixelDungeon.scene() instanceof GameScene) {
+			GameScene.clearPlayers();
+			Set<Map.Entry<String, Player>> entries = Net.playerList.entrySet();
+			for (Map.Entry<String, Player> entry : entries) {
+				addPlayer(entry.getValue());
 			}
-			if (status.getSeed() == seed && status.getDepth() == depth) {
-				NetHero hero = new NetHero(name);
+		}
+	}
+
+	public static void addPlayer(Player player) {
+		if (ShatteredPixelDungeon.scene() instanceof GameScene) {
+			Status status = player.getStatus();
+			if (status == null) {
+				return;
+			}
+			if (status.getSeed() == Dungeon.seed && status.getDepth() == Dungeon.depth) {
+				NetHero hero = new NetHero(player.getName());
 				hero.heroClass = status.getHeroClassEnum();
 				hero.tier = status.getArmorTier();
 				hero.pos = status.getPos();
-				GameScene.add(hero);
+				GameScene.addPlayer(hero);
 			}
 		}
 	}

@@ -1,8 +1,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.actors.NetHero;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Player;
@@ -38,6 +36,7 @@ public class Handler {
 	}
 
 	public static void handleAnkhUsed(SAnkhUsed ankhUsed) {
+		// TODO 调用NetHero.useAnkh()
 		// TODO 聊天显示其他玩家差点好似
 	}
 
@@ -60,18 +59,18 @@ public class Handler {
 			}
 			player.setStatus(enterDungeon.getStatus());
 			Net.playerList.put(enterDungeon.getName(), player);
+			NetHero.addPlayer(player);
 			// TODO 进入地牢消息
-			if (ShatteredPixelDungeon.scene() instanceof GameScene) {
-				NetHero.syncWithCurrentLevel(Dungeon.seed, Dungeon.depth);
-			}
 		}
 	}
 
 	public static void handleError(SError error) {
-		NetWindow.error("服务器说:" + error.getError());
+		NetWindow.error("服务器错误:" + error.getError());
 	}
 
 	public static void handleExit(SExit exit) {
+		Net.playerList.remove(exit.getName());
+		// TODO 下线提醒
 	}
 
 	public static void handleGiveItem(SGiveItem giveItem) {
@@ -98,12 +97,20 @@ public class Handler {
 
 	public static void handleJoin(SJoin join) {
 		if (!join.getName().equals(Net.name)) {
-			Net.playerList.put(join.getName(), new Player(join.getQq(), join.getName(), join.getPower(), new Status(-1, -1, -1, -1, -1, -1, -1)));
+			Net.playerList.put(join.getName(), new Player(join.getQq(), join.getName(), join.getPower(), null));
 			// TODO 上线提醒
 		}
 	}
 
 	public static void handleLeaveDungeon(SLeaveDungeon leaveDungeon) {
+		if (!leaveDungeon.getName().equals(Net.name)) {
+			Player player = Net.playerList.get(leaveDungeon.getName());
+			if (player != null) {
+				player.setStatus(null);
+				Net.playerList.put(leaveDungeon.getName(), player);
+				NetHero.syncWithCurrentLevel();
+			}
+		}
 	}
 
 	public static void handlePlayerChangeFloor(SPlayerChangeFloor playerChangeFloor) {
@@ -133,6 +140,7 @@ public class Handler {
 	}
 
 	public static void handleServerMessage(SServerMessage serverMessage) {
+		NetWindow.message(serverMessage.getMessage());
 	}
 
 	public static void handleWin(SWin win) {
@@ -144,6 +152,6 @@ public class Handler {
 	 */
 	public static void syncPlayerList() {
 		Sender.sendRequestPlayerList(new CRequestPlayerList());
-		NetHero.syncWithCurrentLevel(Dungeon.seed, Dungeon.depth);
+		NetHero.syncWithCurrentLevel();
 	}
 }

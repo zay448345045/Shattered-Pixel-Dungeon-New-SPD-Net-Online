@@ -30,7 +30,7 @@ public class NetWindow extends Window {
 	}
 
 	public static void message(String message) {
-		message(NetIcons.get(NetIcons.GLOBE), "Server Message", message);
+		message(NetIcons.get(NetIcons.GLOBE), "服务器系统消息", message);
 	}
 
 	public static void error(String message) {

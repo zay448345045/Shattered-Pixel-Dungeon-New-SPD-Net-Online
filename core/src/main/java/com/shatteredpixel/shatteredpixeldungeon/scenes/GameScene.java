@@ -21,10 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.scenes;
 
-import static com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Receiver.mapper;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
@@ -58,7 +54,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Honeypot;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.journal.Guidebook;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
@@ -143,7 +138,6 @@ import com.watabou.noosa.Visual;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.noosa.tweeners.Tweener;
-import com.watabou.utils.Bundle;
 import com.watabou.utils.DeviceCompat;
 import com.watabou.utils.GameMath;
 import com.watabou.utils.Point;
@@ -642,7 +636,7 @@ public class GameScene extends PixelScene {
 				Dungeon.hero.pos);
 		Sender.sendEnterDungeon(new CEnterDungeon(status1));
 		// 同步玩家列表
-		NetHero.syncWithCurrentLevel(Dungeon.seed, Dungeon.depth);
+		NetHero.syncWithCurrentLevel();
 	}
 	
 	public void destroy() {
@@ -1043,7 +1037,7 @@ public class GameScene extends PixelScene {
 		}
 	}
 
-	public static void add(NetHero player) {
+	public static void addPlayer(NetHero player) {
 		if (scene != null) {
 			Dungeon.level.players.add(player);
 			scene.addPlayerSprite(player);
