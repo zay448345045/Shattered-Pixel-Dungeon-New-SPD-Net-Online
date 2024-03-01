@@ -13,5 +13,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SDeath extends Data {
 	private String name;
-	private String cause;
+	private String record;
 }

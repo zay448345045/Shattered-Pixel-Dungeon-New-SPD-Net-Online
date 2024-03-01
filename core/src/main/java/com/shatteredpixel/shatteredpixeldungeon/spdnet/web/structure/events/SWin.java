@@ -13,5 +13,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SWin extends Data {
 	private String name;
-	private int challenges;
+	private String record;
 }
