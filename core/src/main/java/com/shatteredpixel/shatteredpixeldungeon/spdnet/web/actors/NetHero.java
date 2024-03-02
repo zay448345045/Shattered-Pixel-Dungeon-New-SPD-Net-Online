@@ -34,6 +34,15 @@ public class NetHero extends Hero {
 		this.name = name;
 	}
 
+	public static NetHero findPlayerAtCell(int cell) {
+		for (NetHero player : Dungeon.level.players) {
+			if (player.pos == cell) {
+				return player;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * 不存储
 	 */

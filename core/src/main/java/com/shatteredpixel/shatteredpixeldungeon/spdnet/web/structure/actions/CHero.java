@@ -14,6 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CHero extends Data {
+	private String sourceName;
 	// json
 	private String hero;
 

@@ -1,10 +1,14 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.actors.NetHero;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Player;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Status;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CHero;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CRequestPlayerList;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAchievement;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAnkhUsed;
@@ -23,8 +27,12 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPla
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPlayerList;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPlayerMove;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SServerMessage;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SViewHero;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SWin;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.NetWindow;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.WndPlayerInfo;
+import com.watabou.noosa.Game;
+import com.watabou.utils.Bundle;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -41,7 +49,10 @@ public class Handler {
 	}
 
 	public static void handleHero(SHero hero) {
-		// TODO 显示其他玩家的详细信息
+		Bundle bundle = Bundle.fromString(hero.getHero());
+		Hero hero1 = new Hero();
+		hero1.restoreFromBundle(bundle);
+		Game.runOnRenderThread(() -> GameScene.show(new WndPlayerInfo(hero.getTargetName(), hero1)));
 	}
 
 	public static void handleChatMessage(SChatMessage chatMessage) {
@@ -141,6 +152,13 @@ public class Handler {
 
 	public static void handleServerMessage(SServerMessage serverMessage) {
 		NetWindow.message(serverMessage.getMessage());
+	}
+
+	public static void handleViewHero(SViewHero viewHero) {
+		Bundle heroBundle = new Bundle();
+		Dungeon.hero.storeInBundle(heroBundle);
+		Sender.sendHero(new CHero(viewHero.getSourceName(), heroBundle.toString()));
+		// TODO 提示一下自己被其他人偷偷看了?
 	}
 
 	public static void handleWin(SWin win) {

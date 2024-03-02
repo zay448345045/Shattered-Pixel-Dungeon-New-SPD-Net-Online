@@ -74,6 +74,8 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.actors.NetHero;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.sprites.NetHeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Status;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CEnterDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CViewHero;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.WndPlayerInfo;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.DiscardedItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
@@ -1532,6 +1534,10 @@ public class GameScene extends PixelScene {
 			if (mob != null) objects.add(mob);
 		}
 
+		// 检查指定位置的玩家 方便查看玩家信息
+		NetHero player = NetHero.findPlayerAtCell(cell);
+		if (player != null) objects.add(player);
+
 		Heap heap = Dungeon.level.heaps.get(cell);
 		if (heap != null && heap.seen) objects.add(heap);
 
@@ -1559,6 +1565,10 @@ public class GameScene extends PixelScene {
 	public static void examineObject(Object o){
 		if (o == Dungeon.hero){
 			GameScene.show( new WndHero() );
+		}
+		// 使用放大镜检查显示玩家信息
+		else if (o instanceof NetHero) {
+			Sender.sendViewHero(new CViewHero(((NetHero) o).name));
 		} else if ( o instanceof Mob && ((Mob) o).isActive() ){
 			GameScene.show(new WndInfoMob((Mob) o));
 			if (o instanceof Snake && !Document.ADVENTURERS_GUIDE.isPageRead(Document.GUIDE_SURPRISE_ATKS)){

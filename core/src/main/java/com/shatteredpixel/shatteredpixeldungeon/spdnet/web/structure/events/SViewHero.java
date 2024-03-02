@@ -1,4 +1,4 @@
-package com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions;
+package com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events;
 
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Data;
 
@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CViewHero extends Data {
-	// 要查看的目标玩家名字
-	private String targetName;
+public class SViewHero extends Data {
+	// 查看自己的目标玩家名字
+	private String sourceName;
 }

@@ -1,6 +1,5 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
-import static com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net.disConnect;
 import static com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net.getSocket;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -144,6 +143,13 @@ public class Receiver {
 				e.printStackTrace();
 			}
 		};
+		Emitter.Listener onViewHero = args -> {
+			try {
+				Handler.handleViewHero(mapper.readValue(args[0].toString(), SViewHero.class));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+		};
 		Emitter.Listener onWin = args -> {
 			try {
 				Handler.handleWin(mapper.readValue(args[0].toString(), SWin.class));
@@ -171,6 +177,7 @@ public class Receiver {
 		getSocket().on(Events.PLAYER_LIST.getName(), onPlayerList);
 		getSocket().on(Events.PLAYER_MOVE.getName(), onPlayerMove);
 		getSocket().on(Events.SERVER_MESSAGE.getName(), onServerMessage);
+		getSocket().on(Events.VIEW_HERO.getName(), onViewHero);
 		getSocket().on(Events.WIN.getName(), onWin);
 	}
 

@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SHero extends Data {
-	private String name;
+	private String targetName;
 	// json
 	private String hero;
 }
