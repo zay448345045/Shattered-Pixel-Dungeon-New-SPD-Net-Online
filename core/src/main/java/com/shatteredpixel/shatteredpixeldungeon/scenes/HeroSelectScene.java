@@ -37,6 +37,8 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.ChallengeButton;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.Mode;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.ModeButton;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Sender;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CLeaveDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.NetWindow;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ExitButton;
@@ -99,6 +101,9 @@ public class HeroSelectScene extends PixelScene {
 	@Override
 	public void create() {
 		super.create();
+
+		// 离开地牢
+		Sender.sendLeaveDungeon(new CLeaveDungeon());
 
 		Dungeon.hero = null;
 
