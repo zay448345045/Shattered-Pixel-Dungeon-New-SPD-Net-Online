@@ -4,11 +4,14 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Sender;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.actors.NetHero;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CGiveItem;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIcon;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
@@ -23,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.TalentsPane;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.shatteredpixel.shatteredpixeldungeon.utils.DungeonSeed;
 import com.shatteredpixel.shatteredpixeldungeon.windows.IconTitle;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndHero;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndHeroInfo;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndInfoBuff;
@@ -39,7 +43,7 @@ import java.util.Locale;
 public class WndPlayerInfo extends WndTabbed {
 
 	private static final int WIDTH = 120;
-	private static final int HEIGHT = 130;
+	private static final int HEIGHT = 160;
 
 	private StatsTab stats;
 	private TalentsTab talents;
@@ -210,6 +214,35 @@ public class WndPlayerInfo extends WndTabbed {
 			add(backpackButton);
 
 			pos += GAP + backpackButton.height();
+
+			RedButton giveItemButton = new RedButton("给" + hero.name + "赠送物品") {
+				@Override
+				protected void onClick() {
+					super.onClick();
+					GameScene.selectItem(new WndBag.ItemSelector() {
+						@Override
+						public String textPrompt() {
+							return "选择要赠送的物品";
+						}
+
+						@Override
+						public boolean itemSelectable(Item item) {
+							return !(item instanceof Bag);
+						}
+
+						@Override
+						public void onSelect(Item item) {
+							Sender.sendGiveItem(new CGiveItem(hero.name, item));
+							item.detach(Dungeon.hero.belongings.backpack);
+						}
+					});
+				}
+			};
+			giveItemButton.icon(Icons.get(Icons.GOLD));
+			giveItemButton.setRect(0, pos, WIDTH, 16);
+			add(giveItemButton);
+
+			pos += GAP + giveItemButton.height();
 		}
 
 		private void statSlot(String label, String value) {

@@ -1,7 +1,8 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.actors.NetHero;
@@ -84,6 +85,11 @@ public class Handler {
 	}
 
 	public static void handleGiveItem(SGiveItem giveItem) {
+		Item item = giveItem.getItemObject();
+		if (item != null && ShatteredPixelDungeon.scene() instanceof GameScene) {
+			item.doPickUp(Dungeon.hero);
+			// TODO 聊天显示其他玩家给予了物品
+		}
 	}
 
 	public static void handleFloatingText(SFloatingText floatingText) {
