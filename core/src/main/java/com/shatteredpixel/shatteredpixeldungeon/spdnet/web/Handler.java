@@ -80,7 +80,13 @@ public class Handler {
 	}
 
 	public static void handleExit(SExit exit) {
-		Net.playerList.remove(exit.getName());
+		if (!exit.getName().equals(Net.name)) {
+			Player player = Net.playerList.get(exit.getName());
+			if (player != null) {
+				Net.playerList.remove(exit.getName());
+				NetHero.removePlayerFromDungeon(exit.getName());
+			}
+		}
 		// TODO 下线提醒
 	}
 
