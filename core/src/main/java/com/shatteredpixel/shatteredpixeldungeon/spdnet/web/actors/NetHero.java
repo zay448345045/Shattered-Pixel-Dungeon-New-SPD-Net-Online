@@ -88,22 +88,28 @@ public class NetHero extends Hero {
 		pos = newPos;
 	}
 
+	@Override
+	public void destroy() {
+		super.destroy();
+		Dungeon.level.players.remove(this);
+		this.sprite.killAndErase();
+	}
+
 	/**
 	 * 把当前在线玩家与当前楼层同步
-	 * 切换楼层或者其他玩家离开当前层时调用
-	 * GameScene不太方便直接删除玩家 >:( 玩家离开当前层暂时先用这个方法
+	 * 感觉可能有bug 没法正确删除玩家 待测试
 	 */
 	public static void syncWithCurrentLevel() {
 		if (ShatteredPixelDungeon.scene() instanceof GameScene) {
 			GameScene.clearPlayers();
 			Set<Map.Entry<String, Player>> entries = Net.playerList.entrySet();
 			for (Map.Entry<String, Player> entry : entries) {
-				addPlayer(entry.getValue());
+				addPlayerToDungeon(entry.getValue());
 			}
 		}
 	}
 
-	public static void addPlayer(Player player) {
+	public static void addPlayerToDungeon(Player player) {
 		if (ShatteredPixelDungeon.scene() instanceof GameScene) {
 			Status status = player.getStatus();
 			if (status == null) {
@@ -119,8 +125,17 @@ public class NetHero extends Hero {
 		}
 	}
 
-	public static NetHero getPlayer(String name) {
-		if (Dungeon.level == null) {
+	public static void removePlayerFromDungeon(String name) {
+		if (ShatteredPixelDungeon.scene() instanceof GameScene) {
+			NetHero hero = getPlayerFromDungeon(name);
+			if (hero != null) {
+				hero.destroy();
+			}
+		}
+	}
+
+	public static NetHero getPlayerFromDungeon(String name) {
+		if (!(ShatteredPixelDungeon.scene() instanceof GameScene) || Dungeon.level == null) {
 			return null;
 		}
 		for (NetHero player : Dungeon.level.players) {

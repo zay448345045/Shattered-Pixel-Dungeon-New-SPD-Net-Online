@@ -1,7 +1,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetInProgress;
@@ -70,7 +69,7 @@ public class Handler {
 			}
 			player.setStatus(enterDungeon.getStatus());
 			Net.playerList.put(enterDungeon.getName(), player);
-			NetHero.addPlayer(player);
+			NetHero.addPlayerToDungeon(player);
 			// TODO 进入地牢消息
 		}
 	}
@@ -89,7 +88,7 @@ public class Handler {
 
 	public static void handleFloatingText(SFloatingText floatingText) {
 		if (!floatingText.getName().equals(Net.name)) {
-			NetHero player = NetHero.getPlayer(floatingText.getName());
+			NetHero player = NetHero.getPlayerFromDungeon(floatingText.getName());
 			if (player != null) {
 				player.sprite.showStatusWithIcon(floatingText.getColor(), floatingText.getText(), floatingText.getIcon());
 			}
@@ -119,7 +118,7 @@ public class Handler {
 			if (player != null) {
 				player.setStatus(null);
 				Net.playerList.put(leaveDungeon.getName(), player);
-				NetHero.syncWithCurrentLevel();
+				NetHero.removePlayerFromDungeon(leaveDungeon.getName());
 			}
 		}
 	}
@@ -142,7 +141,7 @@ public class Handler {
 			player.setStatus(status);
 			Net.playerList.put(playerMove.getName(), player);
 			// 如果这位玩家在当前地牢楼层
-			NetHero player1 = NetHero.getPlayer(playerMove.getName());
+			NetHero player1 = NetHero.getPlayerFromDungeon(playerMove.getName());
 			if (player1 != null) {
 				player1.move(playerMove.getPos(), false);
 			}
