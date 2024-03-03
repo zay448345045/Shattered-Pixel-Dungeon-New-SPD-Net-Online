@@ -54,6 +54,14 @@ public class NetHero extends Hero {
 	public void restoreFromBundle(Bundle bundle) {
 	}
 
+	/**
+	 * 父类方法调用方法, 用于在当前客户端呈现其他玩家
+	 * @param bundle
+	 */
+	public void restoreFromBundleOverride(Bundle bundle) {
+		super.restoreFromBundle(bundle);
+	}
+
 	@Override
 	public boolean act() {
 		return true;

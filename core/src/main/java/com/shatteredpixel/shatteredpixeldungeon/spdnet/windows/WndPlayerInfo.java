@@ -8,11 +8,13 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.actors.NetHero;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIcon;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.IconButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
+import com.shatteredpixel.shatteredpixeldungeon.ui.RedButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ScrollPane;
 import com.shatteredpixel.shatteredpixeldungeon.ui.StatusPane;
@@ -37,7 +39,7 @@ import java.util.Locale;
 public class WndPlayerInfo extends WndTabbed {
 
 	private static final int WIDTH = 120;
-	private static final int HEIGHT = 120;
+	private static final int HEIGHT = 130;
 
 	private StatsTab stats;
 	private TalentsTab talents;
@@ -46,9 +48,9 @@ public class WndPlayerInfo extends WndTabbed {
 	public static int lastIdx = 0;
 
 	private String name;
-	private Hero hero;
+	private NetHero hero;
 
-	public WndPlayerInfo(String name, Hero hero) {
+	public WndPlayerInfo(String name, NetHero hero) {
 
 		super();
 
@@ -170,7 +172,8 @@ public class WndPlayerInfo extends WndTabbed {
 			else statSlot(Messages.get(WndHero.StatsTab.class, "str"), hero.STR());
 			if (hero.shielding() > 0)
 				statSlot(Messages.get(WndHero.StatsTab.class, "health"), hero.HP + "+" + hero.shielding() + "/" + hero.HT);
-			else statSlot(Messages.get(WndHero.StatsTab.class, "health"), (hero.HP) + "/" + hero.HT);
+			else
+				statSlot(Messages.get(WndHero.StatsTab.class, "health"), (hero.HP) + "/" + hero.HT);
 			statSlot(Messages.get(WndHero.StatsTab.class, "exp"), hero.exp + "/" + hero.maxExp());
 
 			pos += GAP;
@@ -190,6 +193,23 @@ public class WndPlayerInfo extends WndTabbed {
 			}
 
 			pos += GAP;
+
+			RedButton backpackButton = new RedButton("查看" + hero.name + "的背包") {
+				@Override
+				protected void onClick() {
+					super.onClick();
+					if (ShatteredPixelDungeon.scene() instanceof GameScene) {
+						GameScene.show(new WndPlayerBag(hero));
+					} else {
+						ShatteredPixelDungeon.scene().addToFront(new WndPlayerBag(hero));
+					}
+				}
+			};
+			backpackButton.icon(Icons.get(Icons.BACKPACK_LRG));
+			backpackButton.setRect(0, pos, WIDTH, 16);
+			add(backpackButton);
+
+			pos += GAP + backpackButton.height();
 		}
 
 		private void statSlot(String label, String value) {

@@ -49,9 +49,9 @@ public class Handler {
 
 	public static void handleHero(SHero hero) {
 		Bundle bundle = Bundle.fromString(hero.getHero());
-		Hero hero1 = new Hero();
-		hero1.restoreFromBundle(bundle);
-		Game.runOnRenderThread(() -> GameScene.show(new WndPlayerInfo(hero.getTargetName(), hero1)));
+		NetHero player = new NetHero(hero.getTargetName());
+		player.restoreFromBundleOverride(bundle);
+		Game.runOnRenderThread(() -> GameScene.show(new WndPlayerInfo(hero.getTargetName(), player)));
 	}
 
 	public static void handleChatMessage(SChatMessage chatMessage) {
