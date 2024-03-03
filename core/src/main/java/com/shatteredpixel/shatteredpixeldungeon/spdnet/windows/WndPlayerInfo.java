@@ -6,6 +6,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
+import com.shatteredpixel.shatteredpixeldungeon.items.quest.CorpseDust;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
@@ -227,7 +228,7 @@ public class WndPlayerInfo extends WndTabbed {
 
 						@Override
 						public boolean itemSelectable(Item item) {
-							return !(item instanceof Bag);
+							return !(item instanceof Bag || item instanceof CorpseDust);
 						}
 
 						@Override
