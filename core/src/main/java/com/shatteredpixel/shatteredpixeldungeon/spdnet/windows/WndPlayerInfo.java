@@ -232,8 +232,11 @@ public class WndPlayerInfo extends WndTabbed {
 
 						@Override
 						public void onSelect(Item item) {
-							Sender.sendGiveItem(new CGiveItem(hero.name, item));
-							item.detach(Dungeon.hero.belongings.backpack);
+							if (item != null) {
+								Sender.sendGiveItem(new CGiveItem(hero.name, item));
+								item.detach(Dungeon.hero.belongings.backpack);
+								// FIXME 如果赠送装备物品 装备物品不会从玩家背包正确删除
+							}
 						}
 					});
 				}
