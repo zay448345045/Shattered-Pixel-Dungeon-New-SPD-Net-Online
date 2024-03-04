@@ -1,5 +1,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -41,6 +42,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Handler {
 	public static void handleAchievement(SAchievement achievement) {
+		// TODO 显示其他玩家成就信息
 	}
 
 	public static void handleAnkhUsed(SAnkhUsed ankhUsed) {

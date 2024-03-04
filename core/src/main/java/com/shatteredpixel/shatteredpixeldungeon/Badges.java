@@ -34,6 +34,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Sender;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CAchievement;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.FileUtils;
@@ -1037,7 +1039,12 @@ public class Badges {
 	}
 	
 	private static void displayBadge( Badge badge ) {
-		
+		// 解锁徽章数据包
+		if (badge != null) {
+			Sender.sendAchievement(new CAchievement(badge));
+			return;
+		}
+
 		if (badge == null || !Dungeon.customSeedText.isEmpty()) {
 			return;
 		}
