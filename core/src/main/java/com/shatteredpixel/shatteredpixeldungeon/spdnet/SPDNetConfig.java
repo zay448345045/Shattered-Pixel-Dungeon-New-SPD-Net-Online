@@ -1,9 +1,10 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Net;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.utils.HttpUtils;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,28 +18,60 @@ public class SPDNetConfig {
 	@Setter
 	private static String key = "default";
 
+	public static void refreshConfig() {
+		refreshConfig(new Net.HttpResponseListener() {
+			@Override
+			public void handleHttpResponse(Net.HttpResponse httpResponse) {
+			}
+
+			@Override
+			public void failed(Throwable t) {
+			}
+
+			@Override
+			public void cancelled() {
+			}
+		});
+	}
+
 	/**
 	 * 从服务器更新配置文件
 	 */
-	public static void refreshConfig() {
-		String json = null;
-		try {
-			json = HttpUtils.get(CONFIG_GITEE_URL);
-		} catch (Exception e) {
-			// Gitee获取失败,尝试GitHub
-			try {
-				json = HttpUtils.get(CONFIG_GITHUB_URL);
-			} catch (Exception e1) {
-				// GitHub获取失败
-				// TODO 获取失败处理
+	public static void refreshConfig(final Net.HttpResponseListener externalListener) {
+		final String[] json = new String[1];
+		Net.HttpResponseListener listener1 = new Net.HttpResponseListener() {
+			@Override
+			public void handleHttpResponse(Net.HttpResponse httpResponse) {
+				json[0] = httpResponse.getResultAsString();
+				ObjectMapper mapper = new ObjectMapper();
+				try {
+					config = mapper.readTree(json[0]);
+					externalListener.handleHttpResponse(httpResponse);
+				} catch (JsonProcessingException ignored) {
+				}
 			}
+
+			@Override
+			public void failed(Throwable t) {
+			}
+
+			@Override
+			public void cancelled() {
+			}
+		};
+		// 优先使用github
+		getHttpStringFromUrl(CONFIG_GITHUB_URL, listener1);
+		if (json[0] == null) {
+			getHttpStringFromUrl(CONFIG_GITEE_URL, listener1);
 		}
-		if (json == null) return;
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			config = mapper.readTree(json);
-		} catch (JsonProcessingException e) {
-			throw new RuntimeException(e);
+		if (json[0] == null) {
+			externalListener.cancelled();
 		}
+	}
+
+	public static void getHttpStringFromUrl(String url, Net.HttpResponseListener listener) {
+		Net.HttpRequest request = new Net.HttpRequest(Net.HttpMethods.GET);
+		request.setUrl(url);
+		Gdx.net.sendHttpRequest(request, listener);
 	}
 }

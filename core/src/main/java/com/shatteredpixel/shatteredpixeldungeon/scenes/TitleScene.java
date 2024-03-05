@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.services.news.News;
 import com.shatteredpixel.shatteredpixeldungeon.services.updates.AvailableUpdateData;
 import com.shatteredpixel.shatteredpixeldungeon.services.updates.Updates;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.SPDNetChangesButton;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Sender;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CLeaveDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
@@ -166,7 +167,7 @@ public class TitleScene extends PixelScene {
 		btnNews.icon(Icons.get(Icons.NEWS));
 		add(btnNews);
 
-		StyledButton btnChanges = new ChangesButton(GREY_TR, Messages.get(this, "changes"));
+		StyledButton btnChanges = new SPDNetChangesButton(GREY_TR, Messages.get(this, "changes"));
 		btnChanges.icon(Icons.get(Icons.CHANGES));
 		add(btnChanges);
 
@@ -272,7 +273,8 @@ public class TitleScene extends PixelScene {
 		}
 	}
 
-	private static class ChangesButton extends StyledButton {
+	// 更改访问权限方便获取语言素材
+	public static class ChangesButton extends StyledButton {
 
 		public ChangesButton( Chrome.Type type, String label ){
 			super(type, label);
