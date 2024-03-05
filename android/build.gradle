@@ -23,6 +23,9 @@ android {
         // Net的版本号
         versionName appVersionName + '}' + appNetVersionName
 
+        // 启用多dex以突破64k数量限制
+        multiDexEnabled true
+
         //noinspection MinSdkTooLow
         minSdkVersion appAndroidMinSDK
         targetSdkVersion appAndroidTargetSDK
@@ -84,6 +87,9 @@ dependencies {
 
     // 应用更新库
     implementation 'com.github.jenly1314.AppUpdater:app-updater:1.2.0'
+
+    // 启用多dex以突破64k数量限制
+    implementation "androidx.multidex:multidex:2.0.1"
 }
 
 // called every time gradle gets executed, takes the native dependencies of
