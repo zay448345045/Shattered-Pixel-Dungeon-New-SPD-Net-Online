@@ -196,7 +196,7 @@ public class IOSPlatformSupport extends PlatformSupport {
 	}
 
 	@Override
-	public void updateGame(String url, DownloadListener listener) {
+	public void updateGame(String url, UpdateCallback listener) {
 		// 不实现IOS下载 哈哈 :D
 		// 反正没法编译安装
 	}
