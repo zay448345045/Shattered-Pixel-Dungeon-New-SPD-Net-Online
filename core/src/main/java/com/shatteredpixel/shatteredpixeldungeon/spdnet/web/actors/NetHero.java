@@ -1,12 +1,14 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web.actors;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.utils.SPDUtils;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Player;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Status;
@@ -28,6 +30,8 @@ public class NetHero extends Hero {
 
 	public String name;
 	public int tier;
+	public int shield;
+	public int challenge;
 
 	public NetHero(String name) {
 		super();
@@ -56,6 +60,7 @@ public class NetHero extends Hero {
 
 	/**
 	 * 父类方法调用方法, 用于在当前客户端呈现其他玩家
+	 *
 	 * @param bundle
 	 */
 	public void restoreFromBundleOverride(Bundle bundle) {
@@ -128,6 +133,7 @@ public class NetHero extends Hero {
 				hero.heroClass = status.getHeroClassEnum();
 				hero.tier = status.getArmorTier();
 				hero.pos = status.getPos();
+				hero.challenge = SPDUtils.activeChallenges(status.getChallenges());
 				GameScene.addPlayer(hero);
 			}
 		}
@@ -152,5 +158,10 @@ public class NetHero extends Hero {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public int shielding() {
+		return shield;
 	}
 }

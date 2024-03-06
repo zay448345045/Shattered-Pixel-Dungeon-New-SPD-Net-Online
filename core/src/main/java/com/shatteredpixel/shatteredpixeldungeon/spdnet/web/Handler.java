@@ -104,6 +104,9 @@ public class Handler {
 		if (!floatingText.getName().equals(Net.name)) {
 			NetHero player = NetHero.getPlayerFromDungeon(floatingText.getName());
 			if (player != null) {
+				player.HP = floatingText.getHeroHP();
+				player.shield = floatingText.getHeroShield();
+				player.HT = floatingText.getHeroHT();
 				player.sprite.showStatusWithIcon(floatingText.getColor(), floatingText.getText(), floatingText.getIcon());
 			}
 		}

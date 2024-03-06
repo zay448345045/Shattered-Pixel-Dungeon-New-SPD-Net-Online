@@ -190,7 +190,7 @@ public class HeroSprite extends CharSprite {
 			text = Messages.format( text, args );
 		}
 		if (ch!=null){
-			Sender.sendFloatingText(new CFloatingText(color, text, icon));
+			Sender.sendFloatingText(new CFloatingText(color, text, icon, Dungeon.hero.HP, Dungeon.hero.shielding(),Dungeon.hero.HT));
 		}
 	}
 }

@@ -2,17 +2,21 @@ package com.shatteredpixel.shatteredpixeldungeon.spdnet.web.sprites;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.PlayerHealthBar;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.actors.NetHero;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
+import com.shatteredpixel.shatteredpixeldungeon.ui.CharHealthIndicator;
 import com.watabou.gltextures.SmartTexture;
 import com.watabou.gltextures.TextureCache;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.TextureFilm;
 import com.watabou.utils.Callback;
 import com.watabou.utils.PointF;
+import com.watabou.utils.Random;
 import com.watabou.utils.RectF;
 
 public class NetHeroSprite extends CharSprite {
@@ -145,5 +149,25 @@ public class NetHeroSprite extends CharSprite {
 		avatar.frame(frame);
 
 		return avatar;
+	}
+
+	@Override
+	public void link(Char ch) {
+		linkVisuals(ch);
+
+		this.ch = ch;
+		ch.sprite = this;
+
+		place(ch.pos);
+		turnTo(ch.pos, Random.Int(Dungeon.level.length()));
+		renderShadow = true;
+
+		if (health == null) {
+			health = new PlayerHealthBar((NetHero) ch);
+		} else {
+			health.target(ch);
+		}
+
+		ch.updateSpriteState();
 	}
 }
