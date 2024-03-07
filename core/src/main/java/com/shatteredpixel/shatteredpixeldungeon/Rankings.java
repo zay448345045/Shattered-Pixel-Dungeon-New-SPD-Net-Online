@@ -168,7 +168,7 @@ public enum Rankings {
 		if (win) {
 			Sender.sendWin(new CWin(rec));
 		} else {
-			Sender.sendDeath(new CDeath(cause1.getName()));
+			Sender.sendDeath(new CDeath(rec));
 		}
 
 		save();
