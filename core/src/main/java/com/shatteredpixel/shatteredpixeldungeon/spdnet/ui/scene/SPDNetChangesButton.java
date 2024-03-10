@@ -23,6 +23,7 @@ import java.io.File;
 
 public class SPDNetChangesButton extends StyledButton {
 	private static String updateProgress = "";
+	private static float updateProgressValue = 0f;
 	private static boolean downloadSuccess = false;
 
 	protected static File file;
@@ -59,7 +60,7 @@ public class SPDNetChangesButton extends StyledButton {
 		}
 	}
 
-	public class WndUpdate extends Window {
+	public static class WndUpdate extends Window {
 
 		protected static final int WIDTH_P = 120;
 		protected static final int WIDTH_L = 144;
@@ -67,7 +68,7 @@ public class SPDNetChangesButton extends StyledButton {
 		protected static final int MARGIN = 2;
 		protected static final int BUTTON_HEIGHT = 18;
 
-		private PlatformSupport.UpdateCallback listener = new PlatformSupport.UpdateCallback() {
+		private final PlatformSupport.UpdateCallback listener = new PlatformSupport.UpdateCallback() {
 			@Override
 			public void onDownloading(boolean isDownloading) {
 			}
@@ -79,7 +80,8 @@ public class SPDNetChangesButton extends StyledButton {
 
 			@Override
 			public void onProgress(long progress, long total, boolean isChanged) {
-				updateProgress = String.format("%.2f", progress / 100000f) + "%";
+				updateProgressValue = (float) progress / total;
+				updateProgress = String.format("%.2f", updateProgressValue * 100) + "%";
 			}
 
 			@Override
@@ -149,7 +151,11 @@ public class SPDNetChangesButton extends StyledButton {
 			RedButton btn2 = new RedButton("从Gitee下载") {
 				@Override
 				protected void onClick() {
-					Game.platform.updateGame(update.giteeURL, listener);
+					if (!downloadSuccess) {
+						Game.platform.updateGame(update.giteeURL, listener);
+					} else {
+						Game.platform.install(file);
+					}
 				}
 
 				@Override

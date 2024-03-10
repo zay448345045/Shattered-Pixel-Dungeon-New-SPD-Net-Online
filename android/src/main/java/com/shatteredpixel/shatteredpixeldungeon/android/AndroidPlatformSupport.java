@@ -331,6 +331,7 @@ public class AndroidPlatformSupport extends PlatformSupport {
 	@Override
 	public void updateGame(String url, UpdateCallback listener) {
 		AppUpdater appUpdater = new AppUpdater.Builder(AndroidLauncher.instance.getContext())
+				.setInstallApk(false)
 				.setUrl(url)
 				.build();
 		appUpdater.setHttpManager(OkHttpManager.getInstance())
