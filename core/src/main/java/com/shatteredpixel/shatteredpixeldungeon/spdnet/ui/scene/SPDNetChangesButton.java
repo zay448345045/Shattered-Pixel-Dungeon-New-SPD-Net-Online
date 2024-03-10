@@ -9,6 +9,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.TitleScene;
 import com.shatteredpixel.shatteredpixeldungeon.services.updates.AvailableUpdateData;
 import com.shatteredpixel.shatteredpixeldungeon.services.updates.Updates;
+import com.shatteredpixel.shatteredpixeldungeon.ui.HealthBar;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RedButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
@@ -113,7 +114,21 @@ public class SPDNetChangesButton extends StyledButton {
 			tfTitle.setRect(0, pos, width, 0);
 			add(tfTitle);
 
-			pos = tfTitle.bottom() + 2 * MARGIN;
+			pos = tfTitle.bottom();
+
+			HealthBar downloadProgress = new HealthBar() {
+				@Override
+				public synchronized void update() {
+					super.update();
+					this.visible = !updateProgress.isEmpty();
+					this.level(updateProgressValue);
+				}
+			};
+			downloadProgress.setSize(width, 2);
+			downloadProgress.setPos(0, pos + 2);
+			add(downloadProgress);
+
+			pos = downloadProgress.bottom() + 2 * MARGIN;
 
 			layoutBody(pos, update.desc == null ? Messages.get(TitleScene.ChangesButton.class, "desc") : update.desc, update);
 		}
