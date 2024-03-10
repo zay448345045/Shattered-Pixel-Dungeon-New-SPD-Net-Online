@@ -135,6 +135,7 @@ public class NetHero extends Hero {
 				hero.pos = status.getPos();
 				hero.challenge = SPDUtils.activeChallenges(status.getChallenges());
 				GameScene.addPlayer(hero);
+				hero.move(hero.pos);
 			}
 		}
 	}
