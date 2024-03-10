@@ -139,6 +139,9 @@ public class StartScene extends PixelScene {
 		
 		private int slot;
 		private boolean newGame;
+
+		// 模式文字
+		private RenderedTextBlock mode;
 		
 		@Override
 		protected void createChildren() {
@@ -149,6 +152,10 @@ public class StartScene extends PixelScene {
 			
 			name = PixelScene.renderTextBlock(9);
 			add(name);
+
+			// 模式文字
+			mode = PixelScene.renderTextBlock(7);
+			add(mode);
 		}
 		
 		public void set( int slot ){
@@ -169,6 +176,9 @@ public class StartScene extends PixelScene {
 					classIcon = null;
 					remove(level);
 					level = null;
+					// 模式文字
+					remove(mode);
+					mode = null;
 				}
 			} else {
 				
@@ -177,6 +187,8 @@ public class StartScene extends PixelScene {
 				} else {
 					name.text(Messages.titleCase(info.heroClass.title()));
 				}
+				// 模式文字
+				mode.text(info.mode.getName().substring(0, 2));
 				
 				if (hero == null){
 					hero = new Image(info.heroClass.spritesheet(), 0, 15*info.armorTier, 12, 15);
@@ -246,6 +258,12 @@ public class StartScene extends PixelScene {
 						y + (height - name.height())/2f
 				);
 				align(name);
+
+				// 模式文字
+				mode.setPos(
+						name.right() + 2,
+						y + (height - mode.height())/2f
+				);
 				
 				classIcon.x = x + width - 24 + (16 - classIcon.width())/2f;
 				classIcon.y = y + (height - classIcon.height())/2f;

@@ -5,6 +5,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetInProgress;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.Mode;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.actors.NetHero;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Player;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Status;
@@ -94,6 +95,10 @@ public class Handler {
 	public static void handleGiveItem(SGiveItem giveItem) {
 		Item item = giveItem.getItemObject();
 		if (item != null && ShatteredPixelDungeon.scene() instanceof GameScene) {
+			if (NetInProgress.mode == Mode.IRONMAN) {
+				// TODO 显示无法接受物品的消息
+				return;
+			}
 			item.doPickUp(Dungeon.hero);
 			// TODO 聊天显示其他玩家给予了物品
 		}
