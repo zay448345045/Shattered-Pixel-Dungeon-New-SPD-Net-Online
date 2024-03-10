@@ -1,6 +1,5 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
-import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -104,6 +103,10 @@ public class Handler {
 		if (!floatingText.getName().equals(Net.name)) {
 			NetHero player = NetHero.getPlayerFromDungeon(floatingText.getName());
 			if (player != null) {
+				// 溅血效果
+				if (player.HP > floatingText.getHeroHP()) {
+					player.sprite.bloodBurstA(player.sprite.center(), (player.HP - floatingText.getHeroHP()) * 2);
+				}
 				player.HP = floatingText.getHeroHP();
 				player.shield = floatingText.getHeroShield();
 				player.HT = floatingText.getHeroHT();
