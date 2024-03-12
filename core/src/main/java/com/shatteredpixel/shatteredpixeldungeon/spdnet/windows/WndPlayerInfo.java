@@ -10,8 +10,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.quest.CorpseDust;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.Mode;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.utils.NLog;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Sender;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.actors.NetHero;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Player;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CGiveItem;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIcon;
@@ -234,9 +238,17 @@ public class WndPlayerInfo extends WndTabbed {
 						@Override
 						public void onSelect(Item item) {
 							if (item != null) {
+								Player player = Net.playerList.get(name);
+								if (player == null || player.getStatus() == null) {
+									return;
+								}
 								Sender.sendGiveItem(new CGiveItem(hero.name, item));
-								item.detach(Dungeon.hero.belongings.backpack);
-								// FIXME 如果赠送装备物品 装备物品不会从玩家背包正确删除
+								if (player.getStatus().getGameModeEnum() == Mode.IRONMAN) {
+									NLog.p(hero.name + "是铁人，不能接受你的" + item.name());
+								} else {
+									item.detach(Dungeon.hero.belongings.backpack);
+									// FIXME 如果赠送装备物品 装备物品不会从玩家背包正确删除
+								}
 							}
 						}
 					});

@@ -69,6 +69,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetInProgress;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.utils.NetLog;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Sender;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.actors.NetHero;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.sprites.NetHeroSprite;
@@ -172,7 +173,9 @@ public class GameScene extends PixelScene {
 	private BossHealthBar boss;
 
 	private GameLog log;
-	
+	// Net日志
+	private NetLog netLog;
+
 	private static CellSelector cellSelector;
 	
 	private Group terrain;
@@ -410,6 +413,12 @@ public class GameScene extends PixelScene {
 		log.camera = uiCamera;
 		log.newLine();
 		add( log );
+
+		// Net日志
+		netLog = new NetLog();
+		netLog.camera = uiCamera;
+		netLog.newLine();
+		add(netLog);
 
 		if (uiSize > 0){
 			bringToFront(status);
@@ -836,17 +845,22 @@ public class GameScene extends PixelScene {
 		float tagLeft = tagsOnLeft ? 0 : uiCamera.width - tagWidth;
 
 		float y = SPDSettings.interfaceSize() == 0 ? scene.toolbar.top()-2 : scene.status.top()-2;
+		// 在原本的log上添加netLog
 		if (SPDSettings.interfaceSize() == 0){
 			if (tagsOnLeft) {
 				scene.log.setRect(tagWidth, y, uiCamera.width - tagWidth - insets.right, 0);
+				scene.netLog.setRect(tagWidth, y - 12, uiCamera.width - tagWidth - insets.right, 0);
 			} else {
 				scene.log.setRect(insets.left, y, uiCamera.width - tagWidth - insets.left, 0);
+				scene.netLog.setRect(insets.left, y - 12, uiCamera.width - tagWidth - insets.left, 0);
 			}
 		} else {
 			if (tagsOnLeft) {
 				scene.log.setRect(tagWidth, y, 160 - tagWidth, 0);
+				scene.netLog.setRect(tagWidth, y - 12, 160 - tagWidth, 0);
 			} else {
 				scene.log.setRect(insets.left, y, 160 - insets.left, 0);
+				scene.netLog.setRect(insets.left, y - 12, 160 - insets.left, 0);
 			}
 		}
 

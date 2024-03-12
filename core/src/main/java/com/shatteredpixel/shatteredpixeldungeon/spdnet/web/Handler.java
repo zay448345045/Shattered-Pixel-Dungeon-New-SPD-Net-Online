@@ -1,11 +1,15 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.Mode;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.utils.NLog;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.utils.SPDUtils;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.actors.NetHero;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Player;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Status;
@@ -42,12 +46,28 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Handler {
 	public static void handleAchievement(SAchievement achievement) {
-		// TODO 显示其他玩家成就信息
+		Badges.Badge badge = achievement.getBadge();
+		if (achievement.isUnique()) {
+			NLog.h(achievement.getName() + Messages.get(Badges.class, "new", badge.title() + " (" + badge.desc() + ")"));
+		} else {
+			NLog.h(achievement.getName() + Messages.get(Badges.class, "endorsed", badge.title()));
+		}
+		NLog.newLine();
 	}
 
 	public static void handleAnkhUsed(SAnkhUsed ankhUsed) {
-		// TODO 调用NetHero.useAnkh()
-		// TODO 聊天显示其他玩家差点好似
+		if (!ankhUsed.getName().equals(Net.name)) {
+			Player player = Net.playerList.get(ankhUsed.getName());
+			if (player == null) {
+				syncPlayerList();
+				return;
+			}
+			NetHero player1 = NetHero.getPlayerFromDungeon(ankhUsed.getName());
+			if (player1 != null) {
+				player1.useAnkh(true, ankhUsed.getUnusedBlessedAnkh(), ankhUsed.getUnusedUnblessedAnkh());
+			}
+			NLog.p(ankhUsed.getName() + "差点因为" + ankhUsed.getCause() + "而死, " + "剩余十字架: " + (ankhUsed.getUnusedBlessedAnkh() + ankhUsed.getUnusedUnblessedAnkh()));
+		}
 	}
 
 	public static void handleHero(SHero hero) {
@@ -73,12 +93,15 @@ public class Handler {
 			player.setStatus(enterDungeon.getStatus());
 			Net.playerList.put(enterDungeon.getName(), player);
 			NetHero.addPlayerToDungeon(player);
-			// TODO 进入地牢消息
+			NLog.h(player.getName() + "以" +
+					enterDungeon.getStatus().getGameModeEnum().getName().substring(0, 2) + "模式, " +
+					SPDUtils.activeChallenges(enterDungeon.getStatus().getChallenges()) + "挑进入了地牢");
 		}
 	}
 
 	public static void handleError(SError error) {
 		NetWindow.error("服务器错误:" + error.getError());
+		NLog.w("服务器错误:" + error.getError());
 	}
 
 	public static void handleExit(SExit exit) {
@@ -88,19 +111,20 @@ public class Handler {
 				Net.playerList.remove(exit.getName());
 				NetHero.removePlayerFromDungeon(exit.getName());
 			}
+			NLog.p(exit.getName() + " 下线了");
 		}
-		// TODO 下线提醒
 	}
 
 	public static void handleGiveItem(SGiveItem giveItem) {
 		Item item = giveItem.getItemObject();
 		if (item != null && ShatteredPixelDungeon.scene() instanceof GameScene) {
 			if (NetInProgress.mode == Mode.IRONMAN) {
-				// TODO 显示无法接受物品的消息
+				NLog.p(giveItem.getName() + "想给你 " + item.name() + ", 可惜你是铁人");
+				NLog.newLine();
 				return;
 			}
 			item.doPickUp(Dungeon.hero);
-			// TODO 聊天显示其他玩家给予了物品
+			NLog.p(giveItem.getName() + "给了你" + item.name());
 		}
 	}
 
@@ -133,7 +157,7 @@ public class Handler {
 	public static void handleJoin(SJoin join) {
 		if (!join.getName().equals(Net.name)) {
 			Net.playerList.put(join.getName(), new Player(join.getQq(), join.getName(), join.getPower(), null));
-			// TODO 上线提醒
+			NLog.p(join.getName() + " 上线了");
 		}
 	}
 
