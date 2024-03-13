@@ -29,6 +29,7 @@ public class NLog {
 
 		DeviceCompat.log(TAG, text);
 		update.dispatch(text);
+		newLine();
 	}
 
 	public static void p(String text, Object... args) {

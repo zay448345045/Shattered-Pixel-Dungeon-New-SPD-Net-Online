@@ -132,8 +132,8 @@ public class NetLog extends Component implements Signal.Listener<String> {
 		for (int i = length - 1; i >= 0; i--) {
 			RenderedTextBlock entry = (RenderedTextBlock) members.get(i);
 			entry.maxWidth((int) width);
-			entry.setPos(x, pos - entry.height());
-			pos -= entry.height() + 2;
+			entry.setPos(x, pos + entry.height());
+			pos += entry.height() + 2;
 		}
 	}
 

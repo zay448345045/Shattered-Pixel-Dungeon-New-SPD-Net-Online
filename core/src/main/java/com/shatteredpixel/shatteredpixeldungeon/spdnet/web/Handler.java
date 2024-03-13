@@ -52,7 +52,6 @@ public class Handler {
 		} else {
 			NLog.h(achievement.getName() + Messages.get(Badges.class, "endorsed", badge.title()));
 		}
-		NLog.newLine();
 	}
 
 	public static void handleAnkhUsed(SAnkhUsed ankhUsed) {
@@ -120,7 +119,6 @@ public class Handler {
 		if (item != null && ShatteredPixelDungeon.scene() instanceof GameScene) {
 			if (NetInProgress.mode == Mode.IRONMAN) {
 				NLog.p(giveItem.getName() + "想给你 " + item.name() + ", 可惜你是铁人");
-				NLog.newLine();
 				return;
 			}
 			item.doPickUp(Dungeon.hero);

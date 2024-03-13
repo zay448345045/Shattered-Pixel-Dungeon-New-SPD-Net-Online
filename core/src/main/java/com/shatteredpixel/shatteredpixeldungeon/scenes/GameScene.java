@@ -845,23 +845,24 @@ public class GameScene extends PixelScene {
 		float tagLeft = tagsOnLeft ? 0 : uiCamera.width - tagWidth;
 
 		float y = SPDSettings.interfaceSize() == 0 ? scene.toolbar.top()-2 : scene.status.top()-2;
-		// 在原本的log上添加netLog
 		if (SPDSettings.interfaceSize() == 0){
 			if (tagsOnLeft) {
 				scene.log.setRect(tagWidth, y, uiCamera.width - tagWidth - insets.right, 0);
-				scene.netLog.setRect(tagWidth, y - 12, uiCamera.width - tagWidth - insets.right, 0);
 			} else {
 				scene.log.setRect(insets.left, y, uiCamera.width - tagWidth - insets.left, 0);
-				scene.netLog.setRect(insets.left, y - 12, uiCamera.width - tagWidth - insets.left, 0);
 			}
 		} else {
 			if (tagsOnLeft) {
 				scene.log.setRect(tagWidth, y, 160 - tagWidth, 0);
-				scene.netLog.setRect(tagWidth, y - 12, 160 - tagWidth, 0);
 			} else {
 				scene.log.setRect(insets.left, y, 160 - insets.left, 0);
-				scene.netLog.setRect(insets.left, y - 12, 160 - insets.left, 0);
 			}
+		}
+		// 添加netLog
+		if (SPDSettings.interfaceSize() == 0) {
+			scene.netLog.setRect(insets.left, scene.status.bottom(), uiCamera.width - tagWidth - insets.left, 0);
+		} else {
+			scene.netLog.setRect(insets.left, 0, 160 - insets.left, 0);
 		}
 
 		float pos = scene.toolbar.top();
