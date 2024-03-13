@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Sender;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CArmorUpdate;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CFloatingText;
 import com.watabou.gltextures.SmartTexture;
 import com.watabou.gltextures.TextureCache;
@@ -96,6 +97,8 @@ public class HeroSprite extends CharSprite {
 			idle();
 		else
 			die();
+		// 发送护甲更新数据包
+		Sender.sendArmorUpdate(new CArmorUpdate(Dungeon.hero.tier()));
 	}
 	
 	@Override

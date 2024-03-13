@@ -9,7 +9,6 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.PlayerHealthBar;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.actors.NetHero;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
-import com.shatteredpixel.shatteredpixeldungeon.ui.CharHealthIndicator;
 import com.watabou.gltextures.SmartTexture;
 import com.watabou.gltextures.TextureCache;
 import com.watabou.noosa.Image;
@@ -32,9 +31,16 @@ public class NetHeroSprite extends CharSprite {
 	private Animation read;
 
 	public NetHeroSprite(NetHero player) {
+		super();
+
 		texture(player.heroClass.spritesheet());
-		link(player);
+
+		this.ch = player;
+		player.sprite = this;
+
 		updateArmor();
+
+		link(player);
 
 		if (ch.isAlive())
 			idle();
@@ -69,7 +75,7 @@ public class NetHeroSprite extends CharSprite {
 		read = new Animation(20, false);
 		read.frames(film, 19, 20, 20, 20, 20, 20, 20, 20, 20, 19);
 
-		if (Dungeon.hero.isAlive())
+		if (ch.isAlive())
 			idle();
 		else
 			die();

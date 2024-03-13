@@ -104,7 +104,9 @@ public class NetHero extends Hero {
 	public void destroy() {
 		super.destroy();
 		Dungeon.level.players.remove(this);
-		this.sprite.killAndErase();
+		if (sprite != null){
+			this.sprite.killAndErase();
+		}
 	}
 
 	/**
