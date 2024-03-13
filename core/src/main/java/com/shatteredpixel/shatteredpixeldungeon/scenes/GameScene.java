@@ -947,6 +947,7 @@ public class GameScene extends PixelScene {
 
 	private synchronized void addPlayerSprite(NetHero player) {
 		CharSprite sprite = new NetHeroSprite(player);
+		sprite.place(player.pos);
 		sprite.visible = true;
 		players.add(sprite);
 	}

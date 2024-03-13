@@ -1,7 +1,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web.actors;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -110,11 +109,9 @@ public class NetHero extends Hero {
 
 	/**
 	 * 把当前在线玩家与当前楼层同步
-	 * 感觉可能有bug 没法正确删除玩家 待测试
 	 */
 	public static void syncWithCurrentLevel() {
 		if (ShatteredPixelDungeon.scene() instanceof GameScene) {
-			GameScene.clearPlayers();
 			Set<Map.Entry<String, Player>> entries = Net.playerList.entrySet();
 			for (Map.Entry<String, Player> entry : entries) {
 				addPlayerToDungeon(entry.getValue());
@@ -129,13 +126,16 @@ public class NetHero extends Hero {
 				return;
 			}
 			if (status.getSeed() == Dungeon.seed && status.getDepth() == Dungeon.depth) {
+				// 防止重复添加
+				if (NetHero.getPlayerFromDungeon(player.getName()) != null) {
+					removePlayerFromDungeon(player.getName());
+				}
 				NetHero hero = new NetHero(player.getName());
 				hero.heroClass = status.getHeroClassEnum();
 				hero.tier = status.getArmorTier();
 				hero.pos = status.getPos();
 				hero.challenge = SPDUtils.activeChallenges(status.getChallenges());
 				GameScene.addPlayer(hero);
-				hero.move(hero.pos);
 			}
 		}
 	}
