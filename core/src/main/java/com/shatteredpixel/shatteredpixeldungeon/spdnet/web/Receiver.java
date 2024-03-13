@@ -38,6 +38,13 @@ public class Receiver {
 				e.printStackTrace();
 			}
 		};
+		Emitter.Listener onArmorUpdate = args -> {
+			try {
+				Handler.handleArmorUpdate(mapper.readValue(args[0].toString(), SArmorUpdate.class));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+		};
 		Emitter.Listener onChatMessage = args -> {
 			try {
 				Handler.handleChatMessage(mapper.readValue(args[0].toString(), SChatMessage.class));
@@ -162,6 +169,7 @@ public class Receiver {
 		getSocket().on(Socket.EVENT_CONNECT_ERROR, onConnectionError);
 		getSocket().on(Events.ACHIEVEMENT.getName(), onAchievement);
 		getSocket().on(Events.ANKH_USED.getName(), onAnkhUsed);
+		getSocket().on(Events.ARMOR_UPDATE.getName(), onArmorUpdate);
 		getSocket().on(Events.CHAT_MESSAGE.getName(), onChatMessage);
 		getSocket().on(Events.DEATH.getName(), onDeath);
 		getSocket().on(Events.ENTER_DUNGEON.getName(), onEnterDungeon);

@@ -11,12 +11,14 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.Mode;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.utils.NLog;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.utils.SPDUtils;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.actors.NetHero;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.sprites.NetHeroSprite;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Player;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Status;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CHero;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CRequestPlayerList;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAchievement;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAnkhUsed;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SArmorUpdate;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SChatMessage;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SDeath;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SEnterDungeon;
@@ -67,6 +69,29 @@ public class Handler {
 			}
 			NLog.p(ankhUsed.getName() + "差点因为" + ankhUsed.getCause() + "而死, " + "剩余十字架: " + (ankhUsed.getUnusedBlessedAnkh() + ankhUsed.getUnusedUnblessedAnkh()));
 		}
+	}
+
+	public static void handleArmorUpdate(SArmorUpdate armorUpdate) {
+		if (!armorUpdate.getName().equals(Net.name)) {
+			Player player = Net.playerList.get(armorUpdate.getName());
+			if (player == null) {
+				syncPlayerList();
+				return;
+			}
+			Status status = player.getStatus();
+			if (status == null) {
+				return;
+			}
+			status.setArmorTier(armorUpdate.getArmorTier());
+			player.setStatus(status);
+			Net.playerList.put(armorUpdate.getName(), player);
+			NetHero player1 = NetHero.getPlayerFromDungeon(armorUpdate.getName());
+			if (player1 != null) {
+				player1.tier = armorUpdate.getArmorTier();
+				((NetHeroSprite) (player1.sprite)).updateArmor();
+			}
+		}
+
 	}
 
 	public static void handleHero(SHero hero) {
