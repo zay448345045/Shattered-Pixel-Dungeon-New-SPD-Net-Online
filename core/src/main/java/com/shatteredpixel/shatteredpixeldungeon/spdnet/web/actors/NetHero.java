@@ -127,11 +127,11 @@ public class NetHero extends Hero {
 			if (status == null) {
 				return;
 			}
+			// 防止重复添加
+			if (NetHero.getPlayerFromDungeon(player.getName()) != null) {
+				removePlayerFromDungeon(player.getName());
+			}
 			if (status.getSeed() == Dungeon.seed && status.getDepth() == Dungeon.depth) {
-				// 防止重复添加
-				if (NetHero.getPlayerFromDungeon(player.getName()) != null) {
-					removePlayerFromDungeon(player.getName());
-				}
 				NetHero hero = new NetHero(player.getName());
 				hero.heroClass = status.getHeroClassEnum();
 				hero.tier = status.getArmorTier();
