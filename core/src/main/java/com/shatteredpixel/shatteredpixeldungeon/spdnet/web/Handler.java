@@ -20,7 +20,6 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAch
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAnkhUsed;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SArmorUpdate;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SChatMessage;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SDeath;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SEnterDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SError;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SExit;
@@ -35,7 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPla
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPlayerMove;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SServerMessage;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SViewHero;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SWin;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SGameEnd;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.NetWindow;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.WndPlayerInfo;
 import com.watabou.noosa.Game;
@@ -104,9 +103,6 @@ public class Handler {
 	public static void handleChatMessage(SChatMessage chatMessage) {
 	}
 
-	public static void handleDeath(SDeath death) {
-	}
-
 	public static void handleEnterDungeon(SEnterDungeon enterDungeon) {
 		if (!enterDungeon.getName().equals(Net.name)) {
 			Player player = Net.playerList.get(enterDungeon.getName());
@@ -165,6 +161,9 @@ public class Handler {
 				player.sprite.showStatusWithIcon(floatingText.getColor(), floatingText.getText(), floatingText.getIcon());
 			}
 		}
+	}
+
+	public static void handleGameEnd(SGameEnd gameEnd) {
 	}
 
 	public static void handleInit(SInit init) {
@@ -230,9 +229,6 @@ public class Handler {
 		Dungeon.hero.storeInBundle(heroBundle);
 		Sender.sendHero(new CHero(viewHero.getSourceName(), heroBundle.toString()));
 		// TODO 提示一下自己被其他人偷偷看了?
-	}
-
-	public static void handleWin(SWin win) {
 	}
 
 	/**

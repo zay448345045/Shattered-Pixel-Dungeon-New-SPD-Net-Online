@@ -9,10 +9,10 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CAc
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CAnkhUsed;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CArmorUpdate;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CChatMessage;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CDeath;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CEnterDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CError;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CFloatingText;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CGameEnd;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CGiveItem;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CHero;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CLeaveDungeon;
@@ -20,7 +20,6 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CPl
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CPlayerMove;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CRequestPlayerList;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CViewHero;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CWin;
 
 /**
  * 此类用于发送消息给服务器
@@ -42,10 +41,6 @@ public class Sender {
 		getSocket().emit(Actions.CHAT_MESSAGE.getName(), mapper.convertValue(message, ObjectNode.class));
 	}
 
-	public static void sendDeath(CDeath death) {
-		getSocket().emit(Actions.DEATH.getName(), mapper.convertValue(death, ObjectNode.class));
-	}
-
 	public static void sendEnterDungeon(CEnterDungeon enterDungeon) {
 		getSocket().emit(Actions.ENTER_DUNGEON.getName(), mapper.convertValue(enterDungeon, ObjectNode.class));
 	}
@@ -56,6 +51,10 @@ public class Sender {
 
 	public static void sendFloatingText(CFloatingText floatingText) {
 		getSocket().emit(Actions.FLOATING_TEXT.getName(), mapper.convertValue(floatingText, ObjectNode.class));
+	}
+
+	public static void sendGameEnd(CGameEnd gameEnd) {
+		getSocket().emit(Actions.GAME_END.getName(), mapper.convertValue(gameEnd, ObjectNode.class));
 	}
 
 	public static void sendGiveItem(CGiveItem giveItem) {
@@ -84,9 +83,5 @@ public class Sender {
 
 	public static void sendViewHero(CViewHero viewHero) {
 		getSocket().emit(Actions.VIEW_HERO.getName(), mapper.convertValue(viewHero, ObjectNode.class));
-	}
-
-	public static void sendWin(CWin win) {
-		getSocket().emit(Actions.WIN.getName(), mapper.convertValue(win, ObjectNode.class));
 	}
 }

@@ -13,13 +13,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CDeath extends Data {
-	// 死亡记录, 实际上为Rankings.Record json字符串
+public class CGameEnd extends Data {
 	private String record;
-
-	public CDeath(Rankings.Record record) {
-		Bundle bundle = new Bundle();
-		record.storeInBundle(bundle);
-		this.record = bundle.toString();
-	}
 }

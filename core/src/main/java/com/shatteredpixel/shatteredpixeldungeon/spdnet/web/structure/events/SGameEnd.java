@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SWin extends Data {
+public class SGameEnd extends Data {
 	private String name;
 	private String record;
 }
