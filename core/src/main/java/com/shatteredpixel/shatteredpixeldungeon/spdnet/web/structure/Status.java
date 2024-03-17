@@ -3,7 +3,7 @@ package com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.Mode;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.Mode;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

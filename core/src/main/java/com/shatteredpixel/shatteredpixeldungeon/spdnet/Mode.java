@@ -1,4 +1,4 @@
-package com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene;
+package com.shatteredpixel.shatteredpixeldungeon.spdnet;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.watabou.noosa.Image;

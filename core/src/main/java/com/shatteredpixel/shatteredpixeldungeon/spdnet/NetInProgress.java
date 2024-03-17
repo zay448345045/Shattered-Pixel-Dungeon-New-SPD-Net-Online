@@ -1,7 +1,5 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet;
 
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.Mode;
-
 /**
  * 用来存储某些变量
  * 比如玩家当前选择的模式

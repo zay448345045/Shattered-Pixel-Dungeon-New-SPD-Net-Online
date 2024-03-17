@@ -18,6 +18,7 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CHe
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CLeaveDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CPlayerChangeFloor;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CPlayerMove;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CRequestLeaderboard;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CRequestPlayerList;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CViewHero;
 
@@ -75,6 +76,10 @@ public class Sender {
 
 	public static void sendPlayerMove(CPlayerMove playerMove) {
 		getSocket().emit(Actions.PLAYER_MOVE.getName(), mapper.convertValue(playerMove, ObjectNode.class));
+	}
+
+	public static void sendRequestLeaderboard(CRequestLeaderboard requestLeaderboard){
+		getSocket().emit(Actions.REQUEST_LEADERBOARD.getName(), mapper.convertValue(requestLeaderboard, ObjectNode.class));
 	}
 
 	public static void sendRequestPlayerList(CRequestPlayerList requestPlayerList) {

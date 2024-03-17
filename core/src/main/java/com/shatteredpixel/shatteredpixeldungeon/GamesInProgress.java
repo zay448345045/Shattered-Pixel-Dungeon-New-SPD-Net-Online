@@ -25,7 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetInProgress;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.Mode;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.Mode;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.FileUtils;
 

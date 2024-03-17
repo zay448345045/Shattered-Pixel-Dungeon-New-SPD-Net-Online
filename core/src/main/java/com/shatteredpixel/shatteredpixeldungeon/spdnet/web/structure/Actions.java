@@ -20,6 +20,7 @@ public enum Actions {
 	LEAVE_DUNGEON("leaveDungeon"),
 	PLAYER_CHANGE_FLOOR("playerChangeFloor"),
 	PLAYER_MOVE("playerMove"),
+	REQUEST_LEADERBOARD("requestLeaderboard"),
 	REQUEST_PLAYER_LIST("requestPlayerList"),
 	VIEW_HERO("viewHero");
 	private final String name;
@@ -27,5 +28,4 @@ public enum Actions {
 	Actions(String name) {
 		this.name = name;
 	}
-
 }

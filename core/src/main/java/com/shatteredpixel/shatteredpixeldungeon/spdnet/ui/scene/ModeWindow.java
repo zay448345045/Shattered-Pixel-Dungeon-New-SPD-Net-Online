@@ -2,6 +2,7 @@ package com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene;
 
 import com.shatteredpixel.shatteredpixeldungeon.Chrome;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.Mode;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.SPDNetChrome;
 import com.shatteredpixel.shatteredpixeldungeon.ui.StyledButton;
