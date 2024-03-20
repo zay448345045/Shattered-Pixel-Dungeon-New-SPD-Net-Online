@@ -18,6 +18,7 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SGiv
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SHero;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SInit;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SJoin;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SLeaderboard;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SLeaveDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPlayerChangeFloor;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPlayerList;
@@ -129,6 +130,13 @@ public class Receiver {
 		Emitter.Listener onJoin = args -> {
 			try {
 				Handler.handleJoin(mapper.readValue(args[0].toString(), SJoin.class));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+		};
+		Emitter.Listener onLeaderboard = args -> {
+			try {
+				Handler.handleLeaderboard(mapper.readValue(args[0].toString(), SLeaderboard.class));
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
 			}

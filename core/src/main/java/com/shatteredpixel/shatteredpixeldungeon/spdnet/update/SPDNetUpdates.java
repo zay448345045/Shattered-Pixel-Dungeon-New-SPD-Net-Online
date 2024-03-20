@@ -5,7 +5,7 @@ import com.badlogic.gdx.Net;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.services.updates.AvailableUpdateData;
 import com.shatteredpixel.shatteredpixeldungeon.services.updates.UpdateService;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.SPDNetConfig;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetConfig;
 import com.watabou.noosa.Game;
 
 import java.util.regex.Pattern;
@@ -33,20 +33,20 @@ public class SPDNetUpdates extends UpdateService {
 			return;
 		}
 
-		SPDNetConfig.refreshConfig(new Net.HttpResponseListener() {
+		NetConfig.refreshConfig(new Net.HttpResponseListener() {
 			@Override
 			public void handleHttpResponse(Net.HttpResponse httpResponse) {
-				if (SPDNetConfig.config == null) {
+				if (NetConfig.config == null) {
 					callback.onConnectionFailed();
 				} else {
-					String latestSPDVersion = SPDNetConfig.config.get("SPDVersion").asText();
-					String latestNetVersion = SPDNetConfig.config.get("NetVersion").asText();
+					String latestSPDVersion = NetConfig.config.get("SPDVersion").asText();
+					String latestNetVersion = NetConfig.config.get("NetVersion").asText();
 					if (isVersionNewer(ShatteredPixelDungeon.version, latestSPDVersion) || isVersionNewer(ShatteredPixelDungeon.netVersion.split("-")[0], latestNetVersion)) {
 						AvailableUpdateData update = new AvailableUpdateData();
 						update.versionName = latestSPDVersion + "-" + latestNetVersion;
-						update.desc = SPDNetConfig.config.get("changeLog").asText();
-						update.URL = SPDNetConfig.config.get("GithubUpdateUrl").asText();
-						update.giteeURL = SPDNetConfig.config.get("GiteeUpdateUrl").asText();
+						update.desc = NetConfig.config.get("changeLog").asText();
+						update.URL = NetConfig.config.get("GithubUpdateUrl").asText();
+						update.giteeURL = NetConfig.config.get("GiteeUpdateUrl").asText();
 						callback.onUpdateAvailable(update);
 					} else {
 						callback.onNoUpdateFound();

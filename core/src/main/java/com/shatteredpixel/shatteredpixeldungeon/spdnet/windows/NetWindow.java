@@ -2,7 +2,8 @@ package com.shatteredpixel.shatteredpixeldungeon.spdnet.windows;
 
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.SPDNetConfig;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetConfig;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetSettings;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.NetIcons;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.SPDNetChrome;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net;
@@ -60,11 +61,11 @@ public class NetWindow extends Window {
 	}
 
 	public static void showKeyInput() {
-		Game.runOnRenderThread(() -> ShatteredPixelDungeon.scene().add(new WndTextInput(Messages.get(NetWindow.class, "key_input"), null, SPDNetConfig.getKey(), 30, false, "确定", "取消") {
+		Game.runOnRenderThread(() -> ShatteredPixelDungeon.scene().add(new WndTextInput(Messages.get(NetWindow.class, "key_input"), null, NetSettings.getKey(), 30, false, "确定", "取消") {
 			@Override
 			public void onSelect(boolean positive, String text) {
 				if (positive) {
-					SPDNetConfig.setKey(text);
+					NetSettings.setKey(text);
 					Net.destroySocket();
 				}
 			}

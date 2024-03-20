@@ -1,13 +1,15 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.Mode;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetInProgress;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.NetRankingsScene;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.utils.NLog;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.utils.SPDUtils;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.actors.NetHero;
@@ -24,22 +26,25 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SEnt
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SError;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SExit;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SFloatingText;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SGameEnd;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SGiveItem;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SHero;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SInit;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SJoin;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SLeaderboard;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SLeaveDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPlayerChangeFloor;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPlayerList;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPlayerMove;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SServerMessage;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SViewHero;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SGameEnd;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.NetWindow;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.WndPlayerInfo;
 import com.watabou.noosa.Game;
 import com.watabou.utils.Bundle;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -180,6 +185,22 @@ public class Handler {
 		if (!join.getName().equals(Net.name)) {
 			Net.playerList.put(join.getName(), new Player(join.getQq(), join.getName(), join.getPower(), null));
 			NLog.p(join.getName() + " 上线了");
+		}
+	}
+
+	public static void handleLeaderboard(SLeaderboard leaderboard) {
+		ArrayList<GameRecord> records = new ArrayList<>();
+		ObjectMapper mapper = new ObjectMapper();
+		if (ShatteredPixelDungeon.scene() instanceof NetRankingsScene) {
+			try {
+				List<String> recordsString = leaderboard.getGameRecords();
+				for (String record : recordsString) {
+					records.add(mapper.readValue(record, GameRecord.class));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			((NetRankingsScene) ShatteredPixelDungeon.scene()).setRankings(leaderboard.getTotalPages(), leaderboard.getCurrentPage(), leaderboard.getTotalElements(), records);
 		}
 	}
 

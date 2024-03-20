@@ -9,14 +9,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
 
-public class SPDNetConfig {
+public class NetConfig {
 	public static JsonNode config;
 	// 配置获取地址
 	private static final String CONFIG_GITEE_URL = "https://gitee.com/catandA/SPDNet-Data/raw/main/config.json";
 	private static final String CONFIG_GITHUB_URL = "https://raw.githubusercontent.com/Not-Name-Dev-Team/SPDNet-Data/main/config.json";
-	@Getter
-	@Setter
-	private static String key = "default";
 
 	public static void refreshConfig() {
 		refreshConfig(new Net.HttpResponseListener() {

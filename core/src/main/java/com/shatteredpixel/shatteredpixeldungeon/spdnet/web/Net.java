@@ -3,7 +3,8 @@ package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 import static com.watabou.utils.DeviceCompat.isDebug;
 import static com.watabou.utils.DeviceCompat.isDesktop;
 
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.SPDNetConfig;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetConfig;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetSettings;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Player;
 import com.watabou.noosa.Game;
 
@@ -42,7 +43,7 @@ public class Net {
 			try {
 				IO.Options opts = new IO.Options();
 				opts.reconnection = true;
-				opts.query = "token=" + SPDNetConfig.getKey() + "&SPDVersion=" + Game.version + "&NetVersion=" + Game.netVersion;
+				opts.query = "token=" + NetSettings.getKey() + "&SPDVersion=" + Game.version + "&NetVersion=" + Game.netVersion;
 				socket = IO.socket(serverUrl, opts);
 			} catch (URISyntaxException e) {
 				throw new RuntimeException(e);
@@ -100,8 +101,8 @@ public class Net {
 	 */
 	public static void refreshServerUrl() {
 		if (!isDesktop() || !isDebug()) {
-			SPDNetConfig.refreshConfig();
-			serverUrl = SPDNetConfig.config.get("serverUrl").asText();
+			NetConfig.refreshConfig();
+			serverUrl = NetConfig.config.get("serverUrl").asText();
 		}
 	}
 
