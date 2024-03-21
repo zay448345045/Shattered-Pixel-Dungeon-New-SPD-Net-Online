@@ -30,6 +30,8 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.Amulet;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.NetRankingsScene;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
@@ -88,11 +90,11 @@ public class AmuletScene extends PixelScene {
 							AmuletScene.this.add(new Delayer(3f){
 								@Override
 								protected void onComplete() {
-									Game.switchScene( RankingsScene.class );
+									Game.switchScene( NetRankingsScene.class );
 								}
 							});
 						} else {
-							Game.switchScene( RankingsScene.class );
+							Game.switchScene( NetRankingsScene.class );
 						}
 					}
 				});

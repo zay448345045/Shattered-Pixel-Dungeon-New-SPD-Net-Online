@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.services.news.News;
 import com.shatteredpixel.shatteredpixeldungeon.services.updates.AvailableUpdateData;
 import com.shatteredpixel.shatteredpixeldungeon.services.updates.Updates;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.NetRankingsScene;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.SPDNetChangesButton;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Sender;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CLeaveDungeon;
@@ -147,7 +148,7 @@ public class TitleScene extends PixelScene {
 		StyledButton btnRankings = new StyledButton(GREY_TR,Messages.get(this, "rankings")){
 			@Override
 			protected void onClick() {
-				ShatteredPixelDungeon.switchNoFade( RankingsScene.class );
+				ShatteredPixelDungeon.switchNoFade( NetRankingsScene.class );
 			}
 		};
 		btnRankings.icon(Icons.get(Icons.RANKINGS));

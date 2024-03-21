@@ -31,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.HeroSelectScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.InterlevelScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.RankingsScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.TitleScene;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.NetRankingsScene;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RedButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
@@ -91,7 +92,7 @@ public class WndGame extends Window {
 				@Override
 				protected void onClick() {
 					InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
-					Game.switchScene( RankingsScene.class );
+					Game.switchScene( NetRankingsScene.class );
 				}
 			} );
 			curBtn.icon(Icons.get(Icons.RANKINGS));

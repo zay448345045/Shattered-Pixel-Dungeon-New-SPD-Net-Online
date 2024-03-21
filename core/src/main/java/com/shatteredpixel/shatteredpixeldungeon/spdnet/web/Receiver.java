@@ -136,6 +136,7 @@ public class Receiver {
 		};
 		Emitter.Listener onLeaderboard = args -> {
 			try {
+				System.out.println(args[0].toString());
 				Handler.handleLeaderboard(mapper.readValue(args[0].toString(), SLeaderboard.class));
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
@@ -199,6 +200,7 @@ public class Receiver {
 		getSocket().on(Events.HERO.getName(), onHero);
 		getSocket().on(Events.INIT.getName(), onInit);
 		getSocket().on(Events.JOIN.getName(), onJoin);
+		getSocket().on(Events.LEADERBOARD.getName(), onLeaderboard);
 		getSocket().on(Events.LEAVE_DUNGEON.getName(), onLeaveDungeon);
 		getSocket().on(Events.PLAYER_CHANGE_FLOOR.getName(), onPlayerChangeFloor);
 		getSocket().on(Events.PLAYER_LIST.getName(), onPlayerList);
