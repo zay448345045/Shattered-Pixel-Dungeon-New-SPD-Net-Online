@@ -11,6 +11,7 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.Mode;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.NetTalentsPane;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.utils.NLog;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Sender;
@@ -27,7 +28,6 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ScrollPane;
 import com.shatteredpixel.shatteredpixeldungeon.ui.StatusPane;
 import com.shatteredpixel.shatteredpixeldungeon.ui.TalentButton;
-import com.shatteredpixel.shatteredpixeldungeon.ui.TalentsPane;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.shatteredpixel.shatteredpixeldungeon.utils.DungeonSeed;
 import com.shatteredpixel.shatteredpixeldungeon.windows.IconTitle;
@@ -51,7 +51,7 @@ public class WndPlayerInfo extends WndTabbed {
 	private static final int HEIGHT = 160;
 
 	private StatsTab stats;
-	private TalentsTab talents;
+	private NetTalentsTab talents;
 	private BuffsTab buffs;
 
 	public static int lastIdx = 0;
@@ -71,7 +71,7 @@ public class WndPlayerInfo extends WndTabbed {
 		stats = new StatsTab();
 		add(stats);
 
-		talents = new TalentsTab();
+		talents = new NetTalentsTab();
 		add(talents);
 		talents.setRect(0, 0, WIDTH, HEIGHT);
 
@@ -284,14 +284,14 @@ public class WndPlayerInfo extends WndTabbed {
 		}
 	}
 
-	public class TalentsTab extends Component {
+	public class NetTalentsTab extends Component {
 
-		TalentsPane pane;
+		NetTalentsPane pane;
 
 		@Override
 		protected void createChildren() {
 			super.createChildren();
-			pane = new TalentsPane(TalentButton.Mode.UPGRADE);
+			pane = new NetTalentsPane(hero, TalentButton.Mode.UPGRADE);
 			add(pane);
 		}
 

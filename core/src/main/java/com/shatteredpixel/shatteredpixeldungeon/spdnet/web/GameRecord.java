@@ -1,8 +1,11 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shatteredpixel.shatteredpixeldungeon.Rankings;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.watabou.utils.Bundle;
 import com.watabou.utils.Reflection;
 
 import lombok.Getter;
@@ -30,7 +33,7 @@ public class GameRecord {
 	@JsonProperty("game_mode")
 	private String gameMode;
 
-	private String hero;
+	private Hero hero;
 	private String badges;
 	private String handlers;
 	private int challenges;
@@ -115,5 +118,11 @@ public class GameRecord {
 			return Reflection.forName(clName);
 		}
 		return null;
+	}
+
+	public void setHero(String hero) {
+		Hero heroObject = new Hero();
+		heroObject.restoreFromBundle(Bundle.fromString(hero));
+		this.hero = heroObject;
 	}
 }
