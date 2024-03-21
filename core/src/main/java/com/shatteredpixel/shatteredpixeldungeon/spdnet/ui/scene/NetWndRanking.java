@@ -8,10 +8,16 @@ import com.shatteredpixel.shatteredpixeldungeon.QuickSlot;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
+import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
+import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.GameRecord;
@@ -27,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.RedButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.TalentButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.TalentsPane;
+import com.shatteredpixel.shatteredpixeldungeon.ui.Toolbar;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.shatteredpixel.shatteredpixeldungeon.utils.DungeonSeed;
 import com.shatteredpixel.shatteredpixeldungeon.windows.IconTitle;
@@ -42,6 +49,7 @@ import com.watabou.noosa.Group;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.ui.Component;
+import com.watabou.utils.Bundle;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -53,7 +61,6 @@ public class NetWndRanking extends WndTabbed {
 
 	private static NetWndRanking INSTANCE;
 
-	private String gameID;
 	private GameRecord record;
 
 	public NetWndRanking(final GameRecord rec) {
@@ -70,10 +77,8 @@ public class NetWndRanking extends WndTabbed {
 
 		try {
 			Badges.loadGlobal();
-			// 暂时注释掉了
-			// 为什么这里要loadGameData?
-			// 或者说GameData到底是用来干什么的?????
-			// Rankings.INSTANCE.loadGameData(rec);
+			//	Rankings.INSTANCE.loadGameData(rec);
+			loadGameData();
 			createControls();
 		} catch (Exception e) {
 			Game.reportException(new RuntimeException("Rankings Display Failed!", e));
@@ -122,6 +127,42 @@ public class NetWndRanking extends WndTabbed {
 		}
 	}
 
+	public void loadGameData() {
+		Actor.clear();
+		Dungeon.hero = null;
+		Dungeon.level = null;
+		Generator.fullReset();
+		Notes.reset();
+		Dungeon.quickslot.reset();
+		com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton.reset();
+		Toolbar.swappedQuickslots = false;
+
+		Bundle handler = Bundle.fromString(record.getHandlers());
+		Scroll.restore(handler);
+		Potion.restore(handler);
+		Ring.restore(handler);
+
+		Badges.loadLocal(Bundle.fromString(record.getBadges()));
+
+		Dungeon.hero = record.getHero();
+		Dungeon.hero.belongings.identify();
+
+		Statistics.restoreFromGameRecord(record);
+
+		Dungeon.challenges = record.getChallenges();
+
+		Dungeon.initialVersion = record.getGameVersion();
+
+		if (Dungeon.initialVersion <= ShatteredPixelDungeon.v1_2_3) {
+			Statistics.gameWon = record.isWin();
+		}
+
+		Dungeon.seed = record.getSeed();
+		Dungeon.customSeedText = record.getCustomSeed();
+		Dungeon.daily = record.isDaily();
+		Dungeon.dailyReplay = record.isDailyReplay();
+	}
+
 	private class RankingTab extends IconTab {
 
 		private Group page;
@@ -154,7 +195,7 @@ public class NetWndRanking extends WndTabbed {
 
 			IconTitle title = new IconTitle();
 			title.icon(HeroSprite.avatar(HeroClass.valueOf(record.getHeroClass()), record.getTier()));
-			title.label(Messages.get(WndRanking.class, "title", record.getLevel(), heroClass).toUpperCase(Locale.ENGLISH));
+			title.label(Messages.get(WndRanking.StatsTab.class, "title", record.getLevel(), heroClass).toUpperCase(Locale.ENGLISH));
 			title.color(Window.TITLE_COLOR);
 			title.setRect(0, 0, WIDTH, 0);
 			add(title);
@@ -180,21 +221,21 @@ public class NetWndRanking extends WndTabbed {
 			NumberFormat num = NumberFormat.getInstance(Locale.US);
 
 			if (Dungeon.hero == null) {
-				pos = statSlot(this, Messages.get(WndRanking.class, "score"), num.format(record.getScore()), pos);
+				pos = statSlot(this, Messages.get(WndRanking.StatsTab.class, "score"), num.format(record.getScore()), pos);
 				pos += GAP;
 
 				Image errorIcon = Icons.WARNING.get();
 				errorIcon.y = pos;
 				add(errorIcon);
 
-				RenderedTextBlock errorText = PixelScene.renderTextBlock(Messages.get(NetWndRanking.class, "error"), 6);
+				RenderedTextBlock errorText = PixelScene.renderTextBlock(Messages.get(NetWndRanking.StatsTab.class, "error"), 6);
 				errorText.maxWidth((int) (WIDTH - errorIcon.width() - GAP));
 				errorText.setPos(errorIcon.width() + GAP, pos + (errorIcon.height() - errorText.height()) / 2);
 				add(errorText);
 
 			} else {
 
-				pos = statSlot(this, Messages.get(WndRanking.class, "score"), num.format(Statistics.totalScore), pos);
+				pos = statSlot(this, Messages.get(WndRanking.StatsTab.class, "score"), num.format(Statistics.totalScore), pos);
 
 				IconButton scoreInfo = new IconButton(Icons.get(Icons.INFO)) {
 					@Override
@@ -211,28 +252,28 @@ public class NetWndRanking extends WndTabbed {
 
 				int strBonus = Dungeon.hero.STR() - Dungeon.hero.STR;
 				if (strBonus > 0)
-					pos = statSlot(this, Messages.get(WndRanking.class, "str"), Dungeon.hero.STR + " + " + strBonus, pos);
+					pos = statSlot(this, Messages.get(WndRanking.StatsTab.class, "str"), Dungeon.hero.STR + " + " + strBonus, pos);
 				else if (strBonus < 0)
-					pos = statSlot(this, Messages.get(WndRanking.class, "str"), Dungeon.hero.STR + " - " + -strBonus, pos);
+					pos = statSlot(this, Messages.get(WndRanking.StatsTab.class, "str"), Dungeon.hero.STR + " - " + -strBonus, pos);
 				else
-					pos = statSlot(this, Messages.get(WndRanking.class, "str"), Integer.toString(Dungeon.hero.STR), pos);
-				pos = statSlot(this, Messages.get(WndRanking.class, "duration"), num.format((int) Statistics.duration), pos);
+					pos = statSlot(this, Messages.get(WndRanking.StatsTab.class, "str"), Integer.toString(Dungeon.hero.STR), pos);
+				pos = statSlot(this, Messages.get(WndRanking.StatsTab.class, "duration"), num.format((int) Statistics.duration), pos);
 				if (Statistics.highestAscent == 0) {
-					pos = statSlot(this, Messages.get(WndRanking.class, "depth"), num.format(Statistics.deepestFloor), pos);
+					pos = statSlot(this, Messages.get(WndRanking.StatsTab.class, "depth"), num.format(Statistics.deepestFloor), pos);
 				} else {
-					pos = statSlot(this, Messages.get(WndRanking.class, "ascent"), num.format(Statistics.highestAscent), pos);
+					pos = statSlot(this, Messages.get(WndRanking.StatsTab.class, "ascent"), num.format(Statistics.highestAscent), pos);
 				}
 				if (Dungeon.seed != -1) {
 					if (Dungeon.daily) {
 						if (Dungeon.dailyReplay) {
-							pos = statSlot(this, Messages.get(WndRanking.class, "replay_for"), "_" + Dungeon.customSeedText + "_", pos);
+							pos = statSlot(this, Messages.get(WndRanking.StatsTab.class, "replay_for"), "_" + Dungeon.customSeedText + "_", pos);
 						} else {
-							pos = statSlot(this, Messages.get(WndRanking.class, "daily_for"), "_" + Dungeon.customSeedText + "_", pos);
+							pos = statSlot(this, Messages.get(WndRanking.StatsTab.class, "daily_for"), "_" + Dungeon.customSeedText + "_", pos);
 						}
 					} else if (!Dungeon.customSeedText.isEmpty()) {
-						pos = statSlot(this, Messages.get(WndRanking.class, "custom_seed"), "_" + Dungeon.customSeedText + "_", pos);
+						pos = statSlot(this, Messages.get(WndRanking.StatsTab.class, "custom_seed"), "_" + Dungeon.customSeedText + "_", pos);
 					} else {
-						pos = statSlot(this, Messages.get(WndRanking.class, "seed"), DungeonSeed.convertToCode(Dungeon.seed), pos);
+						pos = statSlot(this, Messages.get(WndRanking.StatsTab.class, "seed"), DungeonSeed.convertToCode(Dungeon.seed), pos);
 					}
 				} else {
 					pos += GAP + 5;
@@ -240,27 +281,26 @@ public class NetWndRanking extends WndTabbed {
 
 				pos += GAP;
 
-				pos = statSlot(this, Messages.get(WndRanking.class, "enemies"), num.format(Statistics.enemiesSlain), pos);
-				pos = statSlot(this, Messages.get(WndRanking.class, "gold"), num.format(Statistics.goldCollected), pos);
-				pos = statSlot(this, Messages.get(WndRanking.class, "food"), num.format(Statistics.foodEaten), pos);
-				pos = statSlot(this, Messages.get(WndRanking.class, "alchemy"), num.format(Statistics.itemsCrafted), pos);
+				pos = statSlot(this, Messages.get(WndRanking.StatsTab.class, "enemies"), num.format(Statistics.enemiesSlain), pos);
+				pos = statSlot(this, Messages.get(WndRanking.StatsTab.class, "gold"), num.format(Statistics.goldCollected), pos);
+				pos = statSlot(this, Messages.get(WndRanking.StatsTab.class, "food"), num.format(Statistics.foodEaten), pos);
+				pos = statSlot(this, Messages.get(WndRanking.StatsTab.class, "alchemy"), num.format(Statistics.itemsCrafted), pos);
 			}
 
 			int buttontop = HEIGHT - 16;
 
 			// 手动设置排行榜中的种子相关信息可见
-			if (Dungeon.hero != null && Dungeon.seed != -1 && !Dungeon.daily &&
-					(true || Badges.isUnlocked(Badges.Badge.VICTORY))) {
+			if (Dungeon.hero != null && Dungeon.seed != -1 && !Dungeon.daily) {
 				final Image icon = Icons.get(Icons.SEED);
-				RedButton btnSeed = new RedButton(Messages.get(WndRanking.class, "copy_seed")) {
+				RedButton btnSeed = new RedButton(Messages.get(WndRanking.StatsTab.class, "copy_seed")) {
 					@Override
 					protected void onClick() {
 						super.onClick();
 						ShatteredPixelDungeon.scene().addToFront(new WndOptions(new Image(icon),
-								Messages.get(NetWndRanking.StatsTab.this, "copy_seed"),
-								Messages.get(NetWndRanking.StatsTab.this, "copy_seed_desc"),
-								Messages.get(NetWndRanking.StatsTab.this, "copy_seed_copy"),
-								Messages.get(NetWndRanking.StatsTab.this, "copy_seed_cancel")) {
+								"复制种子",
+								"你确定要使用这条记录对应的地下城种子开始一场游戏吗？_注意，使用自定义种子的游戏不能获得徽章，不计入已进行的游戏，也不会出现在排行榜的底部。_\\n\\n如果这个排名来自较早的游戏，也要注意不同版本的《破碎的像素地牢》可能会生成不同的地下城，即使使用相同的种子。",
+								"使用这个种子",
+								"取消") {
 							@Override
 							protected void onSelect(int index) {
 								super.onSelect(index);

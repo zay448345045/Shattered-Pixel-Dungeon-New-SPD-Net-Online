@@ -14,11 +14,10 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Button;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndRanking;
 import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.Image;
 
-public class RecordButton extends Button {
+public class NetRecordButton extends Button {
 
 	private static final float GAP = 4;
 
@@ -38,7 +37,7 @@ public class RecordButton extends Button {
 	private Image classIcon;
 	private BitmapText level;
 
-	public RecordButton(int pos, boolean latest, GameRecord rec) {
+	public NetRecordButton(int pos, boolean latest, GameRecord rec) {
 		super();
 
 		this.rec = rec;
@@ -56,7 +55,7 @@ public class RecordButton extends Button {
 			position.text(" ");
 		position.measure();
 
-		desc.text(Messages.titleCase(rec.desc()));
+		desc.text(Messages.titleCase(rec.getPlayerName() + " " + rec.desc()));
 
 		int odd = pos % 2;
 

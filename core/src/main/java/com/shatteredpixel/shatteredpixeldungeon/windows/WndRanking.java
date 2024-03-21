@@ -151,8 +151,9 @@ public class WndRanking extends WndTabbed {
 			}
 		}
 	}
-	
-	private class StatsTab extends Group {
+
+	// 更改访问修饰符以方便使用翻译键
+	public class StatsTab extends Group {
 
 		private int GAP	= 4;
 		

@@ -153,7 +153,7 @@ public class NetRankingsScene extends PixelScene {
 			int pos = 0;
 
 			for (GameRecord rec : records) {
-				RecordButton row = new RecordButton(pos, pos == Rankings.INSTANCE.lastRecord, rec);
+				NetRecordButton row = new NetRecordButton(pos, pos == Rankings.INSTANCE.lastRecord, rec);
 				float offset = 0;
 				if (rowHeight <= 14) {
 					offset = (pos % 2 == 1) ? 5 : -5;
