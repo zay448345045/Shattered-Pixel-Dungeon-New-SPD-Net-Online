@@ -2,7 +2,6 @@ package com.shatteredpixel.shatteredpixeldungeon.spdnet.windows;
 
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetConfig;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetSettings;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.NetIcons;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.SPDNetChrome;
@@ -23,7 +22,7 @@ public class NetWindow extends Window {
 	}
 
 	public static void message(Image i, String title, String message) {
-		Game.runOnRenderThread(() -> ShatteredPixelDungeon.scene().add(new WndMessage(i, title, message)));
+		Game.runOnRenderThread(() -> ShatteredPixelDungeon.scene().add(new NetWndMessage(i, title, message)));
 	}
 
 	public static void message(String title, String message) {
@@ -57,7 +56,7 @@ public class NetWindow extends Window {
 	}
 
 	public static void showServerInfo() {
-		show(new WndServerInfo());
+		show(new NetWndServerInfo());
 	}
 
 	public static void showKeyInput() {
@@ -73,7 +72,7 @@ public class NetWindow extends Window {
 	}
 
 	public static void showMotd(String motd) {
-		Game.runOnRenderThread(() -> ShatteredPixelDungeon.scene().add(new WndMotd(motd)));
+		Game.runOnRenderThread(() -> ShatteredPixelDungeon.scene().add(new NetWndMotd(motd)));
 	}
 
 	public static void show(Window w) {

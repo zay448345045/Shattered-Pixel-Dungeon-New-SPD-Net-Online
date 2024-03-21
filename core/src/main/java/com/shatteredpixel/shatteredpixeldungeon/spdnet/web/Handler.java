@@ -39,7 +39,7 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPla
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SServerMessage;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SViewHero;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.NetWindow;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.WndPlayerInfo;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.NetWndPlayerInfo;
 import com.watabou.noosa.Game;
 import com.watabou.utils.Bundle;
 
@@ -102,7 +102,7 @@ public class Handler {
 		Bundle bundle = Bundle.fromString(hero.getHero());
 		NetHero player = new NetHero(hero.getTargetName());
 		player.restoreFromBundleOverride(bundle);
-		Game.runOnRenderThread(() -> GameScene.show(new WndPlayerInfo(hero.getTargetName(), player)));
+		Game.runOnRenderThread(() -> GameScene.show(new NetWndPlayerInfo(hero.getTargetName(), player)));
 	}
 
 	public static void handleChatMessage(SChatMessage chatMessage) {

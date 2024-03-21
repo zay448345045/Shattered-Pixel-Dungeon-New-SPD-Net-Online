@@ -23,7 +23,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.windows.IconTitle;
 import com.watabou.noosa.Image;
 
-public class WndMessage extends NetWindow {
+public class NetWndMessage extends NetWindow {
 
 	private static final int WIDTH_P = 120;
 	private static final int WIDTH_L = 144;
@@ -34,7 +34,7 @@ public class WndMessage extends NetWindow {
 	private RenderedTextBlock title;
 	private RenderedTextBlock message;
 
-	public WndMessage(Image icon, String title, String message) {
+	public NetWndMessage(Image icon, String title, String message) {
 		super();
 
 		int width = PixelScene.landscape() ? WIDTH_L : WIDTH_P;
@@ -51,7 +51,7 @@ public class WndMessage extends NetWindow {
 		layoutBody(pos, message);
 	}
 
-	public WndMessage(String title, String message) {
+	public NetWndMessage(String title, String message) {
 		super();
 
 		int width = PixelScene.landscape() ? WIDTH_L : WIDTH_P;

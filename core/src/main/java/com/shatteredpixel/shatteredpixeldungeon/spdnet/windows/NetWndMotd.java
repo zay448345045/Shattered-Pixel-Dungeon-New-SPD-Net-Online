@@ -8,14 +8,14 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.windows.IconTitle;
 
-public class WndMotd extends NetWindow {
+public class NetWndMotd extends NetWindow {
 
 	private static final int WIDTH_P = 120;
 	private static final int WIDTH_L = 144;
 
 	private static final int MARGIN = 2;
 
-	public WndMotd(String motd) {
+	public NetWndMotd(String motd) {
 		super();
 
 		int width = PixelScene.landscape() ? WIDTH_L : WIDTH_P;
@@ -55,7 +55,7 @@ public class WndMotd extends NetWindow {
 			@Override
 			protected void onClick() {
 				super.onClick();
-				WndMotd.this.destroy();
+				NetWndMotd.this.destroy();
 			}
 		};
 

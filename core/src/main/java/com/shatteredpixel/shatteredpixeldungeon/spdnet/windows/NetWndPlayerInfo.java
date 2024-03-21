@@ -45,7 +45,7 @@ import com.watabou.noosa.ui.Component;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class WndPlayerInfo extends WndTabbed {
+public class NetWndPlayerInfo extends WndTabbed {
 
 	private static final int WIDTH = 120;
 	private static final int HEIGHT = 160;
@@ -59,7 +59,7 @@ public class WndPlayerInfo extends WndTabbed {
 	private String name;
 	private NetHero hero;
 
-	public WndPlayerInfo(String name, NetHero hero) {
+	public NetWndPlayerInfo(String name, NetHero hero) {
 
 		super();
 
@@ -208,9 +208,9 @@ public class WndPlayerInfo extends WndTabbed {
 				protected void onClick() {
 					super.onClick();
 					if (ShatteredPixelDungeon.scene() instanceof GameScene) {
-						GameScene.show(new WndPlayerBag(hero));
+						GameScene.show(new NetWndPlayerBag(hero));
 					} else {
-						ShatteredPixelDungeon.scene().addToFront(new WndPlayerBag(hero));
+						ShatteredPixelDungeon.scene().addToFront(new NetWndPlayerBag(hero));
 					}
 				}
 			};

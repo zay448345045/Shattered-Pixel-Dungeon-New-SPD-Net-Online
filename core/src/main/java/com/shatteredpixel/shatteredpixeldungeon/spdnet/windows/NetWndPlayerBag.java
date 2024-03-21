@@ -33,7 +33,7 @@ import com.watabou.noosa.Game;
 import com.watabou.noosa.Image;
 import com.watabou.utils.PointF;
 
-public class WndPlayerBag extends WndTabbed_Overrite {
+public class NetWndPlayerBag extends NetWndTabbed {
 
 	//only one bag window can appear at a time
 	public static Window INSTANCE;
@@ -66,20 +66,20 @@ public class WndPlayerBag extends WndTabbed_Overrite {
 	private static Bag lastBag;
 	private static NetHero hero;
 
-	public WndPlayerBag(NetHero hero) {
+	public NetWndPlayerBag(NetHero hero) {
 		this(hero.belongings.backpack, null, hero);
 	}
 
-	private WndPlayerBag(Bag bag, ItemSelector selector) {
+	private NetWndPlayerBag(Bag bag, ItemSelector selector) {
 		this(bag, selector, null);
 	}
 
-	private WndPlayerBag(Bag bag, ItemSelector selector, NetHero hero) {
+	private NetWndPlayerBag(Bag bag, ItemSelector selector, NetHero hero) {
 
 		super();
 
 		if (hero != null) {
-			WndPlayerBag.hero = hero;
+			NetWndPlayerBag.hero = hero;
 		}
 
 		if (INSTANCE != null) {
@@ -119,7 +119,7 @@ public class WndPlayerBag extends WndTabbed_Overrite {
 		resize(windowWidth, windowHeight);
 
 		int i = 1;
-		for (Bag b : WndPlayerBag.hero.belongings.getBags()) {
+		for (Bag b : NetWndPlayerBag.hero.belongings.getBags()) {
 			if (b != null) {
 				BagTab tab = new BagTab(b, i++);
 				add(tab);
@@ -130,28 +130,28 @@ public class WndPlayerBag extends WndTabbed_Overrite {
 		layoutTabs();
 	}
 
-	public static WndPlayerBag lastBag(ItemSelector selector) {
+	public static NetWndPlayerBag lastBag(ItemSelector selector) {
 
-		if (lastBag != null && WndPlayerBag.hero.belongings.backpack.contains(lastBag)) {
+		if (lastBag != null && NetWndPlayerBag.hero.belongings.backpack.contains(lastBag)) {
 
-			return new WndPlayerBag(lastBag, selector);
+			return new NetWndPlayerBag(lastBag, selector);
 
 		} else {
 
-			return new WndPlayerBag(WndPlayerBag.hero.belongings.backpack, selector);
+			return new NetWndPlayerBag(NetWndPlayerBag.hero.belongings.backpack, selector);
 
 		}
 	}
 
-	public static WndPlayerBag getBag(ItemSelector selector) {
+	public static NetWndPlayerBag getBag(ItemSelector selector) {
 		if (selector.preferredBag() == Belongings.Backpack.class) {
-			return new WndPlayerBag(WndPlayerBag.hero.belongings.backpack, selector);
+			return new NetWndPlayerBag(NetWndPlayerBag.hero.belongings.backpack, selector);
 
 		} else if (selector.preferredBag() != null) {
-			Bag bag = WndPlayerBag.hero.belongings.getItem(selector.preferredBag());
-			if (bag != null) return new WndPlayerBag(bag, selector);
+			Bag bag = NetWndPlayerBag.hero.belongings.getItem(selector.preferredBag());
+			if (bag != null) return new NetWndPlayerBag(bag, selector);
 				//if a specific preferred bag isn't present, then the relevant items will be in backpack
-			else return new WndPlayerBag(WndPlayerBag.hero.belongings.backpack, selector);
+			else return new NetWndPlayerBag(NetWndPlayerBag.hero.belongings.backpack, selector);
 		}
 
 		return lastBag(selector);
@@ -227,7 +227,7 @@ public class WndPlayerBag extends WndTabbed_Overrite {
 	protected void placeItems(Bag container) {
 
 		// Equipped items
-		Belongings stuff = WndPlayerBag.hero.belongings;
+		Belongings stuff = NetWndPlayerBag.hero.belongings;
 		placeItem(stuff.weapon != null ? stuff.weapon : new Placeholder(ItemSpriteSheet.WEAPON_HOLDER));
 		placeItem(stuff.armor != null ? stuff.armor : new Placeholder(ItemSpriteSheet.ARMOR_HOLDER));
 		placeItem(stuff.artifact != null ? stuff.artifact : new Placeholder(ItemSpriteSheet.ARTIFACT_HOLDER));
@@ -237,7 +237,7 @@ public class WndPlayerBag extends WndTabbed_Overrite {
 		int equipped = 5;
 
 		//the container itself if it's not the root backpack
-		if (container != WndPlayerBag.hero.belongings.backpack) {
+		if (container != NetWndPlayerBag.hero.belongings.backpack) {
 			placeItem(container);
 			count--; //don't count this one, as it's not actually inside of itself
 		} else if (stuff.secondWep != null) {
@@ -271,7 +271,7 @@ public class WndPlayerBag extends WndTabbed_Overrite {
 		InventorySlot slot = new InventorySlot(item) {
 			@Override
 			protected void onClick() {
-				if (lastBag != item && !lastBag.contains(item) && !item.isEquipped(WndPlayerBag.hero)) {
+				if (lastBag != item && !lastBag.contains(item) && !item.isEquipped(NetWndPlayerBag.hero)) {
 
 					hide();
 
@@ -282,14 +282,14 @@ public class WndPlayerBag extends WndTabbed_Overrite {
 
 				} else {
 
-					Game.scene().addToFront(new WndUseItem(WndPlayerBag.this, item));
+					Game.scene().addToFront(new WndUseItem(NetWndPlayerBag.this, item));
 
 				}
 			}
 
 			@Override
 			protected void onRightClick() {
-				if (lastBag != item && !lastBag.contains(item) && !item.isEquipped(WndPlayerBag.hero)) {
+				if (lastBag != item && !lastBag.contains(item) && !item.isEquipped(NetWndPlayerBag.hero)) {
 
 					hide();
 
@@ -303,7 +303,7 @@ public class WndPlayerBag extends WndTabbed_Overrite {
 					RightClickMenu r = new RightClickMenu(item) {
 						@Override
 						public void onSelect(int index) {
-							WndPlayerBag.this.hide();
+							NetWndPlayerBag.this.hide();
 						}
 					};
 					parent.addToFront(r);
@@ -364,7 +364,7 @@ public class WndPlayerBag extends WndTabbed_Overrite {
 	@Override
 	protected void onClick(Tab tab) {
 		hide();
-		Window w = new WndPlayerBag(((BagTab) tab).bag, selector);
+		Window w = new NetWndPlayerBag(((BagTab) tab).bag, selector);
 		if (Game.scene() instanceof GameScene) {
 			GameScene.show(w);
 		} else {

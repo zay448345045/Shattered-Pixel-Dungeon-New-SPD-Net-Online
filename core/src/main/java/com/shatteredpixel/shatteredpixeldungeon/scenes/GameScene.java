@@ -76,7 +76,6 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.sprites.NetHeroSprite
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Status;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CEnterDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CViewHero;
-import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.WndPlayerInfo;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.DiscardedItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;

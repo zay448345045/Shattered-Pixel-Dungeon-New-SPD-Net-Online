@@ -23,14 +23,14 @@ import java.util.ArrayList;
  * 唯一的更改是
  * protected void select( boolean value )方法的修饰符被更改为public
  */
-public class WndTabbed_Overrite extends Window {
+public class NetWndTabbed extends Window {
 
 	protected ArrayList<Tab> tabs = new ArrayList<>();
 	protected Tab selected;
 
 	private Signal.Listener<KeyEvent> tabListener;
 	
-	public WndTabbed_Overrite() {
+	public NetWndTabbed() {
 		super( 0, 0, Chrome.get( Chrome.Type.TAB_SET ) );
 
 		KeyEvent.addKeyListener(tabListener = new Signal.Listener<KeyEvent>() {
@@ -183,7 +183,7 @@ public class WndTabbed_Overrite extends Window {
 		protected void onClick() {
 			if (!selected) {
 				Sample.INSTANCE.play(Assets.Sounds.CLICK, 0.7f, 0.7f, 1.2f);
-				WndTabbed_Overrite.this.onClick(this);
+				NetWndTabbed.this.onClick(this);
 			}
 		}
 	}

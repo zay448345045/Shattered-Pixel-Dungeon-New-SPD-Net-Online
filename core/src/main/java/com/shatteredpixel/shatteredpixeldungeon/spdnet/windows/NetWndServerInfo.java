@@ -11,7 +11,7 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.windows.IconTitle;
 
-public class WndServerInfo extends NetWindow {
+public class NetWndServerInfo extends NetWindow {
 	private static final int WIDTH_P = 122;
 	private static final int WIDTH_L = 223;
 	private static final int BTN_HEIGHT = 18;
@@ -24,11 +24,11 @@ public class WndServerInfo extends NetWindow {
 	BlueButton keyBtn;
 	BlueButton connectBtn;
 
-	WndServerInfo self = this;
+	NetWndServerInfo self = this;
 
 	int zoom = PixelScene.defaultZoom;
 
-	public WndServerInfo() {
+	public NetWndServerInfo() {
 		super();
 
 		// 初始化socket客户端以正确显示服务器地址
@@ -61,7 +61,7 @@ public class WndServerInfo extends NetWindow {
 			@Override
 			public synchronized void update() {
 				super.update();
-				text(Net.isConnected() ? Messages.get(WndServerInfo.class, "connected") : Messages.get(WndServerInfo.class, "disconnected"));
+				text(Net.isConnected() ? Messages.get(NetWndServerInfo.class, "connected") : Messages.get(NetWndServerInfo.class, "disconnected"));
 				hardlight(Net.isConnected() ? 0x00FF00 : 0xFF0000);
 			}
 		};
@@ -83,11 +83,11 @@ public class WndServerInfo extends NetWindow {
 		keyBtn.setPos(0, bottom);
 
 		float finalBottom = bottom;
-		connectBtn = new BlueButton(Messages.get(WndServerInfo.class, "connect")) {
+		connectBtn = new BlueButton(Messages.get(NetWndServerInfo.class, "connect")) {
 			@Override
 			public synchronized void update() {
 				super.update();
-				text.text(Net.isConnected() ? Messages.get(WndServerInfo.class, "disconnect") : Messages.get(WndServerInfo.class, "connect"));
+				text.text(Net.isConnected() ? Messages.get(NetWndServerInfo.class, "disconnect") : Messages.get(NetWndServerInfo.class, "connect"));
 				connectBtn.setRect(keyBtn.right(), finalBottom, maxWidth / 2, BTN_HEIGHT);
 			}
 
