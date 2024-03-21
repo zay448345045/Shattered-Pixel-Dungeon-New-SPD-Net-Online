@@ -44,6 +44,7 @@ public class NetRankingsScene extends PixelScene {
 	private int totalElements;
 	private ArrayList<GameRecord> records = new ArrayList<>();
 	private Group rows;
+	private RenderedTextBlock noRec;
 
 	@Override
 	public void create() {
@@ -133,10 +134,13 @@ public class NetRankingsScene extends PixelScene {
 	public void updateLayout() {
 		int w = Camera.main.width;
 		int h = Camera.main.height;
+		if (rows != null){
+			rows.destroy();
+		}
+		if (noRec != null) {
+			noRec.destroy();
+		}
 		if (!records.isEmpty()) {
-			if (rows != null){
-				rows.destroy();
-			}
 			rows = new Group();
 			add(rows);
 
@@ -175,7 +179,7 @@ public class NetRankingsScene extends PixelScene {
 				align(label);
 			}
 		} else {
-			RenderedTextBlock noRec = PixelScene.renderTextBlock("没找到记录", 8);
+			noRec = PixelScene.renderTextBlock("没找到记录", 8);
 			noRec.hardlight(0xCCCCCC);
 			noRec.setPos(
 					(w - noRec.width()) / 2,
