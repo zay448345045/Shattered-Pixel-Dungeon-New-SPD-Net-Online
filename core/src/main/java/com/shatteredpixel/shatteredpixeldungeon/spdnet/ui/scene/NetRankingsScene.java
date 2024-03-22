@@ -9,6 +9,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.TitleScene;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.GameRecord;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Sender;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CRequestLeaderboard;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.NetWndLeaderboardSelect;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Archs;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ExitButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.IconButton;
@@ -80,6 +81,15 @@ public class NetRankingsScene extends PixelScene {
 
 		updateLayout();
 
+		IconButton btn = new IconButton(Icons.RANKINGS.get()) {
+			@Override
+			protected void onClick() {
+				ShatteredPixelDungeon.scene().addToFront(new NetWndLeaderboardSelect());
+			}
+		};
+		btn.setRect(0, 0, 20, 20);
+		add(btn);
+
 		ExitButton btnExit = new ExitButton();
 		btnExit.setPos(Camera.main.width - btnExit.width(), 0);
 		add(btnExit);
@@ -134,7 +144,7 @@ public class NetRankingsScene extends PixelScene {
 	public void updateLayout() {
 		int w = Camera.main.width;
 		int h = Camera.main.height;
-		if (rows != null){
+		if (rows != null) {
 			rows.destroy();
 		}
 		if (noRec != null) {
