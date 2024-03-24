@@ -26,7 +26,7 @@ public class Net {
 	// 服务器的种子列表
 	public static ConcurrentHashMap<String, Long> seeds = new ConcurrentHashMap<>();
 	// 玩家名
-	public static String name = "";
+	public static String name = "未登录";
 	// <PlayerKey{玩家名, 玩家权限}, 玩家状态>, 如果当前玩家没在游戏内, Status的层数为-1
 	public static ConcurrentHashMap<String, Player> playerList = new ConcurrentHashMap<>();
 

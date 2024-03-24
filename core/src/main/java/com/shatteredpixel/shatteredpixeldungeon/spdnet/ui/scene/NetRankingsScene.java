@@ -6,6 +6,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Rankings;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.TitleScene;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.Mode;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.GameRecord;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Sender;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CRequestLeaderboard;
@@ -34,11 +35,11 @@ public class NetRankingsScene extends PixelScene {
 	private static final float GAP = 4;
 
 	private Archs archs;
-	private String playerName;
-	Integer challengeCount;
-	private Boolean winOnly;
-	private String gameMode;
-	private String sortCriteria;
+	public static String playerName;
+	public static Integer challengeCount;
+	public static Boolean winOnly;
+	public static String gameMode;
+	public static String sortCriteria;
 	private int amountPerPage;
 	private int totalPages;
 	private int currentPage;
@@ -46,6 +47,10 @@ public class NetRankingsScene extends PixelScene {
 	private ArrayList<GameRecord> records = new ArrayList<>();
 	private Group rows;
 	private RenderedTextBlock noRec;
+
+	RenderedTextBlock title;
+	RenderedTextBlock select;
+	RenderedTextBlock label;
 
 	@Override
 	public void create() {
@@ -70,7 +75,7 @@ public class NetRankingsScene extends PixelScene {
 
 		Rankings.INSTANCE.load();
 
-		RenderedTextBlock title = PixelScene.renderTextBlock("当前显示: 总排行榜", 9);
+		title = PixelScene.renderTextBlock("当前显示: 总排行榜", 9);
 		title.hardlight(Window.TITLE_COLOR);
 		title.setPos(
 				(w - title.width()) / 2f,
@@ -78,6 +83,25 @@ public class NetRankingsScene extends PixelScene {
 		);
 		align(title);
 		add(title);
+
+		select = PixelScene.renderTextBlock("当前筛选: 无", 9);
+		select.hardlight(Window.TITLE_COLOR);
+		select.setPos(
+				(w - select.width()) / 2f,
+				title.bottom() + 4
+		);
+		align(select);
+		add(select);
+
+		label = PixelScene.renderTextBlock("显示第" + currentPage + "页 共有" + totalPages + "页 共有" + totalElements + "条记录", 8);
+		label.hardlight(0xCCCCCC);
+		label.setHightlighting(true, Window.SHPX_COLOR);
+		label.setPos(
+				(w - label.width()) / 2,
+				h - label.height() - 2 * GAP
+		);
+		align(label);
+		add(label);
 
 		updateLayout();
 
@@ -144,6 +168,42 @@ public class NetRankingsScene extends PixelScene {
 	public void updateLayout() {
 		int w = Camera.main.width;
 		int h = Camera.main.height;
+
+		if (playerName == null) {
+			title.text("当前显示: 总排行榜");
+		} else {
+			title.text("当前显示: " + playerName + " 的排行榜");
+		}
+		title.setPos(
+				(w - title.width()) / 2f,
+				(20 - title.height()) / 2f
+		);
+		ArrayList<String> selects = new ArrayList<>();
+		if (!(challengeCount == null)) {
+			selects.add(challengeCount + "挑");
+		}
+		if (!(winOnly == null)) {
+			selects.add(winOnly ? "胜利" : "未胜利");
+		}
+		if (!(gameMode == null)) {
+			Mode mode = Mode.valueOf(gameMode);
+			selects.add(mode.getName());
+		}
+		String selectText = "";
+		if (selects.isEmpty()) {
+			selectText = "无";
+		} else {
+			for (String text : selects) {
+				selectText = selectText + text + ", ";
+			}
+			selectText = selectText.substring(0, selectText.length() - 2);
+		}
+		select.text("当前筛选: " + selectText);
+		select.setPos(
+				(w - select.width()) / 2f,
+				title.bottom() + 4
+		);
+
 		if (rows != null) {
 			rows.destroy();
 		}
@@ -175,18 +235,7 @@ public class NetRankingsScene extends PixelScene {
 			}
 
 			if (Rankings.INSTANCE.totalNumber >= Rankings.TABLE_SIZE) {
-
-				RenderedTextBlock label = PixelScene.renderTextBlock(8);
-				label.hardlight(0xCCCCCC);
-				label.setHightlighting(true, Window.SHPX_COLOR);
 				label.text("显示第" + currentPage + "页 共有" + totalPages + "页 共有" + totalElements + "条记录");
-				add(label);
-
-				label.setPos(
-						(w - label.width()) / 2,
-						h - label.height() - 2 * GAP
-				);
-				align(label);
 			}
 		} else {
 			noRec = PixelScene.renderTextBlock("没找到记录", 8);
