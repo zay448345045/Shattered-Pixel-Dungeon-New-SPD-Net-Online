@@ -178,6 +178,7 @@ public class Handler {
 
 
 		// TODO 等GUI实现之后来这里更改种子逻辑 目前默认使用服务器给与的第一个种子
+		NetInProgress.seedName = (String) Net.seeds.keySet().toArray()[0];
 		NetInProgress.seed = Net.seeds.get(Net.seeds.keySet().toArray()[0]);
 	}
 

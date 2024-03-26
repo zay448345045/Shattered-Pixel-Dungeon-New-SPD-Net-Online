@@ -222,6 +222,12 @@ public class Dungeon {
 
 		// 种子设置
 		// TODO 等GUI实现之后来这里更改种子逻辑 目前默认使用服务器给与的第一个种子
+		if (NetInProgress.mode == Mode.IRONMAN) {
+			seed = DungeonSeed.randomSeed();
+		} else {
+			customSeedText = NetInProgress.seedName;
+			seed = NetInProgress.seed;
+		}
 //		if (daily) {
 //			//Ensures that daily seeds are not in the range of user-enterable seeds
 //			seed = SPDSettings.lastDaily() + DungeonSeed.TOTAL_SEEDS;
@@ -235,8 +241,6 @@ public class Dungeon {
 //			customSeedText = "";
 //			seed = DungeonSeed.randomSeed();
 //		}
-		customSeedText = "";
-		seed = NetInProgress.seed;
 
 		Actor.clear();
 		Actor.resetNextID();
