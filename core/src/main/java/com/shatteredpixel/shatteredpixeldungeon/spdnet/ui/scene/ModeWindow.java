@@ -5,6 +5,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.Mode;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.SPDNetChrome;
+import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.StyledButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 
@@ -14,17 +15,24 @@ import lombok.Setter;
 public class ModeWindow extends Window {
 	private static final int WIDTH_P = 120;
 	private static final int WIDTH_L = 220;
-	private static final int HEIGHT = 150;
+	private static final int HEIGHT = 120;
 	private static final int MARGIN = 2;
 
 	public ModeWindow() {
 		super(PixelScene.landscape() ? WIDTH_L : WIDTH_P, HEIGHT, Chrome.get(Chrome.Type.WINDOW));
 		int buttonWidth = (width - (Mode.values().length - 1) * MARGIN) / Mode.values().length;
 		for (int i = 0; i < Mode.values().length; i++) {
-			ModeButton button = new ModeButton(this, Mode.values()[i], buttonWidth, 20);
+			Mode mode = Mode.values()[i];
+			ModeButton button = new ModeButton(this, mode, buttonWidth, 20);
 			button.setPos(i * (buttonWidth + MARGIN), MARGIN);
 			add(button);
+
+			RenderedTextBlock text = PixelScene.renderTextBlock(mode.getDescription(), 7);
+			text.maxWidth(buttonWidth);
+			text.setPos(button.left(), button.bottom() + 2);
+			add(text);
 		}
+
 	}
 
 	@Getter
