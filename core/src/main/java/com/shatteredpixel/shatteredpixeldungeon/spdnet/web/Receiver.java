@@ -4,6 +4,11 @@ import static com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net.getSocket;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.TitleScene;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.NetRankingsScene;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Events;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAchievement;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SAnkhUsed;
@@ -25,6 +30,10 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPla
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SPlayerMove;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SServerMessage;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.events.SViewHero;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.NetWindow;
+import com.watabou.noosa.Game;
+
+import java.io.IOException;
 
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -39,7 +48,18 @@ public class Receiver {
 		Emitter.Listener onConnected = args -> {
 		};
 		Emitter.Listener onDisconnected = args -> {
+			if (ShatteredPixelDungeon.scene() instanceof GameScene) {
+				try {
+					Dungeon.saveAll();
+				} catch (IOException e) {
+					ShatteredPixelDungeon.reportException(e);
+				}
+				Game.switchScene(TitleScene.class);
+			} else if (ShatteredPixelDungeon.scene() instanceof NetRankingsScene) {
+				Game.switchScene(TitleScene.class);
+			}
 			cancelAll();
+			NetWindow.error("与服务器断开连接");
 		};
 		Emitter.Listener onConnectionError = args -> {
 		};

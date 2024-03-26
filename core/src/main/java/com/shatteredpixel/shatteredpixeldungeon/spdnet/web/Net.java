@@ -42,7 +42,7 @@ public class Net {
 		if (socket == null) {
 			try {
 				IO.Options opts = new IO.Options();
-				opts.reconnection = true;
+				opts.reconnection = false;
 				opts.query = "token=" + NetSettings.getKey() + "&SPDVersion=" + Game.version + "&NetVersion=" + Game.netVersion;
 				socket = IO.socket(serverUrl, opts);
 			} catch (URISyntaxException e) {
