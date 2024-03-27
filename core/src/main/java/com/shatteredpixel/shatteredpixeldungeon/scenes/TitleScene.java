@@ -34,10 +34,13 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.services.news.News;
 import com.shatteredpixel.shatteredpixeldungeon.services.updates.AvailableUpdateData;
 import com.shatteredpixel.shatteredpixeldungeon.services.updates.Updates;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.NetIcons;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.NetRankingsScene;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.scene.SPDNetChangesButton;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Sender;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CLeaveDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.NetWindow;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Archs;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ExitButton;
@@ -142,8 +145,37 @@ public class TitleScene extends PixelScene {
 		btnPlay.icon(Icons.get(Icons.ENTER));
 		add(btnPlay);
 
-		StyledButton btnSupport = new SupportButton(GREY_TR, Messages.get(this, "support"));
-		add(btnSupport);
+		// 替换支持按钮
+//		StyledButton btnSupport = new SupportButton(GREY_TR, Messages.get(this, "support"));
+//		add(btnSupport);
+
+		// 服务器连接按钮
+		StyledButton btnConnection = new StyledButton(GREY_TR, "连接服务器") {
+			@Override
+			protected void onClick() {
+				NetWindow.showServerInfo();
+			}
+		};
+
+		btnConnection.icon(NetIcons.get(NetIcons.GLOBE));
+		btnConnection.icon().scale.set(PixelScene.align(0.8f));
+		add(btnConnection);
+
+		// 玩家列表按钮
+		StyledButton btnPlayers = new StyledButton(GREY_TR, "在线玩家") {
+			@Override
+			protected void onClick() {
+				if (Net.isConnected()) {
+					// TODO 显示在线玩家
+				} else {
+					NetWindow.error("未连接", "请先连接到服务器 >:(");
+				}
+			}
+		};
+
+		btnPlayers.icon(NetIcons.get(NetIcons.PLAYERS));
+		btnPlayers.icon().scale.set(PixelScene.align(0.8f));
+		add(btnPlayers);
 
 		StyledButton btnRankings = new StyledButton(GREY_TR,Messages.get(this, "rankings")){
 			@Override
@@ -190,10 +222,13 @@ public class TitleScene extends PixelScene {
 		GAP = Math.max(GAP, 2);
 
 		if (landscape()) {
-			btnPlay.setRect(title.x-50, topRegion+GAP, ((title.width()+100)/2)-1, BTN_HEIGHT);
+			btnPlay.setRect(title.x-50, topRegion+GAP, ((title.width()+100)/3)-1, BTN_HEIGHT);
 			align(btnPlay);
-			btnSupport.setRect(btnPlay.right()+2, btnPlay.top(), btnPlay.width(), BTN_HEIGHT);
-			btnRankings.setRect(btnPlay.left(), btnPlay.bottom()+ GAP, (btnPlay.width()*.67f)-1, BTN_HEIGHT);
+			// 替换支持按钮
+//			btnSupport.setRect(btnPlay.right()+2, btnPlay.top(), btnPlay.width(), BTN_HEIGHT);
+			btnConnection.setRect(btnPlay.right()+2, topRegion+GAP, (btnPlay.width()), BTN_HEIGHT);
+			btnPlayers.setRect(btnConnection.right()+2, topRegion+GAP, btnConnection.width(), BTN_HEIGHT);
+			btnRankings.setRect(btnPlay.left(), btnPlay.bottom()+ GAP, (btnPlay.width()), BTN_HEIGHT);
 			btnBadges.setRect(btnRankings.left(), btnRankings.bottom()+GAP, btnRankings.width(), BTN_HEIGHT);
 			btnNews.setRect(btnRankings.right()+2, btnRankings.top(), btnRankings.width(), BTN_HEIGHT);
 			btnChanges.setRect(btnNews.left(), btnNews.bottom() + GAP, btnRankings.width(), BTN_HEIGHT);
@@ -202,8 +237,11 @@ public class TitleScene extends PixelScene {
 		} else {
 			btnPlay.setRect(title.x, topRegion+GAP, title.width(), BTN_HEIGHT);
 			align(btnPlay);
-			btnSupport.setRect(btnPlay.left(), btnPlay.bottom()+ GAP, btnPlay.width(), BTN_HEIGHT);
-			btnRankings.setRect(btnPlay.left(), btnSupport.bottom()+ GAP, (btnPlay.width()/2)-1, BTN_HEIGHT);
+			// 替换支持按钮
+//			btnSupport.setRect(btnPlay.left(), btnPlay.bottom()+ GAP, btnPlay.width(), BTN_HEIGHT);
+			btnConnection.setRect(btnPlay.left(), btnPlay.bottom()+ GAP, (btnPlay.width()/2)-1, BTN_HEIGHT);
+			btnPlayers.setRect(btnConnection.right()+2, btnConnection.top(), btnConnection.width(), BTN_HEIGHT);
+			btnRankings.setRect(btnPlay.left(), btnConnection.bottom()+ GAP, (btnPlay.width()/2)-1, BTN_HEIGHT);
 			btnBadges.setRect(btnRankings.right()+2, btnRankings.top(), btnRankings.width(), BTN_HEIGHT);
 			btnNews.setRect(btnRankings.left(), btnRankings.bottom()+ GAP, btnRankings.width(), BTN_HEIGHT);
 			btnChanges.setRect(btnNews.right()+2, btnNews.top(), btnNews.width(), BTN_HEIGHT);
