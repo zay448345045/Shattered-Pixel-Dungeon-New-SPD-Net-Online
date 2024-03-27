@@ -471,8 +471,9 @@ public class Armor extends EquipableItem {
 		if (levelKnown) {
 
 			info += "\n\n" + Messages.get(Armor.class, "curr_absorb", tier, DRMin(), DRMax(), STRReq());
-			
-			if (STRReq() > Dungeon.hero.STR()) {
+
+			// 判空
+			if (Dungeon.hero != null && STRReq() > Dungeon.hero.STR()) {
 				info += " " + Messages.get(Armor.class, "too_heavy");
 			}
 		} else {

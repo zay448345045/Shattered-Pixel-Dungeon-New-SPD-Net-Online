@@ -102,7 +102,7 @@ public class Handler {
 		Bundle bundle = Bundle.fromString(hero.getHero());
 		NetHero player = new NetHero(hero.getTargetName());
 		player.restoreFromBundleOverride(bundle);
-		Game.runOnRenderThread(() -> GameScene.show(new NetWndPlayerInfo(hero.getTargetName(), player)));
+		Game.runOnRenderThread(() -> ShatteredPixelDungeon.scene().add(new NetWndPlayerInfo(hero.getTargetName(), player)));
 	}
 
 	public static void handleChatMessage(SChatMessage chatMessage) {

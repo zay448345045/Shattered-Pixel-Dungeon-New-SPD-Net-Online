@@ -41,6 +41,7 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Sender;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CLeaveDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.NetWindow;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.NetWndPlayerList;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Archs;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ExitButton;
@@ -166,7 +167,7 @@ public class TitleScene extends PixelScene {
 			@Override
 			protected void onClick() {
 				if (Net.isConnected()) {
-					// TODO 显示在线玩家
+					Game.runOnRenderThread(() -> ShatteredPixelDungeon.scene().add(new NetWndPlayerList()));
 				} else {
 					NetWindow.error("未连接", "请先连接到服务器 >:(");
 				}

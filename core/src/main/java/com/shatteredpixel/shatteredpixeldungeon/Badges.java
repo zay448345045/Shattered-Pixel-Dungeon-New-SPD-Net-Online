@@ -1067,7 +1067,8 @@ public class Badges {
 	}
 	
 	public static boolean isUnlocked( Badge badge ) {
-		return global.contains( badge );
+		// 判空
+		return global != null && global.contains( badge );
 	}
 	
 	public static HashSet<Badge> allUnlocked(){

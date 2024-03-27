@@ -220,45 +220,46 @@ public class NetWndPlayerInfo extends WndTabbed {
 
 			pos += GAP + backpackButton.height();
 
-			RedButton giveItemButton = new RedButton("给" + hero.name + "赠送物品") {
-				@Override
-				protected void onClick() {
-					super.onClick();
-					GameScene.selectItem(new WndBag.ItemSelector() {
-						@Override
-						public String textPrompt() {
-							return "选择要赠送的物品";
-						}
+			if (ShatteredPixelDungeon.scene() instanceof GameScene) {
+				RedButton giveItemButton = new RedButton("给" + hero.name + "赠送物品") {
+					@Override
+					protected void onClick() {
+						super.onClick();
+						GameScene.selectItem(new WndBag.ItemSelector() {
+							@Override
+							public String textPrompt() {
+								return "选择要赠送的物品";
+							}
 
-						@Override
-						public boolean itemSelectable(Item item) {
-							return !(item instanceof Bag || item instanceof CorpseDust);
-						}
+							@Override
+							public boolean itemSelectable(Item item) {
+								return !(item instanceof Bag || item instanceof CorpseDust);
+							}
 
-						@Override
-						public void onSelect(Item item) {
-							if (item != null) {
-								Player player = Net.playerList.get(name);
-								if (player == null || player.getStatus() == null) {
-									return;
-								}
-								Sender.sendGiveItem(new CGiveItem(hero.name, item));
-								if (player.getStatus().getGameModeEnum() == Mode.IRONMAN) {
-									NLog.p(hero.name + "是铁人，不能接受你的" + item.name());
-								} else {
-									item.detach(Dungeon.hero.belongings.backpack);
-									// FIXME 如果赠送装备物品 装备物品不会从玩家背包正确删除
+							@Override
+							public void onSelect(Item item) {
+								if (item != null) {
+									Player player = Net.playerList.get(name);
+									if (player == null || player.getStatus() == null) {
+										return;
+									}
+									Sender.sendGiveItem(new CGiveItem(hero.name, item));
+									if (player.getStatus().getGameModeEnum() == Mode.IRONMAN) {
+										NLog.p(hero.name + "是铁人，不能接受你的" + item.name());
+									} else {
+										item.detach(Dungeon.hero.belongings.backpack);
+										// FIXME 如果赠送装备物品 装备物品不会从玩家背包正确删除
+									}
 								}
 							}
-						}
-					});
-				}
-			};
-			giveItemButton.icon(Icons.get(Icons.GOLD));
-			giveItemButton.setRect(0, pos, WIDTH, 16);
-			add(giveItemButton);
-
-			pos += GAP + giveItemButton.height();
+						});
+					}
+				};
+				giveItemButton.icon(Icons.get(Icons.GOLD));
+				giveItemButton.setRect(0, pos, WIDTH, 16);
+				add(giveItemButton);
+				pos += GAP + giveItemButton.height();
+			}
 		}
 
 		private void statSlot(String label, String value) {
