@@ -1,6 +1,8 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.utils;
 
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.windows.NetWndChat;
 import com.watabou.utils.DeviceCompat;
 import com.watabou.utils.Signal;
 
@@ -30,6 +32,8 @@ public class NLog {
 		DeviceCompat.log(TAG, text);
 		update.dispatch(text);
 		newLine();
+
+		Net.chatMessages.add(text);
 	}
 
 	public static void p(String text, Object... args) {
@@ -46,5 +50,12 @@ public class NLog {
 
 	public static void h(String text, Object... args) {
 		i(HIGHLIGHT + text, args);
+	}
+
+	public static void chat(String name, String text) {
+		if (Net.name.equals(name)) {
+			name = POSITIVE + name;
+		}
+		i(name + ": " + text);
 	}
 }

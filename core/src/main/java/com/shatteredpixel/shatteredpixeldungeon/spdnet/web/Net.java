@@ -9,6 +9,7 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Player;
 import com.watabou.noosa.Game;
 
 import java.net.URISyntaxException;
+import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
 import io.socket.client.IO;
@@ -29,6 +30,7 @@ public class Net {
 	public static String name = "未登录";
 	// <PlayerKey{玩家名, 玩家权限}, 玩家状态>, 如果当前玩家没在游戏内, Status的层数为-1
 	public static ConcurrentHashMap<String, Player> playerList = new ConcurrentHashMap<>();
+	public static Vector<String> chatMessages = new Vector<>();
 
 	/**
 	 * 获取一个socketIO对象

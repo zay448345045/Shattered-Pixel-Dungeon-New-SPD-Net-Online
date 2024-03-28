@@ -106,6 +106,7 @@ public class Handler {
 	}
 
 	public static void handleChatMessage(SChatMessage chatMessage) {
+		NLog.chat(chatMessage.getName(), chatMessage.getMessage());
 	}
 
 	public static void handleEnterDungeon(SEnterDungeon enterDungeon) {
@@ -217,6 +218,18 @@ public class Handler {
 	}
 
 	public static void handlePlayerChangeFloor(SPlayerChangeFloor playerChangeFloor) {
+		if (!playerChangeFloor.getName().equals(Net.name)) {
+			Player player = Net.playerList.get(playerChangeFloor.getName());
+			if (player == null) {
+				syncPlayerList();
+				return;
+			}
+			Status status = player.getStatus();
+			status.setDepth(playerChangeFloor.getDepth());
+			player.setStatus(status);
+			Net.playerList.put(playerChangeFloor.getName(), player);
+			NetHero.addPlayerToDungeon(player);
+		}
 	}
 
 	public static void handlePlayerList(SPlayerList playerList) {
