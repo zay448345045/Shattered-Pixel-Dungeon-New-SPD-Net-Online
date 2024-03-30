@@ -1,5 +1,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
@@ -71,7 +72,7 @@ public class Handler {
 			if (player1 != null) {
 				player1.useAnkh(true, ankhUsed.getUnusedBlessedAnkh(), ankhUsed.getUnusedUnblessedAnkh());
 			}
-			NLog.p(ankhUsed.getName() + "差点因为" + ankhUsed.getCause() + "而死, " + "剩余十字架: " + (ankhUsed.getUnusedBlessedAnkh() + ankhUsed.getUnusedUnblessedAnkh()));
+			NLog.w(ankhUsed.getName() + "差点因为" + ankhUsed.getCause() + "而死, " + "剩余十字架: " + (ankhUsed.getUnusedBlessedAnkh() + ankhUsed.getUnusedUnblessedAnkh()));
 		}
 	}
 
@@ -127,7 +128,7 @@ public class Handler {
 
 	public static void handleError(SError error) {
 		NetWindow.error("服务器错误:" + error.getError());
-		NLog.w("服务器错误:" + error.getError());
+		NLog.n("服务器错误:" + error.getError());
 	}
 
 	public static void handleExit(SExit exit) {
@@ -137,7 +138,7 @@ public class Handler {
 				Net.playerList.remove(exit.getName());
 				NetHero.removePlayerFromDungeon(exit.getName());
 			}
-			NLog.p(exit.getName() + " 下线了");
+			NLog.h(exit.getName() + " 下线了");
 		}
 	}
 
@@ -145,11 +146,11 @@ public class Handler {
 		Item item = giveItem.getItemObject();
 		if (item != null && ShatteredPixelDungeon.scene() instanceof GameScene) {
 			if (NetInProgress.mode == Mode.IRONMAN) {
-				NLog.p(giveItem.getName() + "想给你 " + item.name() + ", 可惜你是铁人");
+				NLog.h(giveItem.getName() + "想给你 " + item.name() + ", 可惜你是铁人");
 				return;
 			}
 			item.doPickUp(Dungeon.hero);
-			NLog.p(giveItem.getName() + "给了你" + item.name());
+			NLog.h(giveItem.getName() + "给了你" + item.name());
 		}
 	}
 
@@ -170,6 +171,13 @@ public class Handler {
 	}
 
 	public static void handleGameEnd(SGameEnd gameEnd) {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			GameRecord record = mapper.readValue(gameEnd.getRecord(), GameRecord.class);
+			NLog.w(gameEnd.getName() + "在" + Mode.valueOf(record.getGameMode()).getName() + record.getChallengeAmount() + "挑" + (record.isWin() ? "胜利" : "死亡, 到达了第" + record.getDepth() + "层"));
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void handleInit(SInit init) {
@@ -186,7 +194,7 @@ public class Handler {
 	public static void handleJoin(SJoin join) {
 		if (!join.getName().equals(Net.name)) {
 			Net.playerList.put(join.getName(), new Player(join.getQq(), join.getName(), join.getPower(), null));
-			NLog.p(join.getName() + " 上线了");
+			NLog.h(join.getName() + " 上线了");
 		}
 	}
 
@@ -263,7 +271,7 @@ public class Handler {
 		Bundle heroBundle = new Bundle();
 		Dungeon.hero.storeInBundle(heroBundle);
 		Sender.sendHero(new CHero(viewHero.getSourceName(), heroBundle.toString()));
-		// TODO 提示一下自己被其他人偷偷看了?
+		NLog.h("你被" + viewHero.getSourceName() + "查看了");
 	}
 
 	/**

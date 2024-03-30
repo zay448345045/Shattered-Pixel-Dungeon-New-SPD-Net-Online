@@ -55,7 +55,7 @@ public class NetRecordButton extends Button {
 			position.text(" ");
 		position.measure();
 
-		desc.text(Messages.titleCase(rec.getPlayerName() + " " + rec.desc()));
+		desc.text(rec.getPlayerName() + " " + rec.desc());
 
 		int odd = pos % 2;
 

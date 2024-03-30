@@ -245,7 +245,7 @@ public class NetWndPlayerInfo extends WndTabbed {
 									}
 									Sender.sendGiveItem(new CGiveItem(hero.name, item));
 									if (player.getStatus().getGameModeEnum() == Mode.IRONMAN) {
-										NLog.p(hero.name + "是铁人，不能接受你的" + item.name());
+										NLog.h(hero.name + "是铁人，不能接受你的" + item.name());
 									} else {
 										item.detach(Dungeon.hero.belongings.backpack);
 										// FIXME 如果赠送装备物品 装备物品不会从玩家背包正确删除
