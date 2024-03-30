@@ -129,10 +129,10 @@ public class NetLog extends Component implements Signal.Listener<String> {
 	@Override
 	protected void layout() {
 		float pos = y;
-		for (int i = length - 1; i >= 0; i--) {
+		for (int i = 0; i < length; i++) {
 			RenderedTextBlock entry = (RenderedTextBlock) members.get(i);
 			entry.maxWidth((int) width);
-			entry.setPos(x, pos + entry.height());
+			entry.setPos(x, pos);
 			pos += entry.height() + 2;
 		}
 	}
