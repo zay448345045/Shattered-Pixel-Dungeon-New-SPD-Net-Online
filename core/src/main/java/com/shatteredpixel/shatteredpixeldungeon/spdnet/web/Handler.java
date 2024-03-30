@@ -233,6 +233,9 @@ public class Handler {
 				return;
 			}
 			Status status = player.getStatus();
+			if (status == null) {
+				return;
+			}
 			status.setDepth(playerChangeFloor.getDepth());
 			player.setStatus(status);
 			Net.playerList.put(playerChangeFloor.getName(), player);
