@@ -28,7 +28,9 @@ import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Journal;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.Mode;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.ui.NetButton;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Archs;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Button;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ExitButton;
@@ -36,11 +38,15 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndGameInProgress;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
 import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.NinePatch;
+import com.watabou.utils.Bundle;
+import com.watabou.utils.FileUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class StartScene extends PixelScene {
@@ -139,9 +145,13 @@ public class StartScene extends PixelScene {
 		
 		private int slot;
 		private boolean newGame;
+		// 种子
+		private long seed;
 
 		// 模式文字
-		private RenderedTextBlock mode;
+		private RenderedTextBlock modeText;
+
+		private Mode mode;
 		
 		@Override
 		protected void createChildren() {
@@ -154,8 +164,8 @@ public class StartScene extends PixelScene {
 			add(name);
 
 			// 模式文字
-			mode = PixelScene.renderTextBlock(7);
-			add(mode);
+			modeText = PixelScene.renderTextBlock(7);
+			add(modeText);
 		}
 		
 		public void set( int slot ){
@@ -177,8 +187,8 @@ public class StartScene extends PixelScene {
 					remove(level);
 					level = null;
 					// 模式文字
-					remove(mode);
-					mode = null;
+					remove(modeText);
+					modeText = null;
 				}
 			} else {
 				
@@ -188,7 +198,9 @@ public class StartScene extends PixelScene {
 					name.text(Messages.titleCase(info.heroClass.title()));
 				}
 				// 模式文字
-				mode.text(info.mode.getName().substring(0, 2));
+				mode = info.mode;
+				seed = info.seed;
+				modeText.text(info.mode.getName().substring(0, 2));
 				
 				if (hero == null){
 					hero = new Image(info.heroClass.spritesheet(), 0, 15*info.armorTier, 12, 15);
@@ -236,7 +248,7 @@ public class StartScene extends PixelScene {
 				}
 				
 			}
-			
+
 			layout();
 		}
 		
@@ -260,9 +272,9 @@ public class StartScene extends PixelScene {
 				align(name);
 
 				// 模式文字
-				mode.setPos(
+				modeText.setPos(
 						name.right() + 2,
-						y + (height - mode.height())/2f
+						y + (height - modeText.height())/2f
 				);
 				
 				classIcon.x = x + width - 24 + (16 - classIcon.width())/2f;
@@ -299,7 +311,57 @@ public class StartScene extends PixelScene {
 				GamesInProgress.curSlot = slot;
 				ShatteredPixelDungeon.switchScene(HeroSelectScene.class);
 			} else {
-				ShatteredPixelDungeon.scene().add( new WndGameInProgress(slot));
+				if (Net.seeds.containsValue(seed)) {
+					ShatteredPixelDungeon.scene().add(new WndGameInProgress(slot));
+				} else {
+					if (mode == Mode.FUN) {
+						ShatteredPixelDungeon.scene().add(new WndOptions("过时的种子", "这个种子已经不是服务器的默认种子了, 你可以继续游玩, 但是你很难再见到其他玩家", "继续游玩", "取消") {
+							@Override
+							protected void onSelect(int index) {
+								if (index == 0) {
+									ShatteredPixelDungeon.scene().add(new WndGameInProgress(slot));
+								} else if (index == 1) {
+									destroy();
+								}
+							}
+						});
+					} else if (mode == Mode.IRONMAN) {
+						ShatteredPixelDungeon.scene().add(new WndGameInProgress(slot));
+					} else if (mode == Mode.DAILY) {
+						ShatteredPixelDungeon.scene().add(new WndOptions("过时的种子", "这已经是以前的每日挑战了, 你可以继续游玩, 但是你的记录不会被上传", "继续游玩", "取消") {
+							@Override
+							protected void onSelect(int index) {
+								if (index == 0) {
+									ShatteredPixelDungeon.scene().add(new WndGameInProgress(slot));
+								} else if (index == 1) {
+									destroy();
+								}
+							}
+						});
+					}
+				}
+			}
+		}
+
+		@Override
+		public void update() {
+			super.update();
+			if (mode == null) {
+				return;
+			}
+			if (Net.seeds.containsValue(seed)){
+				bg.hardlight(0x00FF00);
+			}else {
+				switch (mode) {
+					case FUN:
+						bg.hardlight(0xFFFF00);
+						break;
+					case IRONMAN:
+						return;
+					case DAILY:
+						bg.hardlight(0xFF0000);
+						break;
+				}
 			}
 		}
 	}
