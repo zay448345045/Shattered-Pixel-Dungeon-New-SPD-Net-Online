@@ -52,6 +52,9 @@ public class ModeWindow extends Window {
 
 		@Override
 		protected void onClick() {
+			if (mode == Mode.DAILY) {
+				return;
+			}
 			window.destroy();
 			NetInProgress.mode = mode;
 		}
