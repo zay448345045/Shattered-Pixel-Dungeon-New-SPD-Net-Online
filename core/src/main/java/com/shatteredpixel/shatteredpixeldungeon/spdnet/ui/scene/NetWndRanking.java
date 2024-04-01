@@ -288,38 +288,6 @@ public class NetWndRanking extends WndTabbed {
 			}
 
 			int buttontop = HEIGHT - 16;
-
-			// 手动设置排行榜中的种子相关信息可见
-			if (Dungeon.hero != null && Dungeon.seed != -1 && !Dungeon.daily) {
-				final Image icon = Icons.get(Icons.SEED);
-				RedButton btnSeed = new RedButton(Messages.get(WndRanking.StatsTab.class, "copy_seed")) {
-					@Override
-					protected void onClick() {
-						super.onClick();
-						ShatteredPixelDungeon.scene().addToFront(new WndOptions(new Image(icon),
-								"复制种子",
-								"你确定要使用这条记录对应的地下城种子开始一场游戏吗？_注意，使用自定义种子的游戏不能获得徽章，不计入已进行的游戏，也不会出现在排行榜的底部。_\\n\\n如果这个排名来自较早的游戏，也要注意不同版本的《破碎的像素地牢》可能会生成不同的地下城，即使使用相同的种子。",
-								"使用这个种子",
-								"取消") {
-							@Override
-							protected void onSelect(int index) {
-								super.onSelect(index);
-								if (index == 0) {
-									SPDSettings.customSeed(DungeonSeed.convertToCode(Dungeon.seed));
-									icon.hardlight(1f, 1.5f, 0.67f);
-								}
-							}
-						});
-					}
-				};
-				if (DungeonSeed.convertFromText(SPDSettings.customSeed()) == Dungeon.seed) {
-					icon.hardlight(1f, 1.5f, 0.67f);
-				}
-				btnSeed.icon(icon);
-				btnSeed.setRect(0, buttontop, 115, 16);
-				add(btnSeed);
-			}
-
 		}
 
 		private float statSlot(Group parent, String label, String value, float pos) {
