@@ -25,7 +25,7 @@ public class Net {
 	// 服务器地址
 	@Getter
 	@Setter
-	private static String serverUrl = "http://127.0.0.1:21687/spdnet";
+	private static String serverUrl = isDebug() ? "http://127.0.0.1:21687/spdnet" : "http://pz-2.zjiecloud.cc:25964/spdnet";
 	// 服务器的种子列表
 	public static ConcurrentHashMap<String, Long> seeds = new ConcurrentHashMap<>();
 	// 玩家名
