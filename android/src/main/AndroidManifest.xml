@@ -22,9 +22,10 @@
 		android:normalScreens="true"
 		android:largeScreens="true"
 		android:xlargeScreens="true"/>
-
+	<!-- 添加 networkSecurityConfig 允许非安全连接 -->
 	<application
 		android:icon="@mipmap/ic_launcher"
+		android:networkSecurityConfig="@xml/network_security_config"
 		android:label="${appName}"
 		android:theme="@android:style/Theme.Black.NoTitleBar"
 		android:resizeableActivity="true"

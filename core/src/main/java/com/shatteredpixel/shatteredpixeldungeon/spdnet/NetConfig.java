@@ -44,6 +44,7 @@ public class NetConfig {
 				try {
 					config = mapper.readTree(json[0]);
 					com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net.setServerUrl(NetConfig.config.get("serverUrl").asText());
+					com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net.destroySocket();
 					externalListener.handleHttpResponse(httpResponse);
 				} catch (JsonProcessingException ignored) {
 				}
