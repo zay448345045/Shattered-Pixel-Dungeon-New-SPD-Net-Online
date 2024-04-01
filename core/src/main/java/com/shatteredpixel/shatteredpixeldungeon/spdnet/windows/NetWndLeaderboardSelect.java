@@ -28,7 +28,7 @@ public class NetWndLeaderboardSelect extends Window {
 	OptionSlider optSortCriteria;
 
 	public NetWndLeaderboardSelect() {
-		resize(200, 250);
+		resize(120, 200);
 
 		title = PixelScene.renderTextBlock("排行榜设置", 9);
 		title.hardlight(TITLE_COLOR);
