@@ -4,6 +4,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.CorpseDust;
@@ -247,8 +248,12 @@ public class NetWndPlayerInfo extends WndTabbed {
 									if (player.getStatus().getGameModeEnum() == Mode.IRONMAN) {
 										NLog.h(hero.name + "是铁人，不能接受你的" + item.name());
 									} else {
-										item.detach(Dungeon.hero.belongings.backpack);
-										// FIXME 如果赠送装备物品 装备物品不会从玩家背包正确删除
+										if (item instanceof EquipableItem) {
+											((EquipableItem) item).doUnequip(Dungeon.hero, false);
+											
+										} else {
+											item.detach(Dungeon.hero.belongings.backpack);
+										}
 									}
 								}
 							}
