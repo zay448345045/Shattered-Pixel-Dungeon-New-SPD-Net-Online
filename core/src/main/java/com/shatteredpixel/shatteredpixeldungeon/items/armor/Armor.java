@@ -277,9 +277,13 @@ public class Armor extends EquipableItem {
 
 		}
 	}
-	
+
+	// 判空
 	@Override
 	public boolean isEquipped( Hero hero ) {
+		if (hero == null || hero.belongings == null) {
+			return false;
+		}
 		return hero.belongings.armor() == this;
 	}
 
@@ -479,7 +483,8 @@ public class Armor extends EquipableItem {
 		} else {
 			info += "\n\n" + Messages.get(Armor.class, "avg_absorb", tier, DRMin(0), DRMax(0), STRReq(0));
 
-			if (STRReq(0) > Dungeon.hero.STR()) {
+			// 添加判空
+			if (Dungeon.hero != null && STRReq(0) > Dungeon.hero.STR()) {
 				info += " " + Messages.get(Armor.class, "probably_too_heavy");
 			}
 		}

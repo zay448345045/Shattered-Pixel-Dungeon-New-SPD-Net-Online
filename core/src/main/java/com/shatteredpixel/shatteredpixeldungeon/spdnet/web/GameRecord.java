@@ -1,7 +1,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.shatteredpixel.shatteredpixeldungeon.Rankings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -19,7 +18,7 @@ public class GameRecord {
 	private String cause;
 	private boolean win;
 	private int score;
-	@JsonProperty("class")
+	@JSONField(name = "class")
 	private String heroClass;
 	private int tier;
 	private int level;
@@ -27,22 +26,22 @@ public class GameRecord {
 	private boolean ascending;
 	private String date;
 	private String version;
-	@JsonProperty("net_version")
+	@JSONField(name = "net_version")
 
 	private String netVersion;
-	@JsonProperty("game_mode")
+	@JSONField(name = "game_mode")
 	private String gameMode;
 
 	private Hero hero;
 	private String badges;
 	private String handlers;
 	private int challenges;
-	@JsonProperty("challenge_amount")
+	@JSONField(name = "challenge_amount")
 	private int challengeAmount;
-	@JsonProperty("game_version")
+	@JSONField(name = "game_version")
 	private int gameVersion;
 	private long seed;
-	@JsonProperty("custom_seed")
+	@JSONField(name = "custom_seed")
 	private String customSeed;
 	private boolean daily;
 	private boolean dailyReplay;
@@ -55,29 +54,29 @@ public class GameRecord {
 	private int potionsCooked;
 	private int priranhas;
 	private int ankhsUsed;
-	@JsonProperty("prog_score")
+	@JSONField(name = "prog_score")
 	private int progScore;
-	@JsonProperty("item_val")
+	@JSONField(name = "item_val")
 	private int itemVal;
-	@JsonProperty("tres_score")
+	@JSONField(name = "tres_score")
 	private int tresScore;
-	@JsonProperty("flr_expl")
+	@JSONField(name = "flr_expl")
 	private String flrExpl;
-	@JsonProperty("expl_score")
+	@JSONField(name = "expl_score")
 	private int explScore;
-	@JsonProperty("boss_scores")
+	@JSONField(name = "boss_scores")
 	private int[] bossScores;
-	@JsonProperty("tot_boss")
+	@JSONField(name = "tot_boss")
 	private int totBoss;
-	@JsonProperty("quest_scores")
+	@JSONField(name = "quest_scores")
 	private int[] questScores;
-	@JsonProperty("tot_quest")
+	@JSONField(name = "tot_quest")
 	private int totQuest;
-	@JsonProperty("win_mult")
+	@JSONField(name = "win_mult")
 	private float winMult;
-	@JsonProperty("chal_mult")
+	@JSONField(name = "chal_mult")
 	private float chalMult;
-	@JsonProperty("total_score")
+	@JSONField(name = "total_score")
 	private int totalScore;
 	private int upgradesUsed;
 	private int sneakAttacks;
@@ -90,7 +89,7 @@ public class GameRecord {
 	private boolean amuletObtained;
 	private boolean won;
 	private boolean ascended;
-	@JsonProperty("player_name")
+	@JSONField(name = "player_name")
 	private String playerName;
 
 	public String desc() {

@@ -1,16 +1,11 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import lombok.Getter;
-import lombok.Setter;
 
 public class NetConfig {
-	public static JsonNode config;
+	public static JSONObject config;
 	// 配置获取地址
 	private static final String CONFIG_GITEE_URL = "https://gitee.com/catandA/SPDNet-Data/raw/main/config.json";
 	private static final String CONFIG_GITHUB_URL = "https://raw.githubusercontent.com/Not-Name-Dev-Team/SPDNet-Data/main/config.json";
@@ -40,14 +35,10 @@ public class NetConfig {
 			@Override
 			public void handleHttpResponse(Net.HttpResponse httpResponse) {
 				json[0] = httpResponse.getResultAsString();
-				ObjectMapper mapper = new ObjectMapper();
-				try {
-					config = mapper.readTree(json[0]);
-					com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net.setServerUrl(NetConfig.config.get("serverUrl").asText());
-					com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net.destroySocket();
-					externalListener.handleHttpResponse(httpResponse);
-				} catch (JsonProcessingException ignored) {
-				}
+				config = JSONObject.parseObject(json[0]);
+				com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net.setServerUrl(NetConfig.config.getString("serverUrl"));
+				com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net.destroySocket();
+				externalListener.handleHttpResponse(httpResponse);
 			}
 
 			@Override

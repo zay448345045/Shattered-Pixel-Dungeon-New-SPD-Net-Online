@@ -181,8 +181,12 @@ public abstract class KindofMisc extends EquipableItem {
 		}
 	}
 
+	// 添加判空
 	@Override
 	public boolean isEquipped( Hero hero ) {
+		if (hero == null || hero.belongings == null) {
+			return false;
+		}
 		return hero.belongings.artifact() == this
 				|| hero.belongings.misc() == this
 				|| hero.belongings.ring() == this;

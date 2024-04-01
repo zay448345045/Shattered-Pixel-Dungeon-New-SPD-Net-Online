@@ -21,8 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.alibaba.fastjson2.JSON;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.GameRecord;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.SparseArray;
@@ -258,16 +257,11 @@ public class Statistics {
 		progressScore = gameRecord.getProgScore();
 		heldItemValue = gameRecord.getItemVal();
 		treasureScore = gameRecord.getTresScore();
-		ObjectMapper mapper = new ObjectMapper();
-		try {
 			floorsExplored.clear();
-			Map<String, Boolean> flrExplMap = mapper.readValue(gameRecord.getFlrExpl(), Map.class);
+			Map<String, Boolean> flrExplMap = JSON.parseObject(gameRecord.getFlrExpl(), Map.class);
 			for (String key : flrExplMap.keySet()) {
 					floorsExplored.put(Integer.parseInt(key), flrExplMap.get(key));
 			}
-		} catch (JsonProcessingException e) {
-			throw new RuntimeException(e);
-		}
 		exploreScore = gameRecord.getExplScore();
 		bossScores = gameRecord.getBossScores();
 		totalBossScore = gameRecord.getTotBoss();

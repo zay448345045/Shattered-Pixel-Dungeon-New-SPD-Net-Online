@@ -106,7 +106,7 @@ public class Net {
 	public static void refreshServerUrl() {
 		if (!isDesktop() || !isDebug()) {
 			NetConfig.refreshConfig();
-			serverUrl = NetConfig.config.get("serverUrl").asText();
+			serverUrl = NetConfig.config.getString("serverUrl");
 		}
 	}
 

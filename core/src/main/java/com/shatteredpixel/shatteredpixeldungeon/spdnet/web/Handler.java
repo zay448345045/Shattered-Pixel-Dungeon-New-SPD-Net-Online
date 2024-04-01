@@ -1,7 +1,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.alibaba.fastjson2.JSON;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
@@ -171,13 +170,9 @@ public class Handler {
 	}
 
 	public static void handleGameEnd(SGameEnd gameEnd) {
-		try {
-			ObjectMapper mapper = new ObjectMapper();
-			GameRecord record = mapper.readValue(gameEnd.getRecord(), GameRecord.class);
-			NLog.w(gameEnd.getName() + "在" + Mode.valueOf(record.getGameMode()).getName() + record.getChallengeAmount() + "挑" + (record.isWin() ? "胜利" : "死亡, 到达了第" + record.getDepth() + "层"));
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
+		GameRecord record = JSON.parseObject(gameEnd.getRecord(), GameRecord.class);
+		NLog.w(gameEnd.getName() + "在" + Mode.valueOf(record.getGameMode()).getName() + record.getChallengeAmount() + "挑" + (record.isWin() ? "胜利" : "死亡, 到达了第" + record.getDepth() + "层"));
+
 	}
 
 	public static void handleInit(SInit init) {
@@ -200,12 +195,11 @@ public class Handler {
 
 	public static void handleLeaderboard(SLeaderboard leaderboard) {
 		ArrayList<GameRecord> records = new ArrayList<>();
-		ObjectMapper mapper = new ObjectMapper();
 		if (ShatteredPixelDungeon.scene() instanceof NetRankingsScene) {
 			try {
 				List<String> recordsString = leaderboard.getGameRecords();
 				for (String record : recordsString) {
-					records.add(mapper.readValue(record, GameRecord.class));
+					records.add(JSON.parseObject(record, GameRecord.class));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -253,7 +247,14 @@ public class Handler {
 	public static void handlePlayerMove(SPlayerMove playerMove) {
 		if (!playerMove.getName().equals(Net.name)) {
 			Player player = Net.playerList.get(playerMove.getName());
+			if (player == null) {
+				syncPlayerList();
+				return;
+			}
 			Status status = player.getStatus();
+			if (status == null) {
+				return;
+			}
 			status.setPos(playerMove.getPos());
 			player.setStatus(status);
 			Net.playerList.put(playerMove.getName(), player);

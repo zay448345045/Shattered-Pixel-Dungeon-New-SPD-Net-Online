@@ -1,9 +1,8 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
 import static com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net.getSocket;
-import static com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Receiver.mapper;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.alibaba.fastjson.JSON;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Actions;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CAchievement;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CAnkhUsed;
@@ -27,43 +26,43 @@ import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CVi
  */
 public class Sender {
 	public static void sendAchievement(CAchievement achievement) {
-		getSocket().emit(Actions.ACHIEVEMENT.getName(), mapper.convertValue(achievement, ObjectNode.class));
+		getSocket().emit(Actions.ACHIEVEMENT.getName(), JSON.toJSONString(achievement));
 	}
 
 	public static void sendAnkhUsed(CAnkhUsed ankhUsed) {
-		getSocket().emit(Actions.ANKH_USED.getName(), mapper.convertValue(ankhUsed, ObjectNode.class));
+		getSocket().emit(Actions.ANKH_USED.getName(), JSON.toJSONString(ankhUsed));
 	}
 
 	public static void sendArmorUpdate(CArmorUpdate armorUpdate) {
-		getSocket().emit(Actions.ARMOR_UPDATE.getName(), mapper.convertValue(armorUpdate, ObjectNode.class));
+		getSocket().emit(Actions.ARMOR_UPDATE.getName(), JSON.toJSONString(armorUpdate));
 	}
 
 	public static void sendChatMessage(CChatMessage message) {
-		getSocket().emit(Actions.CHAT_MESSAGE.getName(), mapper.convertValue(message, ObjectNode.class));
+		getSocket().emit(Actions.CHAT_MESSAGE.getName(), JSON.toJSONString(message));
 	}
 
 	public static void sendEnterDungeon(CEnterDungeon enterDungeon) {
-		getSocket().emit(Actions.ENTER_DUNGEON.getName(), mapper.convertValue(enterDungeon, ObjectNode.class));
+		getSocket().emit(Actions.ENTER_DUNGEON.getName(), JSON.toJSONString(enterDungeon));
 	}
 
 	public static void sendError(CError message) {
-		getSocket().emit(Actions.ERROR.getName(), mapper.convertValue(message, ObjectNode.class));
+		getSocket().emit(Actions.ERROR.getName(), JSON.toJSONString(message));
 	}
 
 	public static void sendFloatingText(CFloatingText floatingText) {
-		getSocket().emit(Actions.FLOATING_TEXT.getName(), mapper.convertValue(floatingText, ObjectNode.class));
+		getSocket().emit(Actions.FLOATING_TEXT.getName(), JSON.toJSONString(floatingText));
 	}
 
 	public static void sendGameEnd(CGameEnd gameEnd) {
-		getSocket().emit(Actions.GAME_END.getName(), mapper.convertValue(gameEnd, ObjectNode.class));
+		getSocket().emit(Actions.GAME_END.getName(), JSON.toJSONString(gameEnd));
 	}
 
 	public static void sendGiveItem(CGiveItem giveItem) {
-		getSocket().emit(Actions.GIVE_ITEM.getName(), mapper.convertValue(giveItem, ObjectNode.class));
+		getSocket().emit(Actions.GIVE_ITEM.getName(), JSON.toJSONString(giveItem));
 	}
 
 	public static void sendHero(CHero hero) {
-		getSocket().emit(Actions.HERO.getName(), mapper.convertValue(hero, ObjectNode.class));
+		getSocket().emit(Actions.HERO.getName(), JSON.toJSONString(hero));
 	}
 
 	public static void sendLeaveDungeon(CLeaveDungeon leaveDungeon) {
@@ -71,15 +70,15 @@ public class Sender {
 	}
 
 	public static void sendPlayerChangeFloor(CPlayerChangeFloor playerChangeFloor) {
-		getSocket().emit(Actions.PLAYER_CHANGE_FLOOR.getName(), mapper.convertValue(playerChangeFloor, ObjectNode.class));
+		getSocket().emit(Actions.PLAYER_CHANGE_FLOOR.getName(), JSON.toJSONString(playerChangeFloor));
 	}
 
 	public static void sendPlayerMove(CPlayerMove playerMove) {
-		getSocket().emit(Actions.PLAYER_MOVE.getName(), mapper.convertValue(playerMove, ObjectNode.class));
+		getSocket().emit(Actions.PLAYER_MOVE.getName(), JSON.toJSONString(playerMove));
 	}
 
 	public static void sendRequestLeaderboard(CRequestLeaderboard requestLeaderboard){
-		getSocket().emit(Actions.REQUEST_LEADERBOARD.getName(), mapper.convertValue(requestLeaderboard, ObjectNode.class));
+		getSocket().emit(Actions.REQUEST_LEADERBOARD.getName(), JSON.toJSONString(requestLeaderboard));
 	}
 
 	public static void sendRequestPlayerList(CRequestPlayerList requestPlayerList) {
@@ -87,6 +86,6 @@ public class Sender {
 	}
 
 	public static void sendViewHero(CViewHero viewHero) {
-		getSocket().emit(Actions.VIEW_HERO.getName(), mapper.convertValue(viewHero, ObjectNode.class));
+		getSocket().emit(Actions.VIEW_HERO.getName(), JSON.toJSONString(viewHero));
 	}
 }

@@ -39,14 +39,14 @@ public class SPDNetUpdates extends UpdateService {
 				if (NetConfig.config == null) {
 					callback.onConnectionFailed();
 				} else {
-					String latestSPDVersion = NetConfig.config.get("SPDVersion").asText();
-					String latestNetVersion = NetConfig.config.get("NetVersion").asText();
+					String latestSPDVersion = NetConfig.config.getString("SPDVersion");
+					String latestNetVersion = NetConfig.config.getString("NetVersion");
 					if (isVersionNewer(ShatteredPixelDungeon.version, latestSPDVersion) || isVersionNewer(ShatteredPixelDungeon.netVersion.split("-")[0], latestNetVersion)) {
 						AvailableUpdateData update = new AvailableUpdateData();
 						update.versionName = latestSPDVersion + "-" + latestNetVersion;
-						update.desc = NetConfig.config.get("changeLog").asText();
-						update.URL = NetConfig.config.get("GithubUpdateUrl").asText();
-						update.giteeURL = NetConfig.config.get("GiteeUpdateUrl").asText();
+						update.desc = NetConfig.config.getString("changeLog");
+						update.URL = NetConfig.config.getString("GithubUpdateUrl");
+						update.giteeURL = NetConfig.config.getString("GiteeUpdateUrl");
 						callback.onUpdateAvailable(update);
 					} else {
 						callback.onNoUpdateFound();

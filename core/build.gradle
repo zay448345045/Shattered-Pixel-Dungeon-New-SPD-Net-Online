@@ -10,9 +10,8 @@ dependencies {
     // Websocket
     implementation 'io.socket:socket.io-client:2.1.0'
 
-    //jackson 2.14.3 不使用更新版本是因为不兼容 :(
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.14.3'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.3'
+    // Fastjson
+    implementation 'com.alibaba:fastjson:2.0.21.android'
 
     // Http
     implementation 'org.apache.httpcomponents:httpclient:4.5.14'
