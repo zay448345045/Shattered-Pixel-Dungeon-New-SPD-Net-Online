@@ -1039,11 +1039,12 @@ public class Badges {
 	}
 	
 	private static void displayBadge( Badge badge ) {
+		// 太刷屏了暂时删掉 后面改正
 		// 解锁徽章数据包
-		if (badge != null) {
-			Sender.sendAchievement(new CAchievement(badge));
-			return;
-		}
+//		if (badge != null) {
+//			Sender.sendAchievement(new CAchievement(badge));
+//			return;
+//		}
 
 		if (badge == null || !Dungeon.customSeedText.isEmpty()) {
 			return;
