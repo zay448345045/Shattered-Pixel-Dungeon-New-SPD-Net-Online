@@ -218,7 +218,7 @@ public class NetRankingsScene extends PixelScene {
 			float rowHeight = GameMath.gate(ROW_HEIGHT_MIN, (uiCamera.height - 26) / records.size(), ROW_HEIGHT_MAX);
 
 			float left = (w - Math.min(MAX_ROW_WIDTH, w)) / 2 + GAP;
-			float top = (h - rowHeight * Rankings.INSTANCE.records.size()) / 2;
+			float top = (h - rowHeight * records.size()) / 2;
 
 			int pos = 0;
 
