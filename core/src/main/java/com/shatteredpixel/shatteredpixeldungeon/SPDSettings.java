@@ -315,7 +315,9 @@ public class SPDSettings extends GameSettings {
 	}
 
 	public static boolean news(){
-		return getBoolean(KEY_NEWS, true);
+		// 始终检查更新
+		return true;
+		//return getBoolean(KEY_NEWS, true);
 	}
 
 	public static void updates(boolean value){
@@ -323,7 +325,9 @@ public class SPDSettings extends GameSettings {
 	}
 
 	public static boolean updates(){
-		return getBoolean(KEY_UPDATES, true);
+		// 始终检查更新
+		return true;
+		//return getBoolean(KEY_UPDATES, true);
 	}
 
 	public static void betas(boolean value){
@@ -331,7 +335,9 @@ public class SPDSettings extends GameSettings {
 	}
 
 	public static boolean betas(){
-		return getBoolean(KEY_BETAS, Game.version.contains("BETA") || Game.version.contains("RC"));
+		// 始终检查更新
+		return true;
+		//return getBoolean(KEY_BETAS, Game.version.contains("BETA") || Game.version.contains("RC"));
 	}
 
 	public static void WiFi(boolean value){
@@ -339,7 +345,9 @@ public class SPDSettings extends GameSettings {
 	}
 
 	public static boolean WiFi(){
-		return getBoolean(KEY_WIFI, true);
+		// 始终检查更新
+		return false;
+		//return getBoolean(KEY_WIFI, true);
 	}
 
 	public static void newsLastRead(long lastRead){
