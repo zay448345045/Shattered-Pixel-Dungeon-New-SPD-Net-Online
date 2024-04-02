@@ -44,6 +44,8 @@ import com.watabou.noosa.Game;
 import com.watabou.utils.Bundle;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -182,8 +184,12 @@ public class Handler {
 
 
 		// TODO 等GUI实现之后来这里更改种子逻辑 目前默认使用服务器给与的第一个种子
-		NetInProgress.seedName = (String) Net.seeds.keySet().toArray()[0];
-		NetInProgress.seed = Net.seeds.get(Net.seeds.keySet().toArray()[0]);
+		Enumeration<String> keysEnumeration = Net.seeds.keys();
+		ArrayList<String> keysList = Collections.list(keysEnumeration);
+		if (!keysList.isEmpty()) {
+			NetInProgress.seedName = keysList.get(0);
+			NetInProgress.seed = Net.seeds.get(NetInProgress.seedName);
+		}
 	}
 
 	public static void handleJoin(SJoin join) {
