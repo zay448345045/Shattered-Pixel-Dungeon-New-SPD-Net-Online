@@ -3,6 +3,8 @@ package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 import static com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net.getSocket;
 
 import com.alibaba.fastjson.JSON;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.Mode;
+import com.shatteredpixel.shatteredpixeldungeon.spdnet.NetInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.Actions;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CAchievement;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.structure.actions.CAnkhUsed;
@@ -34,6 +36,9 @@ public class Sender {
 	}
 
 	public static void sendArmorUpdate(CArmorUpdate armorUpdate) {
+		if (NetInProgress.mode == null || NetInProgress.mode == Mode.IRONMAN) {
+			return;
+		}
 		getSocket().emit(Actions.ARMOR_UPDATE.getName(), JSON.toJSONString(armorUpdate));
 	}
 
@@ -50,6 +55,9 @@ public class Sender {
 	}
 
 	public static void sendFloatingText(CFloatingText floatingText) {
+		if (NetInProgress.mode == null || NetInProgress.mode == Mode.IRONMAN) {
+			return;
+		}
 		getSocket().emit(Actions.FLOATING_TEXT.getName(), JSON.toJSONString(floatingText));
 	}
 
@@ -70,14 +78,20 @@ public class Sender {
 	}
 
 	public static void sendPlayerChangeFloor(CPlayerChangeFloor playerChangeFloor) {
+		if (NetInProgress.mode == null || NetInProgress.mode == Mode.IRONMAN) {
+			return;
+		}
 		getSocket().emit(Actions.PLAYER_CHANGE_FLOOR.getName(), JSON.toJSONString(playerChangeFloor));
 	}
 
 	public static void sendPlayerMove(CPlayerMove playerMove) {
+		if (NetInProgress.mode == null || NetInProgress.mode == Mode.IRONMAN) {
+			return;
+		}
 		getSocket().emit(Actions.PLAYER_MOVE.getName(), JSON.toJSONString(playerMove));
 	}
 
-	public static void sendRequestLeaderboard(CRequestLeaderboard requestLeaderboard){
+	public static void sendRequestLeaderboard(CRequestLeaderboard requestLeaderboard) {
 		getSocket().emit(Actions.REQUEST_LEADERBOARD.getName(), JSON.toJSONString(requestLeaderboard));
 	}
 
