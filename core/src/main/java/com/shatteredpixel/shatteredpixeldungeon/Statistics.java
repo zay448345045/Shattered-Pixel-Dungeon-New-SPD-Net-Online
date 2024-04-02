@@ -21,7 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon;
 
-import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson.JSON;
 import com.shatteredpixel.shatteredpixeldungeon.spdnet.web.GameRecord;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.SparseArray;

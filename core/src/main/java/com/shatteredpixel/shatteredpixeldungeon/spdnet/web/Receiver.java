@@ -2,7 +2,7 @@ package com.shatteredpixel.shatteredpixeldungeon.spdnet.web;
 
 import static com.shatteredpixel.shatteredpixeldungeon.spdnet.web.Net.getSocket;
 
-import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson.JSON;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;

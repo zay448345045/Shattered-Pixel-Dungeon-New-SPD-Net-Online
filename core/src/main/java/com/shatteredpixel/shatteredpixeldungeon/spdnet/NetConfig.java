@@ -1,6 +1,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.spdnet;
 
-import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
 

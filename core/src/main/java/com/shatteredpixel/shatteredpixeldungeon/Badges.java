@@ -1086,7 +1086,7 @@ public class Badges {
 	public static void unlock( Badge badge ){
 		if (!isUnlocked(badge) && Dungeon.customSeedText.isEmpty()){
 			// 判空
-			if (badge == null) {
+			if (global == null || badge == null) {
 				return;
 			}
 			global.add( badge );
