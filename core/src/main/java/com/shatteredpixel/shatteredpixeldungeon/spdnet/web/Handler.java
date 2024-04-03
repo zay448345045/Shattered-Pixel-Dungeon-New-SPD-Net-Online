@@ -278,9 +278,11 @@ public class Handler {
 	}
 
 	public static void handleViewHero(SViewHero viewHero) {
-		Bundle heroBundle = new Bundle();
-		Dungeon.hero.storeInBundle(heroBundle);
-		Sender.sendHero(new CHero(viewHero.getSourceName(), heroBundle.toString()));
+		if (Dungeon.hero != null) {
+			Bundle heroBundle = new Bundle();
+			Dungeon.hero.storeInBundle(heroBundle);
+			Sender.sendHero(new CHero(viewHero.getSourceName(), heroBundle.toString()));
+		}
 		NLog.h("你被" + viewHero.getSourceName() + "查看了");
 	}
 
