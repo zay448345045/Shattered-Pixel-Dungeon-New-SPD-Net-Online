@@ -38,6 +38,7 @@ import com.shatteredpixel.shatteredpixeldungeon.windows.WndHeroInfo;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndInfoBuff;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndKeyBindings;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndTabbed;
+import com.watabou.noosa.Game;
 import com.watabou.noosa.Gizmo;
 import com.watabou.noosa.Group;
 import com.watabou.noosa.Image;
@@ -250,7 +251,7 @@ public class NetWndPlayerInfo extends WndTabbed {
 									} else {
 										if (item instanceof EquipableItem) {
 											((EquipableItem) item).doUnequip(Dungeon.hero, false);
-											
+
 										} else {
 											item.detach(Dungeon.hero.belongings.backpack);
 										}
@@ -396,7 +397,7 @@ public class NetWndPlayerInfo extends WndTabbed {
 
 			protected boolean onClick(float x, float y) {
 				if (inside(x, y)) {
-					GameScene.show(new WndInfoBuff(buff));
+					Game.runOnRenderThread(() -> ShatteredPixelDungeon.scene().add(new WndInfoBuff(buff)));
 					return true;
 				} else {
 					return false;
