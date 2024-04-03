@@ -193,7 +193,8 @@ public class RingOfForce extends Ring {
 	public String info() {
 		String info = super.info();
 
-		if (Dungeon.hero.heroClass == HeroClass.DUELIST
+		// 判空
+		if (Dungeon.hero != null && Dungeon.hero.heroClass == HeroClass.DUELIST
 			&& (anonymous || isIdentified() || isEquipped(Dungeon.hero))){
 			info += "\n\n" + Messages.get(this, "ability_desc");
 		}
