@@ -3,6 +3,13 @@ apply plugin: 'java-library'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 sourceCompatibility = targetCompatibility = appJavaCompatibility
 
+compileOptions {
+    sourceCompatibility = JavaVersion.VERSION_23 // 或 VERSION_18
+    targetCompatibility = JavaVersion.VERSION_23 // 或 VERSION_18
+}
+
+
+
 dependencies {
     api "com.badlogicgames.gdx:gdx:$gdxVersion"
     api "com.badlogicgames.gdx-controllers:gdx-controllers-core:$gdxControllersVersion"
