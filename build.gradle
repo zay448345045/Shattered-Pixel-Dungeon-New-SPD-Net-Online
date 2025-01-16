@@ -27,7 +27,7 @@ allprojects {
         // Net的版本号
         appNetVersionName = '0.0.3'
 
-        appJavaCompatibility = JavaVersion.VERSION_23 //1_8
+        appJavaCompatibility = JavaVersion.VERSION_22 //1_8
 
         appAndroidCompileSDK = 35 //compile SDK is still 33 atm as we're sticking with AGP 8.0.2
         // 因为Firebase的需要, 最低版本提高到19
