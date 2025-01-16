@@ -2,12 +2,12 @@ apply plugin: 'java-library'
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 sourceCompatibility = targetCompatibility = appJavaCompatibility
-
+/*
 compileOptions {
     sourceCompatibility = JavaVersion.VERSION_23 // 或 VERSION_18
     targetCompatibility = JavaVersion.VERSION_23 // 或 VERSION_18
 }
-
+*/
 dependencies {
     api project(':SPD-classes')
     implementation project(':services')
