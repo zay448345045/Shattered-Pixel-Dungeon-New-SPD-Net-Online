@@ -31,7 +31,7 @@ allprojects {
 
         appAndroidCompileSDK = 35 //compile SDK is still 33 atm as we're sticking with AGP 8.0.2
         // 因为Firebase的需要, 最低版本提高到19
-        appAndroidMinSDK = 19
+        appAndroidMinSDK = 26
         appAndroidTargetSDK = 35
 
         gdxVersion = '1.12.1'
